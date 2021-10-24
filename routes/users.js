@@ -1,25 +1,11 @@
-import express from 'express';
+const express = require('express');
+
+const { getTasks, createTask, getTask, updateTask, deleteTask } = require('../controller/usersController.js');
 
 const router = express.Router();
 
-router.route('/')
-.get((req, res ) => {
-    res.send('check all users')
-})
-.post((req, res ) => {
-    res.send('create user')
-})
+router.route('/').get(getTasks).post(createTask);
 
-router.route('/:id')
-.get((req, res) => {
-    res.send('check single user')
-})
-.patch((req, res ) => {
-    res.send('update single user')
-})
-.delete((req, res ) => {
-    res.send('delete single user')
-})
+router.route('/:id').get(getTask).patch(updateTask).delete(deleteTask);
 
-
-export default router
+module.exports = router;
