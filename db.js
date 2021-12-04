@@ -16,9 +16,7 @@ const dbConnect = async (callback) => {
   try {
     // Connect the client to the server
     dbConnection = await client.connect();
-    console.log(dbConnection.db());
     console.log('Connected successfully to server');
-
     return callback();
   } catch (err) {
     // Ensures that the client will close when you finish/error
