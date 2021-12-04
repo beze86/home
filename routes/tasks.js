@@ -1,6 +1,12 @@
 const express = require('express');
 
-const { getTasks, createTask, getTask, updateTask, deleteTask } = require('../controller/usersController.js');
+const {
+  getTasks,
+  createTask,
+  getTask,
+  updateTask,
+  deleteTask,
+} = require('../controller/tasksController.js');
 
 const router = express.Router();
 
