@@ -15,7 +15,7 @@ router.route('/').get(getAllTasks).post(createWeeklyTasks);
 router
   .route('/:id')
   .get(getWeeklyTasks)
-  .patch(updateWeeklyTasks)
+  .put(updateWeeklyTasks)
   .delete(deleteWeeklyTasks);
 
 module.exports = router;
