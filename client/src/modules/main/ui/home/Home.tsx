@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 export const Home = () => {
@@ -16,7 +16,7 @@ export const Home = () => {
   return (
     <ul>
       {users.length > 0 &&
-        users.map((user) => {
+        users.map((user: {name: string, color: string}) => {
           return `${user.name}: ${user.color}`;
         })}
     </ul>
