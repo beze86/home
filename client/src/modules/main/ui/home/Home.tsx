@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 export const Home = () => {
-
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
@@ -16,9 +15,11 @@ export const Home = () => {
   return (
     <ul>
       {users.length > 0 &&
-        users.map((user: {name: string, color: string}) => {
-          return `${user.name}: ${user.color}`;
-        })}
+        users.map(
+          (user: { name: string; color: string }) => {
+            return `${user.name}: ${user.color}`;
+          }
+        )}
     </ul>
   );
 };
