@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import Button from '@mui/material/Button';
 import axios from 'axios';
 
 export const Home = () => {
@@ -13,6 +14,7 @@ export const Home = () => {
   }, []);
   console.log(users);
   return (
+    <>
     <ul>
       {users.length > 0 &&
         users.map(
@@ -21,5 +23,7 @@ export const Home = () => {
           }
         )}
     </ul>
+    <Button variant="contained">Hey there!</Button>
+    </>
   );
 };

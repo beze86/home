@@ -1,9 +1,13 @@
 {
-    "extends": "../tsconfig.json",
-    "module": "esnext",
-    "include": [
-      "src"
-    ],
-    "exclude": ["node_modules"]
+  "extends": "../tsconfig.json",
+  "module": "esnext",
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "node_modules"
+  ],
+  "compilerOptions": {
+    "module": "esnext"
   }
-  
+}
