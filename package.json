@@ -6,7 +6,9 @@
   "scripts": {
     "format": "prettier -l --write \"**/*.{ts,tsx,js,jsx,less,css,scss}\"",
     "lint": "eslint '**/*.js'",
-    "dev": "nodemon server"
+    "dev": "nodemon server",
+    "start": "node server",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false cd client && yarn && yarn run build"
   },
   "keywords": [],
   "author": "",
@@ -23,5 +25,9 @@
     "eslint-plugin-prettier": "^3.4.0",
     "nodemon": "^2.0.14",
     "prettier": "2.4.1"
+  },
+  "engines": {
+    "node": "16.13",
+    "yarn": "1.22"
   }
 }
