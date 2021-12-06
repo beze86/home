@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "format": "prettier -l --write \"**/*.{ts,tsx,js,jsx,less,css,scss}\"",
-    "lint": "eslint '**/*.js'",
+    "lint": "eslint '**/*.{js,ts,tsx}'",
     "dev": "nodemon server",
     "start": "node server",
     "heroku-postbuild": "cd client && yarn && yarn run build"
@@ -25,11 +25,12 @@
     "@types/react": "^17.0.37",
     "@types/react-dom": "^17.0.11",
     "@types/react-router-dom": "^5.3.2",
-    "eslint": "^7.32.0",
+    "eslint": "8.4.0",
     "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-prettier": "^3.4.0",
-    "nodemon": "^2.0.14",
-    "prettier": "2.4.1"
+    "eslint-plugin-prettier": "^4.0.0",
+    "lint-staged": "^12.1.2",
+    "nodemon": "^2.0.15",
+    "prettier": "2.5.1"
   },
   "engines": {
     "node": "16.13",
