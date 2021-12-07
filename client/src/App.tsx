@@ -1,4 +1,6 @@
 import React from 'react';
+import { ThemeProvider } from '@mui/material';
+import { theme } from './theme';
 
 import {
   BrowserRouter as Router,
@@ -6,7 +8,7 @@ import {
   Routes,
 } from 'react-router-dom';
 
-import { NavBar } from './shared/Navbar';
+import { NavBar } from './shared/components/Navbar';
 import { Home } from './modules/main/ui/home/Home';
 
 const Routing = () => {
@@ -22,10 +24,10 @@ const Routing = () => {
 
 export const App = () => {
   return (
-    <>
+    <ThemeProvider theme={theme}>
       <NavBar />
       <Routing />
-    </>
+    </ThemeProvider>
   );
 };
 

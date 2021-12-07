@@ -1,18 +1,22 @@
-import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
+import React, { useState, MouseEvent } from 'react';
+import {
+  AppBar,
+  Avatar,
+  Box,
+  Button,
+  Container,
+  IconButton,
+  Menu,
+  MenuItem,
+  Toolbar,
+  Tooltip,
+  Typography,
+} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
 
-const pages = ['Products', 'Pricing', 'Blog'];
+import { Logo } from './Logo';
+
+const pages = ['Calendar', 'Users', 'Tasks'];
 const settings = [
   'Profile',
   'Account',
@@ -22,19 +26,19 @@ const settings = [
 
 export const NavBar = () => {
   const [anchorElNav, setAnchorElNav] =
-    React.useState<null | HTMLElement>(null);
+    useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] =
-    React.useState<null | HTMLElement>(null);
+    useState<null | HTMLElement>(null);
 
   const handleOpenNavMenu = (
-    event: React.MouseEvent<HTMLElement>
+    e: MouseEvent<HTMLElement>
   ) => {
-    setAnchorElNav(event.currentTarget);
+    setAnchorElNav(e.currentTarget);
   };
   const handleOpenUserMenu = (
-    event: React.MouseEvent<HTMLElement>
+    e: MouseEvent<HTMLElement>
   ) => {
-    setAnchorElUser(event.currentTarget);
+    setAnchorElUser(e.currentTarget);
   };
 
   const handleCloseNavMenu = () => {
@@ -58,7 +62,7 @@ export const NavBar = () => {
               display: { xs: 'none', md: 'flex' },
             }}
           >
-            LOGO
+            <Logo />
           </Typography>
 
           <Box
@@ -116,7 +120,7 @@ export const NavBar = () => {
               display: { xs: 'flex', md: 'none' },
             }}
           >
-            LOGO
+            <Logo />
           </Typography>
           <Box
             sx={{
@@ -139,7 +143,10 @@ export const NavBar = () => {
             ))}
           </Box>
 
-          <Box sx={{ flexGrow: 0 }}>
+          <Box
+            sx={{ flexGrow: 0, display: { xs: 'none' } }}
+          >
+            {/* TODO to be added once authentication is done */}
             <Tooltip title="Open settings">
               <IconButton
                 onClick={handleOpenUserMenu}
