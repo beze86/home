@@ -52,7 +52,7 @@ export const NavBar = () => {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position="sticky">
       <Container>
         <Toolbar disableGutters>
           <Typography
