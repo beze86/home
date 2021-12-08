@@ -1,12 +1,12 @@
 import React from 'react';
-import { ThemeProvider } from '@mui/material';
-import { theme } from './theme';
-
 import {
   BrowserRouter as Router,
   Route,
   Routes,
 } from 'react-router-dom';
+
+import { Container, ThemeProvider } from '@mui/material';
+import { theme } from './theme';
 
 import { NavBar } from './shared/components/Navbar';
 import { Home } from './modules/main/ui/home/Home';
@@ -26,7 +26,9 @@ export const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <NavBar />
-      <Routing />
+      <Container>
+        <Routing />
+      </Container>
     </ThemeProvider>
   );
 };

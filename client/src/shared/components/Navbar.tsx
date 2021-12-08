@@ -1,11 +1,17 @@
 import React, { useState, MouseEvent } from 'react';
 import {
+  BrowserRouter as Router,
+  Link as RouterLink,
+} from 'react-router-dom';
+
+import {
   AppBar,
   Avatar,
   Box,
   Button,
   Container,
   IconButton,
+  Link,
   Menu,
   MenuItem,
   Toolbar,
@@ -16,13 +22,12 @@ import MenuIcon from '@mui/icons-material/Menu';
 
 import { Logo } from './Logo';
 
-const pages = ['Calendar', 'Users', 'Tasks'];
-const settings = [
-  'Profile',
-  'Account',
-  'Dashboard',
-  'Logout',
+const pages = [
+  ['Calendar', '/calendar'],
+  ['Users', '/users'],
+  ['Tasks', '/tasks'],
 ];
+const settings = ['Profile', 'Logout'];
 
 export const NavBar = () => {
   const [anchorElNav, setAnchorElNav] =
@@ -51,7 +56,7 @@ export const NavBar = () => {
 
   return (
     <AppBar position="static">
-      <Container maxWidth="xl">
+      <Container>
         <Toolbar disableGutters>
           <Typography
             variant="h6"
@@ -99,16 +104,22 @@ export const NavBar = () => {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              {pages.map((page) => (
-                <MenuItem
-                  key={page}
-                  onClick={handleCloseNavMenu}
-                >
-                  <Typography textAlign="center">
-                    {page}
-                  </Typography>
-                </MenuItem>
-              ))}
+              <Router>
+                {pages.map(([page, link]) => (
+                  <MenuItem
+                    key={page}
+                    onClick={handleCloseNavMenu}
+                  >
+                    <Link
+                      component={RouterLink}
+                      to={link}
+                      sx={{ textDecoration: 'none' }}
+                    >
+                      {page}
+                    </Link>
+                  </MenuItem>
+                ))}
+              </Router>
             </Menu>
           </Box>
           <Typography
@@ -128,19 +139,30 @@ export const NavBar = () => {
               display: { xs: 'none', md: 'flex' },
             }}
           >
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{
-                  my: 2,
-                  color: 'white',
-                  display: 'block',
-                }}
-              >
-                {page}
-              </Button>
-            ))}
+            <Router>
+              {pages.map(([page, link]) => (
+                <Button
+                  key={page}
+                  onClick={handleCloseNavMenu}
+                  sx={{
+                    my: 2,
+                    color: 'white',
+                    display: 'block',
+                  }}
+                >
+                  <Link
+                    component={RouterLink}
+                    to={link}
+                    sx={{
+                      color: '#fff',
+                      textDecoration: 'none',
+                    }}
+                  >
+                    {page}
+                  </Link>
+                </Button>
+              ))}
+            </Router>
           </Box>
 
           <Box
@@ -152,10 +174,7 @@ export const NavBar = () => {
                 onClick={handleOpenUserMenu}
                 sx={{ p: 0 }}
               >
-                <Avatar
-                  alt="Remy Sharp"
-                  src="/static/images/avatar/2.jpg"
-                />
+                <Avatar alt="Remy Sharp" src="" />
               </IconButton>
             </Tooltip>
             <Menu
