@@ -1,8 +1,5 @@
 import React, { useState, MouseEvent } from 'react';
-import {
-  BrowserRouter as Router,
-  Link as RouterLink,
-} from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 
 import {
   AppBar,
@@ -104,22 +101,20 @@ export const NavBar = () => {
                 display: { xs: 'block', md: 'none' },
               }}
             >
-              <Router>
-                {pages.map(([page, link]) => (
-                  <MenuItem
-                    key={page}
-                    onClick={handleCloseNavMenu}
+              {pages.map(([page, link]) => (
+                <MenuItem
+                  key={page}
+                  onClick={handleCloseNavMenu}
+                >
+                  <Link
+                    component={RouterLink}
+                    to={link}
+                    sx={{ textDecoration: 'none' }}
                   >
-                    <Link
-                      component={RouterLink}
-                      to={link}
-                      sx={{ textDecoration: 'none' }}
-                    >
-                      {page}
-                    </Link>
-                  </MenuItem>
-                ))}
-              </Router>
+                    {page}
+                  </Link>
+                </MenuItem>
+              ))}
             </Menu>
           </Box>
           <Typography
@@ -139,30 +134,28 @@ export const NavBar = () => {
               display: { xs: 'none', md: 'flex' },
             }}
           >
-            <Router>
-              {pages.map(([page, link]) => (
-                <Button
-                  key={page}
-                  onClick={handleCloseNavMenu}
+            {pages.map(([page, link]) => (
+              <Button
+                key={page}
+                onClick={handleCloseNavMenu}
+                sx={{
+                  my: 2,
+                  color: 'white',
+                  display: 'block',
+                }}
+              >
+                <Link
+                  component={RouterLink}
+                  to={link}
                   sx={{
-                    my: 2,
-                    color: 'white',
-                    display: 'block',
+                    color: '#fff',
+                    textDecoration: 'none',
                   }}
                 >
-                  <Link
-                    component={RouterLink}
-                    to={link}
-                    sx={{
-                      color: '#fff',
-                      textDecoration: 'none',
-                    }}
-                  >
-                    {page}
-                  </Link>
-                </Button>
-              ))}
-            </Router>
+                  {page}
+                </Link>
+              </Button>
+            ))}
           </Box>
 
           <Box
