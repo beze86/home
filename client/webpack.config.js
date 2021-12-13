@@ -20,9 +20,8 @@ module.exports = {
     filename: '[name].[contenthash].js',
   },
   resolve: {
-    modules: [path.join(__dirname, 'src'), 'node_modules'],
     alias: {
-      react: path.join(__dirname, 'node_modules', 'react'),
+      client: path.resolve(__dirname, 'src')
     },
     extensions: ['.tsx', '.ts', '.js', '.jsx'],
   },

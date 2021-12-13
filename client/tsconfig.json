@@ -1,13 +1,17 @@
 {
   "extends": "../tsconfig.json",
-  "module": "esnext",
   "include": [
+    "index.d.ts",
     "src"
   ],
   "exclude": [
     "node_modules"
   ],
   "compilerOptions": {
-    "module": "esnext"
+    "baseUrl": ".",
+    "module": "esnext",
+    "paths": {
+      "client/*": ["src/*"],
+    },
   }
 }

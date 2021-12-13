@@ -6,13 +6,13 @@ import {
 } from 'react-router-dom';
 
 import { Container, ThemeProvider } from '@mui/material';
-import { theme } from './theme';
+import { theme } from 'client/theme';
 
-import { Calendar } from './modules/main/ui/calendar/Calendar';
-import { NavBar } from './shared/components/Navbar';
-import { Home } from './modules/main/ui/home/Home';
-import { Tasks } from './modules/main/ui/tasks/Tasks';
-import { Users } from './modules/main/ui/users/Users';
+import { Calendar } from 'client/modules/main/ui/calendar/Calendar';
+import { NavBar } from 'client/shared/components/Navbar';
+import { Home } from 'client/modules/main/ui/home/Home';
+import { Tasks } from 'client/modules/main/ui/tasks/Tasks';
+import { Users } from 'client/modules/main/ui/users/Users';
 
 const Routing = () => {
   return (

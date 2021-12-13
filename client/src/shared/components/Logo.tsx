@@ -3,9 +3,9 @@ import { Link as RouterLink } from 'react-router-dom';
 
 import { Link } from '@mui/material';
 
-import logo from '../assets/logo.jpg';
+import logo from 'client/shared/assets/logo.jpg';
 
-import styles from './Logo.module.scss';
+import styles from 'client/shared/components/Logo.module.scss';
 
 export const Logo = () => {
   return (
