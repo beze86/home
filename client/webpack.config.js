@@ -1,10 +1,23 @@
+'use-strict';
+
 const path = require('path');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const {
+  CleanWebpackPlugin,
+} = require('clean-webpack-plugin');
+const {
+  WebpackManifestPlugin,
+} = require('webpack-manifest-plugin');
 
 module.exports = {
+  entry: [
+    'regenerator-runtime/runtime',
+    path.resolve(__dirname, 'src/index.tsx'),
+  ],
   output: {
     path: path.resolve(__dirname, 'build'),
-    filename: 'bundle.js',
+    filename: '[name].[contenthash].js',
   },
   resolve: {
     modules: [path.join(__dirname, 'src'), 'node_modules'],
@@ -22,7 +35,12 @@ module.exports = {
           loader: 'babel-loader',
           options: {
             presets: [
-              require.resolve('@babel/preset-env'),
+              require.resolve('@babel/preset-env', {
+                useBuiltIns: 'usage',
+                corejs: '3.0',
+                targets:
+                  '>0.2% , not dead ,not op_mini all',
+              }),
               require.resolve('@babel/preset-typescript'),
               require.resolve('@babel/preset-react'),
             ],
@@ -38,7 +56,7 @@ module.exports = {
         ],
       },
       {
-        test:  /\.s?css$/,
+        test: /\.s?css$/,
         use: [
           // Creates `style` nodes from JS strings
           'style-loader',
@@ -54,13 +72,25 @@ module.exports = {
     historyApiFallback: true,
     headers: {
       'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
-      'Access-Control-Allow-Headers': 'X-Requested-With, content-type, Authorization',
-    }
+      'Access-Control-Allow-Methods':
+        'GET, POST, PUT, DELETE, PATCH, OPTIONS',
+      'Access-Control-Allow-Headers':
+        'X-Requested-With, content-type, Authorization',
+    },
+    proxy: {
+      '/api': 'http://localhost:5000',
+    },
   },
   plugins: [
     new HtmlWebPackPlugin({
       template: './public/index.html',
+    }),
+    new MiniCssExtractPlugin({
+      filename: '[name].[contenthash].css',
+    }),
+    new CleanWebpackPlugin(),
+    new WebpackManifestPlugin({
+      writeToFileEmit: true,
     }),
   ],
 };
