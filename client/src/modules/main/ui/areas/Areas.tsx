@@ -1,6 +1,6 @@
 import React, { useEffect, useState, MouseEvent } from 'react';
 
-import { Card, CardContent, List, ListItem, IconButton } from '@mui/material';
+import { Card, CardContent, List, ListItem, IconButton, Typography } from '@mui/material';
 import { Create, Delete } from '@mui/icons-material';
 
 import { areasApi } from 'client/modules/main/api/areas';
@@ -33,25 +33,28 @@ export const Areas = () => {
         m: 'auto',
       }}
     >
-      <CardContent>
-        <List>
+      <CardContent sx={{ py: 4, px: 5 }}>
+        <List disablePadding>
           {areas.map(({ area, _id }) => {
             return (
               <ListItem
                 key={_id}
                 data-id={_id}
+                disableGutters
                 secondaryAction={
                   <>
                     <IconButton onClick={handleClick} edge="start" aria-label="edit">
-                      <Create />
+                      <Create sx={{ color: 'primary.main' }} />
                     </IconButton>
                     <IconButton onClick={handleDelete} edge="end" aria-label="delete">
-                      <Delete />
+                      <Delete sx={{ color: 'error.main' }} />
                     </IconButton>
                   </>
                 }
               >
-                {area}
+                <Typography variant="subtitle1" component="p" sx={{ textTransform: 'capitalize' }}>
+                  {area}
+                </Typography>
               </ListItem>
             );
           })}

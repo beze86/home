@@ -32,6 +32,9 @@ export const theme = createTheme({
       dark: '#1b5e20',
       contrastText: '#fff',
     },
+    grey: {
+      50: '#fefefe',
+    },
   },
   typography: {
     fontFamily: 'Roboto, sans-serif',

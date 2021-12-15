@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
-import { Container, ThemeProvider } from '@mui/material';
+import { Box, Container, ThemeProvider } from '@mui/material';
 import { theme } from 'client/theme';
 
 import { Areas } from 'client/modules/main/ui/areas/Areas';
@@ -28,13 +28,13 @@ export const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <Router>
-        <NavBar />
-        <Container disableGutters sx={{ padding: 5 }}>
-          <Routing />
-        </Container>
+        <Box sx={{ width: '100%', minHeight: '100vh', backgroundColor: 'grey.200' }}>
+          <NavBar />
+          <Container disableGutters sx={{ padding: 5 }}>
+            <Routing />
+          </Container>
+        </Box>
       </Router>
     </ThemeProvider>
   );
 };
-
-export default App;
