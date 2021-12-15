@@ -3,25 +3,18 @@
 const path = require('path');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const {
-  CleanWebpackPlugin,
-} = require('clean-webpack-plugin');
-const {
-  WebpackManifestPlugin,
-} = require('webpack-manifest-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 
 module.exports = {
-  entry: [
-    'regenerator-runtime/runtime',
-    path.resolve(__dirname, 'src/index.tsx'),
-  ],
+  entry: ['regenerator-runtime/runtime', path.resolve(__dirname, 'src/index.tsx')],
   output: {
     path: path.resolve(__dirname, 'build'),
     filename: '[name].[contenthash].js',
   },
   resolve: {
     alias: {
-      client: path.resolve(__dirname, 'src')
+      client: path.resolve(__dirname, 'src'),
     },
     extensions: ['.tsx', '.ts', '.js', '.jsx'],
   },
@@ -37,8 +30,7 @@ module.exports = {
               require.resolve('@babel/preset-env', {
                 useBuiltIns: 'usage',
                 corejs: '3.0',
-                targets:
-                  '>0.2% , not dead ,not op_mini all',
+                targets: '>0.2% , not dead ,not op_mini all',
               }),
               require.resolve('@babel/preset-typescript'),
               require.resolve('@babel/preset-react'),
@@ -71,10 +63,8 @@ module.exports = {
     historyApiFallback: true,
     headers: {
       'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods':
-        'GET, POST, PUT, DELETE, PATCH, OPTIONS',
-      'Access-Control-Allow-Headers':
-        'X-Requested-With, content-type, Authorization',
+      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
+      'Access-Control-Allow-Headers': 'X-Requested-With, content-type, Authorization',
     },
     proxy: {
       '/api': 'http://localhost:5000',

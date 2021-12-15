@@ -12,10 +12,6 @@ const router = express.Router();
 
 router.route('/').get(getAllTasks).post(createWeeklyTasks);
 
-router
-  .route('/:id')
-  .get(getWeeklyTasks)
-  .put(updateWeeklyTasks)
-  .delete(deleteWeeklyTasks);
+router.route('/:id').get(getWeeklyTasks).put(updateWeeklyTasks).delete(deleteWeeklyTasks);
 
 module.exports = router;

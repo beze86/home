@@ -22,24 +22,19 @@ import { Logo } from 'client/shared/components/Logo';
 const pages = [
   ['Calendar', '/calendar'],
   ['Users', '/users'],
+  ['Areas', '/areas'],
   ['Tasks', '/tasks'],
 ];
 const settings = ['Profile', 'Logout'];
 
 export const NavBar = () => {
-  const [anchorElNav, setAnchorElNav] =
-    useState<null | HTMLElement>(null);
-  const [anchorElUser, setAnchorElUser] =
-    useState<null | HTMLElement>(null);
+  const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
+  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
-  const handleOpenNavMenu = (
-    e: MouseEvent<HTMLElement>
-  ) => {
+  const handleOpenNavMenu = (e: MouseEvent<HTMLElement>) => {
     setAnchorElNav(e.currentTarget);
   };
-  const handleOpenUserMenu = (
-    e: MouseEvent<HTMLElement>
-  ) => {
+  const handleOpenUserMenu = (e: MouseEvent<HTMLElement>) => {
     setAnchorElUser(e.currentTarget);
   };
 
@@ -102,15 +97,8 @@ export const NavBar = () => {
               }}
             >
               {pages.map(([page, link]) => (
-                <MenuItem
-                  key={page}
-                  onClick={handleCloseNavMenu}
-                >
-                  <Link
-                    component={RouterLink}
-                    to={link}
-                    sx={{ textDecoration: 'none' }}
-                  >
+                <MenuItem key={page} onClick={handleCloseNavMenu}>
+                  <Link component={RouterLink} to={link} sx={{ textDecoration: 'none' }}>
                     {page}
                   </Link>
                 </MenuItem>
@@ -158,15 +146,10 @@ export const NavBar = () => {
             ))}
           </Box>
 
-          <Box
-            sx={{ flexGrow: 0, display: { xs: 'none' } }}
-          >
+          <Box sx={{ flexGrow: 0, display: { xs: 'none' } }}>
             {/* TODO to be added once authentication is done */}
             <Tooltip title="Open settings">
-              <IconButton
-                onClick={handleOpenUserMenu}
-                sx={{ p: 0 }}
-              >
+              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Remy Sharp" src="" />
               </IconButton>
             </Tooltip>
@@ -187,13 +170,8 @@ export const NavBar = () => {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem
-                  key={setting}
-                  onClick={handleCloseNavMenu}
-                >
-                  <Typography textAlign="center">
-                    {setting}
-                  </Typography>
+                <MenuItem key={setting} onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}
             </Menu>

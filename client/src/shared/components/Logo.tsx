@@ -10,11 +10,7 @@ import styles from 'client/shared/components/Logo.module.scss';
 export const Logo = () => {
   return (
     <Link component={RouterLink} to="/">
-      <img
-        className={styles['test']}
-        src={logo}
-        alt="logo"
-      />
+      <img className={styles['test']} src={logo} alt="logo" />
     </Link>
   );
 };

@@ -4,7 +4,7 @@ module.exports = {
   endOfLine: 'lf',
   semi: true,
   singleQuote: true,
-  printWidth: 60,
+  printWidth: 100,
   trailingComma: 'es5',
   bracketSpacing: true,
 };
