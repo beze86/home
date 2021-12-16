@@ -70,26 +70,26 @@ export const NavBar = () => {
             }}
           >
             {pages.map(([page, link]) => (
-              <Button
+              <Link
                 key={page}
-                onClick={handleCloseNavMenu}
+                component={RouterLink}
+                to={link}
                 sx={{
-                  my: 2,
-                  color: 'white',
-                  display: 'block',
+                  color: '#fff',
+                  textDecoration: 'none',
                 }}
               >
-                <Link
-                  component={RouterLink}
-                  to={link}
+                <Button
+                  onClick={handleCloseNavMenu}
                   sx={{
-                    color: '#fff',
-                    textDecoration: 'none',
+                    my: 2,
+                    color: 'white',
+                    display: 'block',
                   }}
                 >
                   {page}
-                </Link>
-              </Button>
+                </Button>
+              </Link>
             ))}
           </Box>
 
@@ -159,11 +159,9 @@ export const NavBar = () => {
                 }}
               >
                 {pages.map(([page, link]) => (
-                  <MenuItem key={page} onClick={handleCloseNavMenu}>
-                    <Link component={RouterLink} to={link} sx={{ textDecoration: 'none' }}>
-                      {page}
-                    </Link>
-                  </MenuItem>
+                  <Link key={page} component={RouterLink} to={link} sx={{ textDecoration: 'none' }}>
+                    <MenuItem onClick={handleCloseNavMenu}>{page}</MenuItem>
+                  </Link>
                 ))}
               </Menu>
             </Box>
