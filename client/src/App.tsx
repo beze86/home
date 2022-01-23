@@ -9,7 +9,7 @@ import { Calendar } from 'client/modules/main/ui/calendar/Calendar';
 import { Home } from 'client/modules/main/ui/home/Home';
 import { Tasks } from 'client/modules/main/ui/tasks/Tasks';
 import { Users } from 'client/modules/main/ui/users/Users';
-import { NavBar } from 'client/shared/components/Navbar';
+import { NavBar } from 'client/shared/layouts/Navbar/Navbar';
 
 const Routing = () => {
   return (
