@@ -1,5 +1,6 @@
 import React, { useState, MouseEvent } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
+import { styled } from '@mui/material/styles';
 
 import {
   AppBar,
@@ -7,7 +8,13 @@ import {
   Box,
   Button,
   Container,
+  Divider,
+  Drawer,
   IconButton,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
   Link,
   Menu,
   MenuItem,
@@ -16,17 +23,29 @@ import {
   Typography,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
+import { IconDefinition } from '@fortawesome/fontawesome-common-types';
+import { faCalendarWeek, faCouch, faTasks, faUser } from '@fortawesome/pro-regular-svg-icons';
 
+import { Icon } from 'client/shared/components/Icon';
 import { Logo } from 'client/shared/components/Logo';
 
-const pages = [
-  ['Calendar', '/calendar'],
-  ['Users', '/users'],
-  ['Areas', '/areas'],
-  ['Tasks', '/tasks'],
+const pages: [string, string, IconDefinition][] = [
+  ['Calendar', '/calendar', faCalendarWeek],
+  ['Users', '/users', faUser],
+  ['Areas', '/areas', faCouch],
+  ['Tasks', '/tasks', faTasks],
 ];
 
 const settings = ['Profile', 'Logout'];
+
+const DrawerHeader = styled('div')(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  padding: theme.spacing(0, 1),
+  // necessary for content to be below app bar
+  ...theme.mixins.toolbar,
+  justifyContent: 'flex-start',
+}));
 
 export const NavBar = () => {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
@@ -48,7 +67,7 @@ export const NavBar = () => {
   };
 
   return (
-    <AppBar position="sticky">
+    <AppBar position="sticky" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
       <Container sx={{ pl: 5 }}>
         <Toolbar disableGutters>
           <Typography
@@ -140,30 +159,28 @@ export const NavBar = () => {
               >
                 <MenuIcon />
               </IconButton>
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorElNav}
-                anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'left',
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'left',
-                }}
-                open={Boolean(anchorElNav)}
-                onClose={handleCloseNavMenu}
-                sx={{
-                  display: { xs: 'block', md: 'none' },
-                }}
-              >
-                {pages.map(([page, link]) => (
-                  <Link key={page} component={RouterLink} to={link} sx={{ textDecoration: 'none' }}>
-                    <MenuItem onClick={handleCloseNavMenu}>{page}</MenuItem>
-                  </Link>
-                ))}
-              </Menu>
+              <Drawer anchor="right" open={Boolean(anchorElNav)} onClose={handleCloseNavMenu}>
+                <DrawerHeader />
+                <List sx={{ minWidth: '200px' }}>
+                  {pages.map(([page, link, icon], i) => (
+                    <React.Fragment key={`${page}-${i}`}>
+                      <Link
+                        component={RouterLink}
+                        to={link}
+                        sx={{ display: 'block', textDecoration: 'none' }}
+                      >
+                        <ListItem sx={{ py: 4 }} onClick={handleCloseNavMenu}>
+                          <ListItemIcon sx={{ minWidth: '32px' }}>
+                            <Icon icon={icon} />
+                          </ListItemIcon>
+                          <ListItemText primary={page} />
+                        </ListItem>
+                      </Link>
+                      <Divider />
+                    </React.Fragment>
+                  ))}
+                </List>
+              </Drawer>
             </Box>
           </Box>
         </Toolbar>

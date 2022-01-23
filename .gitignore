@@ -1,6 +1,7 @@
 /node_modules
 /client/node_modules
 .env
+.npmrc
 
 # dependencies
 /node_modules
