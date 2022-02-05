@@ -1,11 +1,11 @@
 import axios from 'axios';
 
+const PATH = '/api/v1/areas';
+
 export const areasApi = () => {
   return {
-    get getAllAreas() {
-      return async () => {
-        return await axios.get('/api/v1/areas');
-      };
+    getAllAreas() {
+      return axios.get(PATH);
     },
   };
 };

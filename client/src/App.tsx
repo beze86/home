@@ -4,20 +4,20 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { Box, Container, ThemeProvider } from '@mui/material';
 import { theme } from 'client/theme';
 
-import { Areas } from 'client/modules/main/ui/areas/Areas';
 import { Calendar } from 'client/modules/main/ui/calendar/Calendar';
 import { Home } from 'client/modules/main/ui/home/Home';
 import { Tasks } from 'client/modules/main/ui/tasks/Tasks';
 import { Users } from 'client/modules/main/ui/users/Users';
 import { NavBar } from 'client/shared/layouts/Navbar/Navbar';
+import { AreasRoutes } from './modules/main/ui/areas/AreasRoutes';
 
 const Routing = () => {
   return (
     <Routes>
-      <Route index element={<Home />} />
+      <Route path="/" element={<Home />} />
       <Route path="calendar" element={<Calendar />} />
       <Route path="users" element={<Users />} />
-      <Route path="areas" element={<Areas />} />
+      <Route path="areas/*" element={<AreasRoutes />} />
       <Route path="tasks" element={<Tasks />} />
       <Route path="*" element={<Home />} />
     </Routes>

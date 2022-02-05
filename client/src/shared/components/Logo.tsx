@@ -1,16 +1,19 @@
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 
-import { Link } from '@mui/material';
+import { Box, Link } from '@mui/material';
 
 import logo from 'client/shared/assets/logo.jpg';
-
-import styles from 'client/shared/components/Logo.module.scss';
 
 export const Logo = () => {
   return (
     <Link component={RouterLink} to="/" sx={{ display: 'flex', alignItems: 'center' }}>
-      <img className={styles['test']} src={logo} alt="logo" />
+      <Box
+        component="img"
+        src={logo}
+        alt="logo"
+        sx={{ maxWidth: '40px', width: '100%', height: 'auto', borderRadius: '50%' }}
+      />
     </Link>
   );
 };
