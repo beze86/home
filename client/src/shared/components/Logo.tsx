@@ -12,7 +12,7 @@ export const Logo = () => {
         component="img"
         src={logo}
         alt="logo"
-        sx={{ maxWidth: '40px', width: '100%', height: 'auto', borderRadius: '50%' }}
+        sx={{ maxWidth: '40px', width: '100%', height: 'auto', borderRadius: '50%', mr: 4 }}
       />
     </Link>
   );

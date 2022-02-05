@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { NavLink as RouterLink } from 'react-router-dom';
 
 import { Box, Button, Link } from '@mui/material';
 
@@ -24,8 +24,10 @@ export const NavbarDesktop = ({ pages, handleCloseNavMenu }: Props) => {
           component={RouterLink}
           to={url}
           sx={{
-            color: '#fff',
             textDecoration: 'none',
+            "&.active > button ": {
+              backgroundColor: 'primary.light'
+            }
           }}
         >
           <Button

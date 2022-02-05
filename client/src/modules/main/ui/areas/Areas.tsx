@@ -66,7 +66,7 @@ export const Areas = () => {
           >
             <TextField
               size="small"
-              label="Add new task"
+              label="Add new area/s"
               variant="outlined"
               sx={{
                 flex: {
