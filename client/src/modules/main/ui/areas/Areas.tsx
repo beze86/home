@@ -11,7 +11,7 @@ export const Areas = () => {
   const navigate = useNavigate();
   const { createArea, deleteArea, getAllAreas } = areasApi();
   const [areas, setAreas] = useState<Area[]>([]);
-  const [areaValue, setAreaValue] = useState('');
+  const [areaName, setAreaName] = useState('');
 
   useEffect(() => {
     const dataOnSuccess = async () => {
@@ -33,7 +33,9 @@ export const Areas = () => {
 
   const handleCreateTaskSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    await createArea(areaValue);
+    const { data } = await createArea(areaName);
+    setAreas((prev) => [...prev, { _id: data.insertedId, area: areaName }]);
+    setAreaName('')
   };
 
   return (
@@ -74,8 +76,8 @@ export const Areas = () => {
               size="small"
               label="Add new area/s"
               variant="outlined"
-              value={areaValue}
-              onChange={(e) => setAreaValue(e.target.value)}
+              value={areaName}
+              onChange={(e) => setAreaName(e.target.value)}
               sx={{
                 flex: {
                   xs: '1 1 100%',

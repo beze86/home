@@ -12,10 +12,9 @@ exports.getAllAreas = async (req, res) => {
 
 exports.createArea = async (req, res) => {
   try {
-    console.log(req.body);
     const { areaName } = req.body;
-    await new Area().createArea(areaName);
-    res.status(200).json({ msg: 'New Area created' + req.body });
+    const { insertedId } = await new Area().createArea(areaName);
+    res.status(200).json({ insertedId });
   } catch (error) {
     console.log(`Area not created: ${error}`);
     res.status(500);
