@@ -6,18 +6,18 @@ const path = require('path');
 const dotenv = require('dotenv');
 dotenv.config();
 
-const areasRoutes = require('./routes/areas');
-const tasksRoutes = require('./routes/tasks');
-const usersRoutes = require('./routes/users');
+const areaRoutes = require('./routes/area');
+const taskRoutes = require('./routes/task');
+const userRoutes = require('./routes/user');
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
-app.use('/api/v1/areas', areasRoutes);
-app.use('/api/v1/tasks', tasksRoutes);
-app.use('/api/v1/users', usersRoutes);
+app.use('/api/v1/areas', areaRoutes);
+app.use('/api/v1/tasks', taskRoutes);
+app.use('/api/v1/users', userRoutes);
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, 'client', 'build')));

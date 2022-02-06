@@ -63,9 +63,13 @@ export const NavbarMobile = ({
               <Link
                 component={RouterLink}
                 to={url}
-                sx={{ display: 'block', textDecoration: 'none', '&.active > li': {
-                  backgroundColor: 'grey.100'
-                } }}
+                sx={{
+                  display: 'block',
+                  textDecoration: 'none',
+                  '&.active > li': {
+                    backgroundColor: 'grey.100',
+                  },
+                }}
               >
                 <ListItem sx={{ py: 4 }} onClick={handleCloseNavMenu}>
                   {icon && (

@@ -6,7 +6,7 @@ const {
   getArea,
   updateArea,
   deleteArea,
-} = require('../controllers/areasController');
+} = require('../controllers/areaController');
 
 const router = express.Router();
 

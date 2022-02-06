@@ -6,7 +6,7 @@ const {
   getWeeklyTasks,
   updateWeeklyTasks,
   deleteWeeklyTasks,
-} = require('../controllers/tasksController');
+} = require('../controllers/taskController');
 
 const router = express.Router();
 

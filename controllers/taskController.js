@@ -1,8 +1,8 @@
-const Tasks = require('../models/Tasks');
+const Task = require('../models/Task');
 
 exports.getAllTasks = async (req, res) => {
   try {
-    const tasks = await Tasks.getAllTasks();
+    const tasks = await Task.getAllTasks();
     res.status(200).json(tasks);
   } catch (err) {
     console.log(`get tasks error: ${err}`);

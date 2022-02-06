@@ -1,10 +1,10 @@
 const { getDb } = require('../db');
 
-class Tasks {
+class Task {
   static getAllTasks() {
     const db = getDb();
     return db.collection('tasks').find().toArray();
   }
 }
 
-module.exports = Tasks;
+module.exports = Task;

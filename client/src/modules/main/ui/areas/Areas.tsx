@@ -3,31 +3,37 @@ import { useNavigate } from 'react-router-dom';
 
 import { Box, Button, Card, CardContent, List, TextField } from '@mui/material';
 
-import { areasApi } from 'client/modules/main/api/areas';
+import { areasApi } from 'client/modules/main/api/area';
+import { Area } from 'client/modules/main/type/area';
 import { AreasList } from 'client/modules/main/ui/areas/AreasList';
 
 export const Areas = () => {
   const navigate = useNavigate();
-  const { getAllAreas } = areasApi();
-  const [areas, setAreas] = useState([]);
+  const { createArea, deleteArea, getAllAreas } = areasApi();
+  const [areas, setAreas] = useState<Area[]>([]);
+  const [areaValue, setAreaValue] = useState('');
 
   useEffect(() => {
-    (async () => {
+    const dataOnSuccess = async () => {
       const { data } = await getAllAreas();
       setAreas(data);
-    })();
+    };
+    dataOnSuccess();
   }, []);
 
-  const handleDeleteClick = (id: string) => {
-    console.log(id);
+  const handleDeleteClick = async (id: string) => {
+    await deleteArea(id);
+    const newAreas = areas.filter((area) => area._id !== id);
+    setAreas(newAreas);
   };
 
   const handleEditClick = (id: string) => {
     navigate(id);
   };
 
-  const handleCreateTaskSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleCreateTaskSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    await createArea(areaValue);
   };
 
   return (
@@ -68,6 +74,8 @@ export const Areas = () => {
               size="small"
               label="Add new area/s"
               variant="outlined"
+              value={areaValue}
+              onChange={(e) => setAreaValue(e.target.value)}
               sx={{
                 flex: {
                   xs: '1 1 100%',
@@ -75,7 +83,9 @@ export const Areas = () => {
                 },
               }}
             />
-            <Button variant="contained">Add Task</Button>
+            <Button type="submit" variant="contained">
+              Add Task
+            </Button>
           </Box>
         </CardContent>
       </Card>

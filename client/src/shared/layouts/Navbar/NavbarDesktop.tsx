@@ -25,9 +25,9 @@ export const NavbarDesktop = ({ pages, handleCloseNavMenu }: Props) => {
           to={url}
           sx={{
             textDecoration: 'none',
-            "&.active > button ": {
-              backgroundColor: 'primary.light'
-            }
+            '&.active > button ': {
+              backgroundColor: 'primary.light',
+            },
           }}
         >
           <Button
