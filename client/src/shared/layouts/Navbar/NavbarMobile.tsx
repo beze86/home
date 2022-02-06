@@ -1,5 +1,5 @@
 import React, { MouseEvent } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { NavLink as RouterLink } from 'react-router-dom';
 
 import {
   Box,
@@ -63,7 +63,9 @@ export const NavbarMobile = ({
               <Link
                 component={RouterLink}
                 to={url}
-                sx={{ display: 'block', textDecoration: 'none' }}
+                sx={{ display: 'block', textDecoration: 'none', '&.active > li': {
+                  backgroundColor: 'grey.100'
+                } }}
               >
                 <ListItem sx={{ py: 4 }} onClick={handleCloseNavMenu}>
                   {icon && (
