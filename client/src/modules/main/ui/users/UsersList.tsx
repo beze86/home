@@ -3,28 +3,28 @@ import { useNavigate } from 'react-router-dom';
 
 import { Box, Button, Card, CardContent, List, TextField } from '@mui/material';
 
-import { areasApi } from 'client/modules/main/api/area';
-import { Area } from 'client/modules/main/type/area';
-import { AreasList } from 'client/modules/main/ui/areas/AreasList';
+import { usersApi } from 'client/modules/main/api/user';
+import { User } from 'client/modules/main/type/user';
+import { UsersListItem } from 'client/modules/main/ui/users/UsersListItem';
 
-export const Areas = () => {
+export const UsersList = () => {
   const navigate = useNavigate();
-  const { createArea, deleteArea, getAllAreas } = areasApi();
-  const [areas, setAreas] = useState<Area[]>([]);
-  const [areaName, setAreaName] = useState('');
+  const { createUser, deleteUser, getAllUsers } = usersApi();
+  const [users, setUsers] = useState<User[]>([]);
+  const [userName, setUserName] = useState('');
 
   useEffect(() => {
     const dataOnSuccess = async () => {
-      const { data } = await getAllAreas();
-      setAreas(data);
+      const { data } = await getAllUsers();
+      setUsers(data);
     };
     dataOnSuccess();
   }, []);
 
   const handleDeleteClick = async (id: string) => {
-    await deleteArea(id);
-    const newAreas = areas.filter((area) => area._id !== id);
-    setAreas(newAreas);
+    await deleteUser(id);
+    const newUsers = users.filter((user) => user._id !== id);
+    setUsers(newUsers);
   };
 
   const handleEditClick = (id: string) => {
@@ -33,9 +33,9 @@ export const Areas = () => {
 
   const handleCreateTaskSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const { data } = await createArea(areaName);
-    setAreas((prev) => [...prev, { _id: data.insertedId, area: areaName }]);
-    setAreaName('')
+    const { data } = await createUser(userName);
+    setUsers((prev) => [...prev, { _id: data.insertedId, user: userName }]);
+    setUserName('');
   };
 
   return (
@@ -74,10 +74,10 @@ export const Areas = () => {
           >
             <TextField
               size="small"
-              label="Add new area/s"
+              label="Add new User/s"
               variant="outlined"
-              value={areaName}
-              onChange={(e) => setAreaName(e.target.value)}
+              value={userName}
+              onChange={(e) => setUserName(e.target.value)}
               sx={{
                 flex: {
                   xs: '1 1 100%',
@@ -86,7 +86,7 @@ export const Areas = () => {
               }}
             />
             <Button type="submit" variant="contained">
-              Add Task
+              Add User
             </Button>
           </Box>
         </CardContent>
@@ -109,11 +109,11 @@ export const Areas = () => {
           }}
         >
           <List disablePadding>
-            {areas.map(({ area, _id }) => {
+            {users.map(({ user, _id }) => {
               return (
-                <AreasList
+                <UsersListItem
                   key={_id}
-                  area={area}
+                  user={user}
                   id={_id}
                   handleDeleteClick={handleDeleteClick}
                   handleEditClick={handleEditClick}

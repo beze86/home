@@ -1,17 +1,11 @@
 const express = require('express');
 
-const {
-  getAllTasks,
-  createWeeklyTasks,
-  getWeeklyTasks,
-  updateWeeklyTasks,
-  deleteWeeklyTasks,
-} = require('../controllers/taskController');
+const { getAllTasks, createWeeklyTask } = require('../controllers/taskController');
 
 const router = express.Router();
 
-router.route('/').get(getAllTasks).post(createWeeklyTasks);
+router.route('/').get(getAllTasks).post(createWeeklyTask);
 
-router.route('/:id').get(getWeeklyTasks).put(updateWeeklyTasks).delete(deleteWeeklyTasks);
+// router.route('/:id').get(getWeeklyTasks).put(updateWeeklyTasks).delete(deleteWeeklyTasks);
 
 module.exports = router;

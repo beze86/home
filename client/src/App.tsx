@@ -6,19 +6,19 @@ import { theme } from 'client/theme';
 
 import { Calendar } from 'client/modules/main/ui/calendar/Calendar';
 import { Home } from 'client/modules/main/ui/home/Home';
-import { Tasks } from 'client/modules/main/ui/tasks/Tasks';
-import { Users } from 'client/modules/main/ui/users/Users';
+import { TasksRoutes } from 'client/modules/main/ui/tasks/TasksRoutes';
 import { NavBar } from 'client/shared/layouts/Navbar/Navbar';
 import { AreasRoutes } from './modules/main/ui/areas/AreasRoutes';
+import { UsersRoutes } from 'client/modules/main/ui/users/UsersRoutes';
 
 const Routing = () => {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="calendar" element={<Calendar />} />
-      <Route path="users" element={<Users />} />
+      <Route path="users/*" element={<UsersRoutes />} />
       <Route path="areas/*" element={<AreasRoutes />} />
-      <Route path="tasks" element={<Tasks />} />
+      <Route path="tasks" element={<TasksRoutes />} />
       <Route path="*" element={<Home />} />
     </Routes>
   );

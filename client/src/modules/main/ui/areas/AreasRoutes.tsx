@@ -2,13 +2,13 @@ import React from 'react';
 import { Outlet, Route, Routes } from 'react-router-dom';
 
 import { Area } from 'client/modules/main/ui/areas/Area';
-import { Areas } from 'client/modules/main/ui/areas/Areas';
+import { AreasList } from 'client/modules/main/ui/areas/AreasList';
 
 export const AreasRoutes = () => {
   return (
     <>
       <Routes>
-        <Route index element={<Areas />} />
+        <Route index element={<AreasList />} />
         <Route path=":id" element={<Area />} />
       </Routes>
       <Outlet />

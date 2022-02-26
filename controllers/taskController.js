@@ -1,27 +1,23 @@
 const Task = require('../models/Task');
 
-exports.getAllTasks = async (req, res) => {
-  try {
-    const tasks = await Task.getAllTasks();
-    res.status(200).json(tasks);
-  } catch (err) {
-    console.log(`get tasks error: ${err}`);
-    res.status(500);
-  }
+exports.getAllTasks = (req, res) => {
+  new Task()
+    .getAllTasks()
+    .then((data) => {
+      res.status(200).json(data);
+    })
+    .catch((err) => {
+      throw err;
+    });
 };
 
-exports.createWeeklyTasks = (req, res) => {
-  res.send('create tasks');
-};
-
-exports.getWeeklyTasks = (req, res) => {
-  res.send('get task');
-};
-
-exports.updateWeeklyTasks = (req, res) => {
-  res.send('update task');
-};
-
-exports.deleteWeeklyTasks = (req, res) => {
-  res.send('delete task');
+exports.createWeeklyTask = (req, res) => {
+  new Task()
+    .createWeeklyTask()
+    .then((data) => {
+      res.status(200).json(data);
+    })
+    .catch((err) => {
+      throw err;
+    });
 };
