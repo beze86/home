@@ -1,9 +1,10 @@
 const { getDb } = require('../db');
-// const { ObjectId } = require('mongodb');
+const { ObjectId } = require('mongodb');
 const User = require('./User');
 const Area = require('./Area');
-const utils = require('../utils');
-const moment = require('moment');
+const { shuffle } = require('../utils');
+const dayjs = require('dayjs');
+const weekday = require('dayjs/plugin/weekday');
 
 class Task {
   collection;
@@ -17,37 +18,39 @@ class Task {
   }
 
   async createWeeklyTask() {
-    const sunday = moment()
-      .day(0 + 7)
-      .format('x');
+    const weeklyTasks = await this.setWeeklyTasks();
 
-    const endOfTheTask = moment()
-      .day(0 + 13)
-      .format('x');
+    return this.collection.insertOne(weeklyTasks);
+  }
+
+  deleteWeeklyTask(id) {
+    return this.collection.deleteOne({ _id: new ObjectId(id) });
+  }
+
+  async setWeeklyTasks() {
+    dayjs.extend(weekday);
+    const nextMonday = dayjs().weekday(1);
+    const nextSunday = dayjs().weekday(7);
 
     const areas = await new Area().getAllAreas();
     const users = await new User().getAllUsers();
 
-    utils.shuffle(areas);
+    shuffle(areas);
 
     const usersWithAreas = users.map(({ user }, i) => {
       return {
         name: `${user}`,
-        // color: color,
         area: `${areas[i].area}`,
       };
     });
     const weeklyTasks = {
-      start: Number(sunday),
-      end: Number(endOfTheTask),
+      start: Number(nextMonday),
+      end: Number(nextSunday),
       users: [...usersWithAreas],
     };
-    return this.collection.insertOne(weeklyTasks);
-  }
 
-  // updateSingleData(id, eventData) {
-  //       return this.collection.updateOne({_id: new ObjectId(id)}, {$set: {description: eventData.description}})
-  //   }
+    return weeklyTasks;
+  }
 }
 
 module.exports = Task;

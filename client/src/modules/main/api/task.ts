@@ -12,5 +12,8 @@ export function tasksApi(): TaskRepository {
     createWeeklyTask() {
       return axios.post(PATH);
     },
+    deleteWeeklyTask(id) {
+      return axios.delete(`${PATH}/${id}`);
+    },
   };
 }
