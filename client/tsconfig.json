@@ -1,17 +1,24 @@
 {
+  "compilerOptions": {
+    "baseUrl": ".",
+    "isolatedModules": true,
+    "module": "ESNext",
+    "lib": [
+      "DOM",
+      "DOM.Iterable",
+      "ESNext"
+    ],
+    "paths": {
+      "client/*": ["./src/*"],
+    },
+    "jsx": "react",
+  },
+  "exclude": [
+    "node_modules"
+  ],
   "extends": "../tsconfig.json",
   "include": [
     "index.d.ts",
     "src"
   ],
-  "exclude": [
-    "node_modules"
-  ],
-  "compilerOptions": {
-    "baseUrl": ".",
-    "module": "esnext",
-    "paths": {
-      "client/*": ["src/*"],
-    },
-  }
 }

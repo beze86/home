@@ -1,30 +1,29 @@
-const { getDb } = require('../db');
-const { ObjectId } = require('mongodb');
-const User = require('./User');
-const Area = require('./Area');
-const { shuffle } = require('../utils');
 const dayjs = require('dayjs');
 const weekday = require('dayjs/plugin/weekday');
 
-class Task {
-  collection;
+const { shuffle } = require('../utils');
 
+const Area = require('./Area');
+const BaseModel = require('./BaseModel');
+const User = require('./User');
+
+class Task extends BaseModel {
   constructor() {
-    this.collection = getDb().collection('tasks');
+    super('tasks');
   }
 
   getAllTasks() {
-    return this.collection.find().toArray();
+    return this.find();
   }
 
   async createWeeklyTask() {
     const weeklyTasks = await this.setWeeklyTasks();
 
-    return this.collection.insertOne(weeklyTasks);
+    return this.insertOne(weeklyTasks);
   }
 
   deleteWeeklyTask(id) {
-    return this.collection.deleteOne({ _id: new ObjectId(id) });
+    return this.deleteOne(id);
   }
 
   async setWeeklyTasks() {

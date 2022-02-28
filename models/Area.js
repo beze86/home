@@ -1,22 +1,19 @@
-const { ObjectId } = require('mongodb');
-const { getDb } = require('../db');
+const BaseModel = require('./BaseModel');
 
-class Area {
-  collection;
-
+class Area extends BaseModel {
   constructor() {
-    this.collection = getDb().collection('areas');
+    super('areas');
   }
 
   getAllAreas() {
-    return this.collection.find().toArray();
+    return this.find();
   }
 
   deleteArea(id) {
-    return this.collection.deleteOne({ _id: new ObjectId(id) });
+    return this.deleteOne(id);
   }
   createArea(areaName) {
-    return this.collection.insertOne({ area: areaName });
+    return this.insertOne(areaName);
   }
 }
 

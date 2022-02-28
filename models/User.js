@@ -1,22 +1,19 @@
-const { ObjectId } = require('mongodb');
-const { getDb } = require('../db');
+const BaseModel = require('./BaseModel');
 
-class User {
-  collection;
-
+class User extends BaseModel {
   constructor() {
-    this.collection = getDb().collection('users');
+    super('users');
   }
 
   getAllUsers() {
-    return this.collection.find().toArray();
+    return this.find();
   }
 
   deleteUser(id) {
-    return this.collection.deleteOne({ _id: new ObjectId(id) });
+    return this.deleteOne(id);
   }
   createUser(userName) {
-    return this.collection.insertOne({ user: userName });
+    return this.insertOne({ user: userName });
   }
 }
 
