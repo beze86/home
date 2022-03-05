@@ -2,8 +2,8 @@ const User = require('../models/User');
 
 exports.getAllUsers = async (req, res) => {
   try {
-    const areas = await new User().getAllUsers();
-    res.status(200).json(areas);
+    const users = await new User().getAllUsers();
+    res.status(200).json(users);
   } catch (error) {
     console.log(`Users not found: ${error}`);
     res.status(500);
@@ -19,14 +19,6 @@ exports.createUser = async (req, res) => {
     console.log(`User not created: ${error}`);
     res.status(500);
   }
-};
-
-exports.getUser = (req, res) => {
-  res.send('get area');
-};
-
-exports.updateUser = (req, res) => {
-  res.send('update area');
 };
 
 exports.deleteUser = async (req, res) => {

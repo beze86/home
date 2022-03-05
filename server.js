@@ -6,7 +6,9 @@ const path = require('path');
 const dotenv = require('dotenv');
 dotenv.config();
 
+const accountRoutes = require('./routes/account');
 const areaRoutes = require('./routes/area');
+const contactRoutes = require('./routes/contact');
 const taskRoutes = require('./routes/task');
 const userRoutes = require('./routes/user');
 
@@ -15,7 +17,9 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+app.use('/api/v1/accounts', accountRoutes);
 app.use('/api/v1/areas', areaRoutes);
+app.use('/api/v1/contacts', contactRoutes);
 app.use('/api/v1/tasks', taskRoutes);
 app.use('/api/v1/users', userRoutes);
 
