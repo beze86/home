@@ -12,8 +12,8 @@ class Account extends BaseModel {
   deleteAccount(id) {
     return this.deleteOne(id);
   }
-  createAccount(name) {
-    return this.insertOne({ name });
+  createAccount(data) {
+    return this.insertOne(data);
   }
 }
 
