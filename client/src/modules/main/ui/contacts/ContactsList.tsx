@@ -3,28 +3,28 @@ import { useNavigate } from 'react-router-dom';
 
 import { Box, Button, Card, CardContent, List, TextField } from '@mui/material';
 
-import { usersApi } from 'client/modules/main/api/user';
-import { User } from 'client/modules/main/type/user';
-import { UsersListItem } from 'client/modules/main/ui/users/UsersListItem';
+import { contactsApi } from 'client/modules/main/api/contact';
+import { Contact } from 'client/modules/main/type/contact';
+import { ContactsListItem } from 'client/modules/main/ui/contacts/ContactsListItem';
 
-export const UsersList = () => {
+export const ContactsList = () => {
   const navigate = useNavigate();
-  const { createUser, deleteUser, getAllUsers } = usersApi();
-  const [users, setUsers] = useState<User[]>([]);
-  const [userName, setUserName] = useState('');
+  const { createContact, deleteContact, getAllContacts } = contactsApi();
+  const [contacts, setContacts] = useState<Contact[]>([]);
+  const [contactName, setContactName] = useState('');
 
   useEffect(() => {
     const dataOnSuccess = async () => {
-      const { data } = await getAllUsers();
-      setUsers(data);
+      const { data } = await getAllContacts();
+      setContacts(data);
     };
     dataOnSuccess();
   }, []);
 
   const handleDeleteClick = async (id: string) => {
-    await deleteUser(id);
-    const newUsers = users.filter((user) => user._id !== id);
-    setUsers(newUsers);
+    await deleteContact(id);
+    const newContacts = contacts.filter((contact) => contact._id !== id);
+    setContacts(newContacts);
   };
 
   const handleEditClick = (id: string) => {
@@ -33,9 +33,9 @@ export const UsersList = () => {
 
   const handleCreateTaskSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const { data } = await createUser(userName);
-    setUsers((prev) => [...prev, { _id: data.insertedId, user: userName }]);
-    setUserName('');
+    const { data } = await createContact(contactName);
+    setContacts((prev) => [...prev, { _id: data.insertedId, fullName: contactName }]);
+    setContactName('');
   };
 
   return (
@@ -74,10 +74,10 @@ export const UsersList = () => {
           >
             <TextField
               size="small"
-              label="Add new User/s"
+              label="Add new contact"
               variant="outlined"
-              value={userName}
-              onChange={(e) => setUserName(e.target.value)}
+              value={contactName}
+              onChange={(e) => setContactName(e.target.value)}
               sx={{
                 flex: {
                   xs: '1 1 100%',
@@ -86,7 +86,7 @@ export const UsersList = () => {
               }}
             />
             <Button type="submit" variant="contained">
-              Add User
+              Add Contact
             </Button>
           </Box>
         </CardContent>
@@ -109,11 +109,11 @@ export const UsersList = () => {
           }}
         >
           <List disablePadding>
-            {users.map(({ user, _id }) => {
+            {contacts.map(({ fullName, _id }) => {
               return (
-                <UsersListItem
+                <ContactsListItem
                   key={_id}
-                  user={user}
+                  fullName={fullName}
                   id={_id}
                   handleDeleteClick={handleDeleteClick}
                   handleEditClick={handleEditClick}

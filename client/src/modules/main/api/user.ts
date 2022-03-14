@@ -12,8 +12,8 @@ export function usersApi(): UserRepository {
     deleteUser(id) {
       return axios.delete(`${PATH}/${id}`);
     },
-    createUser(userName) {
-      return axios.post(PATH, { userName });
+    createUser(userData) {
+      return axios.post(PATH, userData);
     },
   };
 }

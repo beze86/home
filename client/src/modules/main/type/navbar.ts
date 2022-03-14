@@ -12,7 +12,7 @@ export type NavbarList = {
 
 export const navbarList: NavbarList[] = [
   { title: 'Calendar', url: '/calendar', icon: faCalendarWeek },
-  { title: 'Users', url: '/users', icon: faCouch },
+  { title: 'Contacts', url: '/contacts', icon: faCouch },
   { title: 'Areas', url: '/areas', icon: faTasks },
   { title: 'Tasks', url: '/tasks', icon: faUser },
 ];

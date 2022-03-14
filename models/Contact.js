@@ -13,7 +13,7 @@ class Contact extends BaseModel {
     return this.deleteOne(id);
   }
   createContact(name) {
-    return this.insertOne({ name });
+    return this.insertOne(name);
   }
 }
 

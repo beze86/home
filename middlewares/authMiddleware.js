@@ -1,4 +1,4 @@
 exports.protectedRoute = (req, res, next) => {
-  console.log(req.authorization);
+  console.log('token', req.authorization);
   next();
 };

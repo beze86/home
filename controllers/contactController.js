@@ -11,9 +11,12 @@ exports.getAllContacts = async (req, res) => {
 };
 
 exports.createContact = async (req, res) => {
+  const { fullName } = req.body;
+  const payLoad = {
+    fullName,
+  };
   try {
-    const { name } = req.body;
-    const { insertedId } = await new Contact().createContact(name);
+    const { insertedId } = await new Contact().createContact(payLoad);
     res.status(201).json({ insertedId });
   } catch (error) {
     console.log(`Contact not created: ${error}`);
@@ -22,8 +25,8 @@ exports.createContact = async (req, res) => {
 };
 
 exports.deleteContact = async (req, res) => {
+  const { id } = req.params;
   try {
-    const { id } = req.params;
     await new Contact().deleteContact(id);
     res.status(200).json({ msg: `Contact deleted id: ${id}` });
   } catch (error) {
