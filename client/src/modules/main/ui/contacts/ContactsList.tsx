@@ -86,7 +86,7 @@ export const ContactsList = () => {
               }}
             />
             <Button type="submit" variant="contained">
-              Add Contact
+              Add Contacts
             </Button>
           </Box>
         </CardContent>

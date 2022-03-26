@@ -1,10 +1,8 @@
 'use-strict';
 
 const path = require('path');
-const { HotModuleReplacementPlugin } = require('webpack');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 
 module.exports = {
@@ -13,6 +11,7 @@ module.exports = {
     path: path.resolve(__dirname, 'build'),
     filename: '[name].[contenthash].js',
     publicPath: '/',
+    clean: true,
   },
   resolve: {
     alias: {
@@ -41,7 +40,7 @@ module.exports = {
         },
       },
       {
-        test: /\.(png|jpe?g|gif)$/i,
+        test: /\.(png|jpg|jpeg|gif)$/i,
         use: [
           {
             loader: 'file-loader',
@@ -68,6 +67,7 @@ module.exports = {
       'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
       'Access-Control-Allow-Headers': 'X-Requested-With, content-type, Authorization',
     },
+    port: 4000,
     proxy: {
       '/api': 'http://localhost:5000',
     },
@@ -76,12 +76,11 @@ module.exports = {
     new HtmlWebPackPlugin({
       template: './public/index.html',
     }),
-    new MiniCssExtractPlugin({
-      filename: '[name].[contenthash].css',
-    }),
-    new CleanWebpackPlugin(),
     new WebpackManifestPlugin({
       writeToFileEmit: true,
+    }),
+    new MiniCssExtractPlugin({
+      filename: '[name].[contenthash].css',
     }),
   ],
 };
