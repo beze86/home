@@ -13,6 +13,10 @@ class BaseModel {
     return this.collection.find().toArray();
   }
 
+  findOne(query) {
+    return this.collection.findOne(query);
+  }
+
   deleteOne(id) {
     return this.collection.deleteOne({ _id: new ObjectId(id) });
   }

@@ -3,6 +3,7 @@ import { NavLink as RouterLink } from 'react-router-dom';
 
 import { Box, Button, Link } from '@mui/material';
 
+import { useUserState } from 'client/shared/hooks/useUserState';
 import { NavbarList } from 'client/modules/main/type/navbar';
 
 type Props = {
@@ -11,6 +12,7 @@ type Props = {
 };
 
 export const NavbarDesktop = ({ pages, handleCloseNavMenu }: Props) => {
+  const { state } = useUserState();
   return (
     <Box
       sx={{
@@ -18,30 +20,32 @@ export const NavbarDesktop = ({ pages, handleCloseNavMenu }: Props) => {
         display: { xs: 'none', md: 'flex' },
       }}
     >
-      {pages.map(({ title, url }) => (
-        <Link
-          key={title}
-          component={RouterLink}
-          to={url}
-          sx={{
-            textDecoration: 'none',
-            '&.active > button ': {
-              backgroundColor: 'primary.light',
-            },
-          }}
-        >
-          <Button
-            onClick={handleCloseNavMenu}
+      {pages
+        .filter(({ isPrivate }) => !isPrivate || (isPrivate && state.isLogged))
+        .map(({ title, url }) => (
+          <Link
+            key={title}
+            component={RouterLink}
+            to={url}
             sx={{
-              my: 2,
-              color: 'white',
-              display: 'block',
+              textDecoration: 'none',
+              '&.active > button ': {
+                backgroundColor: 'primary.light',
+              },
             }}
           >
-            {title}
-          </Button>
-        </Link>
-      ))}
+            <Button
+              onClick={handleCloseNavMenu}
+              sx={{
+                my: 2,
+                color: 'white',
+                display: 'block',
+              }}
+            >
+              {title}
+            </Button>
+          </Link>
+        ))}
     </Box>
   );
 };

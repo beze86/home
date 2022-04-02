@@ -2,7 +2,7 @@ const { MongoClient } = require('mongodb');
 const dotenv = require('dotenv');
 dotenv.config();
 
-const URI = process.env.CONNECTION_STRING_REMOTE;
+const URI = process.env.CONNECTION_STRING_LOCAL || process.env.CONNECTION_STRING_LOCAL;
 
 // Create a new MongoClient
 const client = new MongoClient(URI, {

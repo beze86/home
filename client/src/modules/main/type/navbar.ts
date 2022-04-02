@@ -8,11 +8,12 @@ export type NavbarList = {
   url: string;
   icon?: IconDefinition;
   children?: NavbarList[];
+  isPrivate: boolean;
 };
 
 export const navbarList: NavbarList[] = [
-  { title: 'Calendar', url: '/calendar', icon: faCalendarWeek },
-  { title: 'Users', url: '/users', icon: faCouch },
-  { title: 'Areas', url: '/areas', icon: faTasks },
-  { title: 'Tasks', url: '/tasks', icon: faUser },
+  { title: 'Calendar', url: '/calendar', icon: faCalendarWeek, isPrivate: false },
+  { title: 'Contacts', url: '/contacts', icon: faCouch, isPrivate: true },
+  { title: 'Areas', url: '/areas', icon: faTasks, isPrivate: true },
+  { title: 'Tasks', url: '/tasks', icon: faUser, isPrivate: false },
 ];

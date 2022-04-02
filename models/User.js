@@ -9,11 +9,15 @@ class User extends BaseModel {
     return this.find();
   }
 
+  findUserByEmail(email) {
+    return this.findOne({ email });
+  }
+
   deleteUser(id) {
     return this.deleteOne(id);
   }
-  createUser(userName) {
-    return this.insertOne({ user: userName });
+  registerUser(newUserData) {
+    return this.insertOne(newUserData);
   }
 }
 
