@@ -9,8 +9,8 @@ import {
   IconButton,
   List,
   ListItem,
-  Typography,
   Stack,
+  Typography,
 } from '@mui/material';
 import { Delete } from '@mui/icons-material';
 

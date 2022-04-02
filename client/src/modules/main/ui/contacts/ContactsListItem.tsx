@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ListItem, IconButton, Typography } from '@mui/material';
+import { IconButton, ListItem, Typography } from '@mui/material';
 import { Create, Delete } from '@mui/icons-material';
 
 type Props = {

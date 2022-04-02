@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Outlet, Route, Routes } from 'react-router-dom';
+import { Outlet, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import { Provider as UserStateProvider } from 'react-redux';
 
 import { Box, Container, ThemeProvider } from '@mui/material';
