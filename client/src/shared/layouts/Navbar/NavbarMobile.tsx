@@ -13,10 +13,10 @@ import {
   ListItemText,
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import { styled } from '@mui/material/styles';
 
-import { Icon } from 'client/shared/components/Icon';
 import { NavbarList } from 'client/modules/main/type/navbar';
+import { useUserState } from 'client/shared/hooks/useUserState';
+import { Icon } from 'client/shared/components/Icon';
 
 type Props = {
   pages: NavbarList[];
@@ -31,14 +31,7 @@ export const NavbarMobile = ({
   handleOpenNavMenu,
   handleCloseNavMenu,
 }: Props) => {
-  const DrawerHeader = styled('div')(({ theme }) => ({
-    display: 'flex',
-    alignItems: 'center',
-    padding: theme.spacing(0, 1),
-    // necessary for content to be below app bar
-    ...theme.mixins.toolbar,
-    justifyContent: 'flex-start',
-  }));
+  const { state } = useUserState();
 
   return (
     <Box
@@ -56,33 +49,45 @@ export const NavbarMobile = ({
         <MenuIcon />
       </IconButton>
       <Drawer anchor="right" open={Boolean(anchorElNav)} onClose={handleCloseNavMenu}>
-        <DrawerHeader />
+        <Box
+          sx={(theme) => ({
+            display: 'flex',
+            alignItems: 'center',
+            py: 0,
+            px: 1,
+            // necessary for content to be below app bar
+            ...theme.mixins.toolbar,
+            justifyContent: 'flex-start',
+          })}
+        />
         <List sx={{ minWidth: '200px' }}>
-          {pages.map(({ title, url, icon }) => (
-            <React.Fragment key={title}>
-              <Link
-                component={RouterLink}
-                to={url}
-                sx={{
-                  display: 'block',
-                  textDecoration: 'none',
-                  '&.active > li': {
-                    backgroundColor: 'grey.100',
-                  },
-                }}
-              >
-                <ListItem sx={{ py: 4 }} onClick={handleCloseNavMenu}>
-                  {icon && (
-                    <ListItemIcon sx={{ minWidth: '32px' }}>
-                      <Icon icon={icon} />
-                    </ListItemIcon>
-                  )}
-                  <ListItemText primary={title} />
-                </ListItem>
-              </Link>
-              <Divider />
-            </React.Fragment>
-          ))}
+          {pages
+            .filter(({ isPrivate }) => !isPrivate || (isPrivate && state.isLogged))
+            .map(({ title, url, icon }) => (
+              <React.Fragment key={title}>
+                <Link
+                  component={RouterLink}
+                  to={url}
+                  sx={{
+                    display: 'block',
+                    textDecoration: 'none',
+                    '&.active > li': {
+                      backgroundColor: 'grey.100',
+                    },
+                  }}
+                >
+                  <ListItem sx={{ py: 4 }} onClick={handleCloseNavMenu}>
+                    {icon && (
+                      <ListItemIcon sx={{ minWidth: '32px' }}>
+                        <Icon icon={icon} />
+                      </ListItemIcon>
+                    )}
+                    <ListItemText primary={title} />
+                  </ListItem>
+                </Link>
+                <Divider />
+              </React.Fragment>
+            ))}
         </List>
       </Drawer>
     </Box>

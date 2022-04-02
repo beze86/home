@@ -1,14 +1,16 @@
 const jwt = require('jsonwebtoken');
 
 exports.protectedRoute = (req, res, next) => {
-  try {
-    const token = req.header.authorization.split('Bearer ')[1];
-    const verifiedToken = jwt.verify(token, 'test');
-    req.userId = verifiedToken?.id;
-    next();
-  } catch (error) {
-    console.log(`Not authorized: ${error}`);
-    res.status(404);
+  if (req.headers.Authorization && req.header.Authorization.startsWith('Bearer')) {
+    try {
+      const token = req.header.authorization.split('Bearer ')[1];
+      const verifiedToken = jwt.verify(token, 'test');
+      req.userId = verifiedToken?.id;
+      next();
+    } catch (error) {
+      res.status(401).json({ error: 'Not authorized' });
+    }
   }
-  next();
+
+  res.status(401);
 };
