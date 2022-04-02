@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import userState from 'client/modules/main/type/user';
+import userState from 'client/modules/auth/type/auth';
 
 export const store = configureStore({
   reducer: {

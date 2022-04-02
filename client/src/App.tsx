@@ -5,14 +5,14 @@ import { Provider as UserStateProvider } from 'react-redux';
 import { Box, Container, ThemeProvider } from '@mui/material';
 import { theme } from 'client/theme';
 
-import { store } from 'client/modules/main/app/store';
-import { AreasRoutes } from 'client/modules/main/ui/areas/AreasRoutes';
-import { Login } from 'client/modules/main/ui/auth/Login';
-import { Register } from 'client/modules/main/ui/auth/Register';
-import { Calendar } from 'client/modules/main/ui/calendar/Calendar';
-import { ContactsRoutes } from 'client/modules/main/ui/contacts/ContactsRoutes';
-import { Home } from 'client/modules/main/ui/home/Home';
-import { TasksRoutes } from 'client/modules/main/ui/tasks/TasksRoutes';
+import { store } from 'client/modules/app/store';
+import { AreasRoutes } from 'client/modules/areas/ui/areas/AreasRoutes';
+import { Login } from 'client/modules/auth/ui/auth/Login';
+import { Register } from 'client/modules/auth/ui/auth/Register';
+import { Calendar } from 'client/modules/calendar/ui/calendar/Calendar';
+import { ContactsRoutes } from 'client/modules/contacts/ui/contacts/ContactsRoutes';
+import { Home } from 'client/modules/home/ui/home/Home';
+import { TasksRoutes } from 'client/modules/tasks/ui/tasks/TasksRoutes';
 
 import { ProtectedRoute } from 'client/shared/components/ProtectedRoute/ProtectedRoute';
 import { NavBar } from 'client/shared/layouts/Navbar/Navbar';

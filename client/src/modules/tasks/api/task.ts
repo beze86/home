@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { TaskRepository } from 'client/modules/main/type/task';
+import { TaskRepository } from 'client/modules/tasks/type/task';
 
 const PATH = '/api/v1/tasks';
 

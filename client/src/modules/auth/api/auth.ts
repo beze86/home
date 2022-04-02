@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { UserRepository } from 'client/modules/main/type/user';
+import { UserRepository } from 'client/modules/auth/type/auth';
 
 const PATH = '/api/v1/users';
 

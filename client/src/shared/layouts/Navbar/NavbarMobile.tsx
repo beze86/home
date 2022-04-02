@@ -14,7 +14,7 @@ import {
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 
-import { NavbarList } from 'client/modules/main/type/navbar';
+import { NavbarList } from 'client/shared/layouts/Navbar/Navbar';
 import { useUserState } from 'client/shared/hooks/useUserState';
 import { Icon } from 'client/shared/components/Icon';
 

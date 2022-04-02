@@ -4,7 +4,7 @@ import { NavLink as RouterLink } from 'react-router-dom';
 import { Box, Button, Link } from '@mui/material';
 
 import { useUserState } from 'client/shared/hooks/useUserState';
-import { NavbarList } from 'client/modules/main/type/navbar';
+import { NavbarList } from 'client/shared/layouts/Navbar/Navbar';
 
 type Props = {
   pages: NavbarList[];

@@ -1,11 +1,11 @@
 import React, { FormEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { Box, Button, Card, CardContent, List, TextField } from '@mui/material';
+import { Button, Card, CardContent, List, Stack, TextField } from '@mui/material';
 
-import { areasApi } from 'client/modules/main/api/area';
-import { Area } from 'client/modules/main/type/area';
-import { AreasListItem } from 'client/modules/main/ui/areas/AreasListItem';
+import { areasApi } from 'client/modules/areas/api/area';
+import { Area } from 'client/modules/areas/type/area';
+import { AreasListItem } from 'client/modules/areas/ui/areas/AreasListItem';
 
 export const AreasList = () => {
   const navigate = useNavigate();
@@ -58,19 +58,14 @@ export const AreasList = () => {
             },
           }}
         >
-          <Box
+          <Stack
             component="form"
+            direction={{ xs: 'column', md: 'row' }}
+            alignItems="center"
+            flexWrap="wrap"
+            justifyContent={{ xs: 'flex-end', md: 'space-between' }}
+            gap={4}
             onSubmit={handleCreateTaskSubmit}
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: {
-                xs: 'flex-end',
-                md: 'space-between',
-              },
-              flexWrap: 'wrap',
-              gap: 4,
-            }}
           >
             <TextField
               size="small"
@@ -88,7 +83,7 @@ export const AreasList = () => {
             <Button type="submit" variant="contained">
               Add Area
             </Button>
-          </Box>
+          </Stack>
         </CardContent>
       </Card>
       <Card

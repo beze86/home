@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { AreaRepository } from 'client/modules/main/type/area';
+import { AreaRepository } from 'client/modules/areas/type/area';
 
 const PATH = '/api/v1/areas';
 

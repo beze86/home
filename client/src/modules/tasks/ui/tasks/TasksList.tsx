@@ -2,7 +2,6 @@ import React, { FormEvent, useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 
 import {
-  Box,
   Button,
   Card,
   CardContent,
@@ -14,8 +13,8 @@ import {
 } from '@mui/material';
 import { Delete } from '@mui/icons-material';
 
-import { tasksApi } from 'client/modules/main/api/task';
-import { Task } from 'client/modules/main/type/task';
+import { tasksApi } from 'client/modules/tasks/api/task';
+import { Task } from 'client/modules/tasks/type/task';
 
 export const TasksList = () => {
   const { getAllTasks, createWeeklyTask, deleteWeeklyTask } = tasksApi();
@@ -63,24 +62,19 @@ export const TasksList = () => {
             },
           }}
         >
-          <Box
+          <Stack
             component="form"
+            direction={{ xs: 'column', md: 'row' }}
+            alignItems="center"
+            flexWrap="wrap"
+            justifyContent={{ xs: 'flex-end', md: 'space-between' }}
+            gap={4}
             onSubmit={handleCreateTaskSubmit}
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: {
-                xs: 'flex-end',
-                md: 'space-between',
-              },
-              flexWrap: 'wrap',
-              gap: 4,
-            }}
           >
             <Button type="submit" variant="contained">
               Create Weekly Task
             </Button>
-          </Box>
+          </Stack>
         </CardContent>
       </Card>
       {tasks.map(({ _id, start, end, users }) => {

@@ -1,6 +1,6 @@
 import { AxiosPromise } from 'axios';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import type { RootState } from '../app/store';
+import type { RootState } from '../../app/store';
 
 export type User = {
   _id: string;
