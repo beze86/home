@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
 import {
   User,
-  login,
-  logout,
+  removeStatesOnLogout,
+  setStatesOnLogin,
   setUserState,
   userStateSelector,
 } from 'client/modules/auth/type/auth';
@@ -15,8 +15,8 @@ export const useUserState = () => {
     return {
       state,
       setUserState: (userData: User) => dispatch(setUserState(userData)),
-      login: () => dispatch(login()),
-      logout: () => dispatch(logout()),
+      setStatesOnLogin: (userData: User) => dispatch(setStatesOnLogin(userData)),
+      removeStatesOnLogout: () => dispatch(removeStatesOnLogout()),
     };
-  }, []);
+  }, [state, dispatch]);
 };

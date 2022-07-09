@@ -19,6 +19,7 @@ export const ContactsList = () => {
       setContacts(data);
     };
     dataOnSuccess();
+    console.log(contacts);
   }, []);
 
   const handleDeleteClick = async (id: string) => {

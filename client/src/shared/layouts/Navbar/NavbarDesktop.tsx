@@ -3,16 +3,23 @@ import { NavLink as RouterLink } from 'react-router-dom';
 
 import { Box, Button, Link } from '@mui/material';
 
+import { RoutesList } from 'client/App';
 import { useUserState } from 'client/shared/hooks/useUserState';
-import { NavbarList } from 'client/shared/layouts/Navbar/Navbar';
 
 type Props = {
-  pages: NavbarList[];
+  pages: RoutesList[];
   handleCloseNavMenu: () => void;
 };
 
 export const NavbarDesktop = ({ pages, handleCloseNavMenu }: Props) => {
-  const { state } = useUserState();
+  const {
+    state: { isLogged },
+    removeStatesOnLogout,
+  } = useUserState();
+
+  const handleLogout = () => {
+    removeStatesOnLogout();
+  };
   return (
     <Box
       sx={{
@@ -20,9 +27,8 @@ export const NavbarDesktop = ({ pages, handleCloseNavMenu }: Props) => {
         display: { xs: 'none', md: 'flex' },
       }}
     >
-      {pages
-        .filter(({ isPrivate }) => !isPrivate || (isPrivate && state.isLogged))
-        .map(({ title, url }) => (
+      {isLogged &&
+        pages.map(({ title, url }) => (
           <Link
             key={title}
             component={RouterLink}
@@ -46,6 +52,40 @@ export const NavbarDesktop = ({ pages, handleCloseNavMenu }: Props) => {
             </Button>
           </Link>
         ))}
+      {isLogged ? (
+        <Button
+          onClick={handleLogout}
+          sx={{
+            my: 2,
+            color: 'white',
+            display: 'block',
+          }}
+        >
+          Logout
+        </Button>
+      ) : (
+        <Link
+          component={RouterLink}
+          to="/login"
+          sx={{
+            textDecoration: 'none',
+            '&.active > button ': {
+              backgroundColor: 'primary.light',
+            },
+          }}
+        >
+          <Button
+            onClick={handleCloseNavMenu}
+            sx={{
+              my: 2,
+              color: 'white',
+              display: 'block',
+            }}
+          >
+            Login
+          </Button>
+        </Link>
+      )}
     </Box>
   );
 };

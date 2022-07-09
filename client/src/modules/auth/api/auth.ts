@@ -1,19 +1,31 @@
 import axios from 'axios';
 
-import { UserRepository } from 'client/modules/auth/type/auth';
+import { UserRepository, profileStorageKey } from 'client/modules/auth/type/auth';
 
 const PATH = '/api/v1/users';
 
+const API = axios.create({ baseURL: PATH });
+
+API.interceptors.request.use((req) => {
+  const storedItem = localStorage.getItem(profileStorageKey);
+  if (storedItem) {
+    if (req.headers) {
+      req.headers.authorization = `Bearer ${JSON.parse(storedItem).token}`;
+    }
+  }
+  return req;
+});
+
 export function usersApi(): UserRepository {
   return {
-    getAllUsers() {
-      return axios.get(PATH);
+    register(userData) {
+      return API.post('/', userData);
     },
-    deleteUser(id) {
-      return axios.delete(`${PATH}/${id}`);
+    login(userData) {
+      return API.post('/login', userData);
     },
-    createUser(userData) {
-      return axios.post(PATH, userData);
+    delete(id) {
+      return API.post(`/${id}`);
     },
   };
 }

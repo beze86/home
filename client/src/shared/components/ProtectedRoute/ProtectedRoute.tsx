@@ -3,10 +3,16 @@ import { Navigate } from 'react-router-dom';
 
 import { useUserState } from 'client/shared/hooks/useUserState';
 
-export const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
-  const { state } = useUserState();
+type Props = {
+  children: JSX.Element;
+};
 
-  if (!state.user) return <Navigate to="/login" />;
+export const ProtectedRoute = ({ children }: Props) => {
+  const {
+    state: { isLogged },
+  } = useUserState();
+
+  if (!isLogged) return <Navigate to="/login" />;
 
   return children;
 };

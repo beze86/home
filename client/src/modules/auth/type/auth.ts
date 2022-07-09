@@ -1,12 +1,16 @@
 import { AxiosPromise } from 'axios';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import type { RootState } from '../../app/store';
+import type { RootState } from 'client/modules/app/store';
+import decode from 'jwt-decode';
 
 export type User = {
-  _id: string;
-  fullName: string;
-  email: string;
-  accounts: string[];
+  data: {
+    id: string;
+    fullName: string;
+    email: string;
+    password: string;
+    accounts: string[];
+  };
 };
 
 type UserState = {
@@ -14,19 +18,46 @@ type UserState = {
   isLogged: boolean;
 };
 
+type Token = {
+  id: string;
+  exp: number;
+  iat: number;
+};
+
+export const profileStorageKey = 'userProfile';
+const profileLocalStorage = localStorage.getItem(profileStorageKey);
+
+const isUserLoggedIn = () => {
+  if (!profileLocalStorage) return false;
+
+  const token = JSON.parse(profileLocalStorage).token;
+
+  if (!token) return false;
+
+  const decodedToken = decode<Token>(token);
+
+  if (decodedToken.exp * 1000 < new Date().getTime()) return false;
+
+  return true;
+};
+
 const initialState: UserState = {
-  user: null,
-  isLogged: false,
+  user: JSON.parse(profileLocalStorage!),
+  isLogged: isUserLoggedIn(),
 };
 
 export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    login: (state) => {
+    setStatesOnLogin: (state, action) => {
+      localStorage.setItem(profileStorageKey, JSON.stringify({ ...action.payload }));
       state.isLogged = true;
+      state.user = action.payload;
     },
-    logout: (state) => {
+    removeStatesOnLogout: (state) => {
+      localStorage.removeItem(profileStorageKey);
+      state.user = null;
       state.isLogged = false;
     },
     setUserState: (state, action: PayloadAction<User>) => {
@@ -35,14 +66,14 @@ export const userSlice = createSlice({
   },
 });
 
-export const { login, logout, setUserState } = userSlice.actions;
+export const { setStatesOnLogin, removeStatesOnLogout, setUserState } = userSlice.actions;
 
 export const userStateSelector = (state: RootState) => state.userState;
 
 export default userSlice.reducer;
 
 export type UserRepository = {
-  getAllUsers: () => AxiosPromise<User[]>;
-  deleteUser: (id: User['_id']) => AxiosPromise<void>;
-  createUser: (userData: User) => AxiosPromise<{ insertedId: string }>;
+  register: (userData: Partial<User['data']>) => AxiosPromise<{ insertedId: string }>;
+  login: (userData: Partial<User['data']>) => AxiosPromise<User>;
+  delete: (id: User['data']['id']) => AxiosPromise<void>;
 };

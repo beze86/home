@@ -1,18 +1,22 @@
-import React, { FormEvent, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { FormEvent, useState } from 'react';
 
 import { Button, Card, CardContent, Stack, TextField, Typography } from '@mui/material';
 
-import { areasApi } from 'client/modules/areas/api/area';
+import { usersApi } from 'client/modules/auth/api/auth';
+import { useUserState } from 'client/shared/hooks/useUserState';
 
 export const Login = () => {
   const [fields, setFields] = useState<{ email: string; password: string }>({
     email: '',
     password: '',
   });
+  const { login } = usersApi();
+  const { setStatesOnLogin } = useUserState();
 
-  const handleLogin = () => {
-    return;
+  const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const { data } = await login(fields);
+    setStatesOnLogin(data);
   };
 
   return (

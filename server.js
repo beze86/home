@@ -21,9 +21,9 @@ app.use(express.json());
 
 app.use('/api/v1/users', userRoutes);
 app.use('/api/v1/areas', protectedRoute, areaRoutes);
-app.use('/api/v1/accounts', accountRoutes);
-app.use('/api/v1/contacts', contactRoutes);
-app.use('/api/v1/tasks', taskRoutes);
+app.use('/api/v1/accounts', protectedRoute, accountRoutes);
+app.use('/api/v1/contacts', protectedRoute, contactRoutes);
+app.use('/api/v1/tasks', protectedRoute, taskRoutes);
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, 'client', 'build')));

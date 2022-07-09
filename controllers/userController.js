@@ -1,6 +1,9 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
+const dotenv = require('dotenv');
+dotenv.config();
+
 const User = require('../models/User');
 
 exports.registerUser = async (req, res) => {
@@ -31,9 +34,10 @@ exports.registerUser = async (req, res) => {
 
     const { insertedId } = await new User().registerUser(userPayload);
     res.status(201).json({
-      user: { ...userPayload, _id: insertedId },
-      msg: 'User Created',
+      ...userPayload,
+      id: insertedId,
       token: generateWebToken(insertedId, userPayload.fullName),
+      msg: 'User Created',
     });
   } catch (error) {
     console.log(`${error}`);
@@ -62,16 +66,18 @@ exports.loginUser = async (req, res) => {
       throw new Error('Invalid credentials');
     }
 
+    const token = generateWebToken(user._id, user.fullName);
+
     const userPayload = {
-      _id: user._id,
+      id: user._id,
       email,
       fullName: user.fullName,
+      token,
     };
 
     res.status(200).json({
-      user: { ...userPayload },
+      ...userPayload,
       msg: 'User logged in',
-      token: generateWebToken(userPayload._id, userPayload.fullName),
     });
   } catch (error) {
     console.log(`${error}`);
@@ -91,7 +97,7 @@ exports.deleteUser = async (req, res) => {
 };
 
 const generateWebToken = (id, userName) => {
-  return jwt.sign({ id, userName }, 'test', {
-    expiresIn: '1m',
+  return jwt.sign({ id, userName }, process.env.JWT_SECRET_KEY, {
+    expiresIn: '10m',
   });
 };

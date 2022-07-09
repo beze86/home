@@ -32,6 +32,7 @@ class Task extends BaseModel {
     const nextSunday = dayjs().weekday(0 + 14);
     const areas = await new Area().getAllAreas();
     const users = await new User().getAllUsers();
+    console.log(users);
 
     shuffle(areas);
     const usersWithAreas = users.map(({ user }, i) => {

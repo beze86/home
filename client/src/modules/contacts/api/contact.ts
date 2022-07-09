@@ -1,19 +1,32 @@
 import axios from 'axios';
 
 import { ContactRepository } from 'client/modules/contacts/type/contact';
+import { profileStorageKey } from 'client/modules/auth/type/auth';
 
 const PATH = '/api/v1/contacts';
+
+const API = axios.create({ baseURL: PATH });
+
+API.interceptors.request.use((req) => {
+  const storedItem = localStorage.getItem(profileStorageKey);
+  if (storedItem) {
+    if (req.headers) {
+      req.headers.authorization = `Bearer ${JSON.parse(storedItem).token}`;
+    }
+  }
+  return req;
+});
 
 export function contactsApi(): ContactRepository {
   return {
     getAllContacts() {
-      return axios.get(PATH);
+      return API.get('/');
     },
     deleteContact(id) {
-      return axios.delete(`${PATH}/${id}`);
+      return API.delete(`/${id}`);
     },
     createContact(fullName) {
-      return axios.post(PATH, { fullName });
+      return API.post('/', { fullName });
     },
   };
 }

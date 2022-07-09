@@ -3,6 +3,7 @@ import { NavLink as RouterLink } from 'react-router-dom';
 
 import {
   Box,
+  Button,
   Divider,
   Drawer,
   IconButton,
@@ -14,12 +15,13 @@ import {
 } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 
-import { NavbarList } from 'client/shared/layouts/Navbar/Navbar';
+import { RoutesList } from 'client/App';
+
 import { useUserState } from 'client/shared/hooks/useUserState';
 import { Icon } from 'client/shared/components/Icon';
 
 type Props = {
-  pages: NavbarList[];
+  pages: RoutesList[];
   anchorElNav: null | HTMLElement;
   handleOpenNavMenu: (e: MouseEvent<HTMLElement>) => void;
   handleCloseNavMenu: () => void;
@@ -31,7 +33,10 @@ export const NavbarMobile = ({
   handleOpenNavMenu,
   handleCloseNavMenu,
 }: Props) => {
-  const { state } = useUserState();
+  const {
+    state: { isLogged },
+    removeStatesOnLogout,
+  } = useUserState();
 
   return (
     <Box
@@ -61,9 +66,8 @@ export const NavbarMobile = ({
           })}
         />
         <List sx={{ minWidth: '200px' }}>
-          {pages
-            .filter(({ isPrivate }) => !isPrivate || (isPrivate && state.isLogged))
-            .map(({ title, url, icon }) => (
+          {isLogged &&
+            pages.map(({ title, url, icon }) => (
               <React.Fragment key={title}>
                 <Link
                   component={RouterLink}
@@ -88,6 +92,40 @@ export const NavbarMobile = ({
                 <Divider />
               </React.Fragment>
             ))}
+          {isLogged ? (
+            <Button
+              onClick={removeStatesOnLogout}
+              sx={{
+                my: 2,
+                color: 'white',
+                display: 'block',
+              }}
+            >
+              Logout
+            </Button>
+          ) : (
+            <Link
+              component={RouterLink}
+              to="/login"
+              sx={{
+                textDecoration: 'none',
+                '&.active > button ': {
+                  backgroundColor: 'primary.light',
+                },
+              }}
+            >
+              <Button
+                onClick={handleCloseNavMenu}
+                sx={{
+                  my: 2,
+                  color: 'white',
+                  display: 'block',
+                }}
+              >
+                Login
+              </Button>
+            </Link>
+          )}
         </List>
       </Drawer>
     </Box>

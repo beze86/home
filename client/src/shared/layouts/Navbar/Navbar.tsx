@@ -5,26 +5,13 @@ import { AppBar, Container, Toolbar } from '@mui/material';
 import { Logo } from 'client/shared/components/Logo';
 import { NavbarDesktop } from 'client/shared/layouts/Navbar/NavbarDesktop';
 import { NavbarMobile } from 'client/shared/layouts/Navbar/NavbarMobile';
+import { RoutesList } from 'client/App';
 
-import { IconDefinition } from '@fortawesome/fontawesome-common-types';
-import { faCalendarWeek, faCouch, faTasks, faUser } from '@fortawesome/pro-regular-svg-icons';
-
-export type NavbarList = {
-  title: string;
-  url: string;
-  icon?: IconDefinition;
-  children?: NavbarList[];
-  isPrivate: boolean;
+type Props = {
+  routes: () => RoutesList[];
 };
 
-export const navbarList: NavbarList[] = [
-  { title: 'Calendar', url: '/calendar', icon: faCalendarWeek, isPrivate: false },
-  { title: 'Contacts', url: '/contacts', icon: faCouch, isPrivate: true },
-  { title: 'Areas', url: '/areas', icon: faTasks, isPrivate: true },
-  { title: 'Tasks', url: '/tasks', icon: faUser, isPrivate: false },
-];
-
-export const NavBar = () => {
+export const NavBar = ({ routes }: Props) => {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
 
   const handleOpenNavMenu = (e: MouseEvent<HTMLElement>) => {
@@ -40,9 +27,9 @@ export const NavBar = () => {
       <Container sx={{ pl: 5 }}>
         <Toolbar disableGutters sx={{ justifyContent: 'space-between' }}>
           <Logo />
-          <NavbarDesktop pages={navbarList} handleCloseNavMenu={handleCloseNavMenu} />
+          <NavbarDesktop pages={routes()} handleCloseNavMenu={handleCloseNavMenu} />
           <NavbarMobile
-            pages={navbarList}
+            pages={routes()}
             anchorElNav={anchorElNav}
             handleOpenNavMenu={handleOpenNavMenu}
             handleCloseNavMenu={handleCloseNavMenu}
