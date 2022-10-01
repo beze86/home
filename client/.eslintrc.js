@@ -13,6 +13,8 @@ module.exports = {
     'react/react-in-jsx-scope': 'off',
     'react-hooks/rules-of-hooks': 'error',
     'react/prop-types': 'off',
+    // typescript
+    '@typescript-eslint/no-non-null-assertion': 'off',
   },
   settings: {
     react: {
