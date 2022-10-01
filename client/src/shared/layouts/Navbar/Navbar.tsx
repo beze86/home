@@ -2,10 +2,10 @@ import React, { MouseEvent, useState } from 'react';
 
 import { AppBar, Container, Toolbar } from '@mui/material';
 
+import { RoutesList } from 'client/App';
 import { Logo } from 'client/shared/components/Logo';
 import { NavbarDesktop } from 'client/shared/layouts/Navbar/NavbarDesktop';
 import { NavbarMobile } from 'client/shared/layouts/Navbar/NavbarMobile';
-import { RoutesList } from 'client/App';
 
 type Props = {
   routes: () => RoutesList[];
@@ -28,12 +28,7 @@ export const NavBar = ({ routes }: Props) => {
         <Toolbar disableGutters sx={{ justifyContent: 'space-between' }}>
           <Logo />
           <NavbarDesktop pages={routes()} handleCloseNavMenu={handleCloseNavMenu} />
-          <NavbarMobile
-            pages={routes()}
-            anchorElNav={anchorElNav}
-            handleOpenNavMenu={handleOpenNavMenu}
-            handleCloseNavMenu={handleCloseNavMenu}
-          />
+          <NavbarMobile pages={routes()} anchorElNav={anchorElNav} handleOpenNavMenu={handleOpenNavMenu} handleCloseNavMenu={handleCloseNavMenu} />
         </Toolbar>
       </Container>
     </AppBar>

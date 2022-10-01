@@ -1,11 +1,9 @@
-const dayjs = require('dayjs');
-const weekday = require('dayjs/plugin/weekday');
-
-const { shuffle } = require('../utils');
-
 const Area = require('./Area');
 const BaseModel = require('./BaseModel');
 const User = require('./User');
+const { shuffle } = require('../utils');
+const weekday = require('dayjs/plugin/weekday');
+const dayjs = require('dayjs');
 
 class Task extends BaseModel {
   constructor() {

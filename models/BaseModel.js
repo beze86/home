@@ -1,6 +1,5 @@
-const { ObjectId } = require('mongodb');
-
 const { getDb } = require('../db');
+const { ObjectId } = require('mongodb');
 
 class BaseModel {
   collection;

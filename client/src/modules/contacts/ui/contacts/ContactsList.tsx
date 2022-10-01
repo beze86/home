@@ -19,7 +19,6 @@ export const ContactsList = () => {
       setContacts(data);
     };
     dataOnSuccess();
-    console.log(contacts);
   }, []);
 
   const handleDeleteClick = async (id: string) => {
@@ -107,13 +106,7 @@ export const ContactsList = () => {
           <List disablePadding>
             {contacts.map(({ fullName, _id }) => {
               return (
-                <ContactsListItem
-                  key={_id}
-                  fullName={fullName}
-                  id={_id}
-                  handleDeleteClick={handleDeleteClick}
-                  handleEditClick={handleEditClick}
-                />
+                <ContactsListItem key={_id} fullName={fullName} id={_id} handleDeleteClick={handleDeleteClick} handleEditClick={handleEditClick} />
               );
             })}
           </List>

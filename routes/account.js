@@ -1,10 +1,5 @@
+const { getAllAccounts, createAccount, deleteAccount } = require('../controllers/accountController');
 const express = require('express');
-
-const {
-  getAllAccounts,
-  createAccount,
-  deleteAccount,
-} = require('../controllers/accountController');
 
 const router = express.Router();
 

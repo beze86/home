@@ -1,24 +1,12 @@
 import React, { MouseEvent } from 'react';
 import { NavLink as RouterLink } from 'react-router-dom';
 
-import {
-  Box,
-  Button,
-  Divider,
-  Drawer,
-  IconButton,
-  Link,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
+import { Box, Button, Divider, Drawer, IconButton, Link, List, ListItem, ListItemIcon, ListItemText } from '@mui/material';
 
 import { RoutesList } from 'client/App';
-
-import { useUserState } from 'client/shared/hooks/useUserState';
 import { Icon } from 'client/shared/components/Icon';
+import { useUserState } from 'client/shared/hooks/useUserState';
 
 type Props = {
   pages: RoutesList[];
@@ -27,12 +15,7 @@ type Props = {
   handleCloseNavMenu: () => void;
 };
 
-export const NavbarMobile = ({
-  pages,
-  anchorElNav,
-  handleOpenNavMenu,
-  handleCloseNavMenu,
-}: Props) => {
+export const NavbarMobile = ({ pages, anchorElNav, handleOpenNavMenu, handleCloseNavMenu }: Props) => {
   const {
     state: { isLogged },
     removeStatesOnLogout,
@@ -44,13 +27,7 @@ export const NavbarMobile = ({
         display: { xs: 'flex', md: 'none', ml: 'auto' },
       }}
     >
-      <IconButton
-        size="large"
-        aria-controls="menu-appbar"
-        aria-haspopup="true"
-        onClick={handleOpenNavMenu}
-        color="inherit"
-      >
+      <IconButton size="large" aria-controls="menu-appbar" aria-haspopup="true" onClick={handleOpenNavMenu} color="inherit">
         <MenuIcon />
       </IconButton>
       <Drawer anchor="right" open={Boolean(anchorElNav)} onClose={handleCloseNavMenu}>

@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-import { ContactRepository } from 'client/modules/contacts/type/contact';
 import { profileStorageKey } from 'client/modules/auth/type/auth';
+import { ContactRepository } from 'client/modules/contacts/type/contact';
 
 const PATH = '/api/v1/contacts';
 

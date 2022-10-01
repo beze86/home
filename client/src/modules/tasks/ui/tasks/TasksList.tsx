@@ -1,17 +1,8 @@
-import React, { FormEvent, useEffect, useState } from 'react';
 import dayjs from 'dayjs';
+import React, { FormEvent, useEffect, useState } from 'react';
 
-import {
-  Button,
-  Card,
-  CardContent,
-  IconButton,
-  List,
-  ListItem,
-  Stack,
-  Typography,
-} from '@mui/material';
 import { Delete } from '@mui/icons-material';
+import { Button, Card, CardContent, IconButton, List, ListItem, Stack, Typography } from '@mui/material';
 
 import { tasksApi } from 'client/modules/tasks/api/task';
 import { Task } from 'client/modules/tasks/type/task';

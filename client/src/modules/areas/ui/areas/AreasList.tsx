@@ -105,15 +105,7 @@ export const AreasList = () => {
         >
           <List disablePadding>
             {areas.map(({ area, _id }) => {
-              return (
-                <AreasListItem
-                  key={_id}
-                  area={area}
-                  id={_id}
-                  handleDeleteClick={handleDeleteClick}
-                  handleEditClick={handleEditClick}
-                />
-              );
+              return <AreasListItem key={_id} area={area} id={_id} handleDeleteClick={handleDeleteClick} handleEditClick={handleEditClick} />;
             })}
           </List>
         </CardContent>

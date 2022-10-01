@@ -1,8 +1,7 @@
 import axios from 'axios';
 
-import { TaskRepository } from 'client/modules/tasks/type/task';
-
 import { profileStorageKey } from 'client/modules/auth/type/auth';
+import { TaskRepository } from 'client/modules/tasks/type/task';
 
 const PATH = '/api/v1/tasks';
 

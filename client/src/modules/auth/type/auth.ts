@@ -1,7 +1,11 @@
 import { AxiosPromise } from 'axios';
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import type { RootState } from 'client/modules/app/store';
 import decode from 'jwt-decode';
+
+// TODO find issue related to eslint with redux
+// eslint-disable-next-line import/named
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+
+import type { RootState } from 'client/modules/app/store';
 
 export type User = {
   data: {

@@ -1,6 +1,6 @@
 module.exports = {
   parser: '@babel/eslint-parser',
-  extends: ['eslint:recommended', 'plugin:prettier/recommended'],
+  extends: ['plugin:prettier/recommended', 'prettier'],
   parserOptions: {
     ecmaVersion: 2018,
     requireConfigFile: false,
@@ -11,13 +11,18 @@ module.exports = {
   rules: {
     'no-duplicate-imports': 'error',
     'no-unused-vars': 'error',
-    'sort-imports': [
+    //prettier
+    'prettier/prettier': [
       'error',
       {
-        ignoreCase: false,
-        ignoreDeclarationSort: true,
-        ignoreMemberSort: false,
-        allowSeparatedGroups: false,
+        tabWidth: 2,
+        useTabs: false,
+        endOfLine: 'lf',
+        semi: true,
+        singleQuote: true,
+        printWidth: 150,
+        trailingComma: 'all',
+        bracketSpacing: true,
       },
     ],
   },

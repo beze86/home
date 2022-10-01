@@ -1,12 +1,5 @@
+const { getAllAreas, createArea, getArea, updateArea, deleteArea } = require('../controllers/areaController');
 const express = require('express');
-
-const {
-  getAllAreas,
-  createArea,
-  getArea,
-  updateArea,
-  deleteArea,
-} = require('../controllers/areaController');
 
 const router = express.Router();
 

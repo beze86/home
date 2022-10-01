@@ -1,8 +1,6 @@
 const { dbConnect } = require('./db');
 
 const express = require('express');
-const cors = require('cors');
-const path = require('path');
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -13,6 +11,8 @@ const areaRoutes = require('./routes/area');
 const contactRoutes = require('./routes/contact');
 const taskRoutes = require('./routes/task');
 const userRoutes = require('./routes/user');
+const cors = require('cors');
+const path = require('path');
 
 const app = express();
 
