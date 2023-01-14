@@ -30,6 +30,7 @@ exports.registerUser = async (req, res) => {
       fullName,
       password: passwordHash,
       contacts: [],
+      areas: [],
     };
 
     const { insertedId } = await new User().registerUser(userPayload);

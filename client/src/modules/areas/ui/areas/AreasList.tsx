@@ -9,13 +9,13 @@ import { AreasListItem } from 'client/modules/areas/ui/areas/AreasListItem';
 
 export const AreasList = () => {
   const navigate = useNavigate();
-  const { createArea, deleteArea, getAllAreas } = areasApi();
+  const { createArea, deleteArea, getAllAreasByUser } = areasApi();
   const [areas, setAreas] = useState<Area[]>([]);
   const [areaName, setAreaName] = useState('');
 
   useEffect(() => {
     const dataOnSuccess = async () => {
-      const { data } = await getAllAreas();
+      const { data } = await getAllAreasByUser();
       setAreas(data);
     };
     dataOnSuccess();

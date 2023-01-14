@@ -29,6 +29,14 @@ class User extends BaseModel {
   removeContactFromUser({ userId, contactId }) {
     return this.collection.updateOne({ _id: new ObjectId(userId) }, { $pull: { contacts: { $in: [new ObjectId(contactId)] } } });
   }
+
+  async addAreaToUser({ userId, insertedId }) {
+    return this.collection.updateOne({ _id: new ObjectId(userId) }, { $push: { areas: insertedId } });
+  }
+
+  removeAreaFromUser({ userId, areaId }) {
+    return this.collection.updateOne({ _id: new ObjectId(userId) }, { $pull: { areas: { $in: [new ObjectId(areaId)] } } });
+  }
 }
 
 module.exports = User;

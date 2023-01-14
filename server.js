@@ -6,7 +6,6 @@ dotenv.config();
 
 const { protectedRoute } = require('./middlewares/authMiddleware');
 
-const accountRoutes = require('./routes/account');
 const areaRoutes = require('./routes/area');
 const contactRoutes = require('./routes/contact');
 const taskRoutes = require('./routes/task');
@@ -21,7 +20,6 @@ app.use(express.json());
 
 app.use('/api/v1/users', userRoutes);
 app.use('/api/v1/areas', protectedRoute, areaRoutes);
-app.use('/api/v1/accounts', protectedRoute, accountRoutes);
 app.use('/api/v1/contacts', protectedRoute, contactRoutes);
 app.use('/api/v1/tasks', protectedRoute, taskRoutes);
 

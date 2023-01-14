@@ -1,20 +1,25 @@
 const BaseModel = require('./BaseModel');
+const { ObjectId } = require('mongodb');
+const User = require('./User');
 
 class Area extends BaseModel {
   constructor() {
     super('areas');
   }
 
-  getAllAreas() {
-    return this.find();
+  getAllAreasByUser({ userId }) {
+    return this.findByUserId({ userId: new ObjectId(userId) });
   }
 
-  deleteArea(id) {
-    return this.deleteOne(id);
+  async deleteArea({ userId, id }) {
+    await this.deleteOne(id);
+    return new User().removeAreaFromUser({ userId, areaId: id });
   }
 
-  createArea(area) {
-    return this.insertOne(area);
+  async createArea({ userId, area }) {
+    const { insertedId } = await this.insertOne({ userId: new ObjectId(userId), area });
+    await new User().addAreaToUser({ userId, insertedId });
+    return insertedId;
   }
 }
 

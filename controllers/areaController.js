@@ -1,22 +1,25 @@
 const Area = require('../models/Area');
 
-exports.getAllAreas = async (req, res) => {
+exports.getAllAreasByUser = async (req, res) => {
+  const userId = req.userId;
   try {
-    const areas = await new Area().getAllAreas();
-    res.status(200).json(areas);
+    const areas = await new Area().getAllAreasByUser({ userId });
+    res.status(201).json(areas);
   } catch (error) {
-    console.log(`Areas not found: ${error}`);
+    console.log(`Contacts for user not found: ${error}`);
     res.status(500);
   }
 };
 
 exports.createArea = async (req, res) => {
   const { areaName } = req.body;
-  const payLoad = {
+  const userId = req.userId;
+  const payload = {
+    userId,
     area: areaName,
   };
   try {
-    const { insertedId } = await new Area().createArea(payLoad);
+    const insertedId = await new Area().createArea(payload);
     res.status(201).json({ insertedId });
   } catch (error) {
     console.log(`Area not created: ${error}`);
@@ -33,10 +36,15 @@ exports.updateArea = (req, res) => {
 };
 
 exports.deleteArea = async (req, res) => {
+  const { id } = req.params;
+  const userId = req.userId;
+  const payload = {
+    userId,
+    id,
+  };
   try {
-    const { id } = req.params;
-    await new Area().deleteArea(id);
-    res.status(200).json({ msg: `Area deleted id: ${id}` });
+    await new Area().deleteArea(payload);
+    res.status(200).json({ msg: `Area deleted id: ${payload.id}` });
   } catch (error) {
     console.log(`Area not deleted: ${error}`);
     res.status(500);

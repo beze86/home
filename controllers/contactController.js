@@ -1,15 +1,5 @@
 const Contact = require('../models/Contact');
 
-// exports.getAllContacts = async (req, res) => {
-//   try {
-//     const contacts = await new Contact().getAllContacts();
-//     res.status(200).json(contacts);
-//   } catch (error) {
-//     console.log(`Contacts not found: ${error}`);
-//     res.status(500);
-//   }
-// };
-
 exports.getAllContactsByUser = async (req, res) => {
   const userId = req.userId;
   try {

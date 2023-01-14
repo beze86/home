@@ -19,7 +19,7 @@ API.interceptors.request.use((req) => {
 
 export function areasApi(): AreaRepository {
   return {
-    getAllAreas() {
+    getAllAreasByUser() {
       return API.get('/');
     },
     deleteArea(id) {
