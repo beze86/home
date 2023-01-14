@@ -6,7 +6,7 @@ export type Contact = {
 };
 
 export type ContactRepository = {
-  getAllContacts: () => AxiosPromise<Contact[]>;
+  getAllContactsByUser: () => AxiosPromise<Contact[]>;
   deleteContact: (id: Contact['_id']) => AxiosPromise<void>;
-  createContact: (contactName: Contact['fullName']) => AxiosPromise<{ insertedId: string }>;
+  createContact: (data: Contact['fullName']) => AxiosPromise<{ insertedId: string }>;
 };

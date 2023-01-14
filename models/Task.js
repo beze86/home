@@ -1,6 +1,6 @@
 const Area = require('./Area');
 const BaseModel = require('./BaseModel');
-const User = require('./User');
+const Contact = require('./Contact');
 const { shuffle } = require('../utils');
 const weekday = require('dayjs/plugin/weekday');
 const dayjs = require('dayjs');
@@ -29,23 +29,20 @@ class Task extends BaseModel {
     const nextMonday = dayjs().weekday(1 + 7);
     const nextSunday = dayjs().weekday(0 + 14);
     const areas = await new Area().getAllAreas();
-    const users = await new User().getAllUsers();
-    console.log(users);
+    const contacts = await new Contact().getAllContacts();
 
     shuffle(areas);
-    const usersWithAreas = users.map(({ user }, i) => {
+    const usersWithAreas = contacts.map(({ fullName }, i) => {
       return {
-        name: `${user}`,
+        name: `${fullName}`,
         area: `${areas[i].area}`,
       };
     });
-    const weeklyTasks = {
+    return {
       start: Number(nextMonday),
       end: Number(nextSunday),
       users: [...usersWithAreas],
     };
-
-    return weeklyTasks;
   }
 }
 

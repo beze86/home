@@ -19,7 +19,7 @@ API.interceptors.request.use((req) => {
 
 export function contactsApi(): ContactRepository {
   return {
-    getAllContacts() {
+    getAllContactsByUser() {
       return API.get('/');
     },
     deleteContact(id) {

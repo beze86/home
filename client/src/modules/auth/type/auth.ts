@@ -29,6 +29,7 @@ type Token = {
 };
 
 export const profileStorageKey = 'userProfile';
+
 const profileLocalStorage = localStorage.getItem(profileStorageKey);
 
 const isUserLoggedIn = () => {
@@ -40,9 +41,7 @@ const isUserLoggedIn = () => {
 
   const decodedToken = decode<Token>(token);
 
-  if (decodedToken.exp * 1000 < new Date().getTime()) return false;
-
-  return true;
+  return decodedToken.exp * 1000 >= new Date().getTime();
 };
 
 const initialState: UserState = {

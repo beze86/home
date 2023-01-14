@@ -29,7 +29,7 @@ exports.registerUser = async (req, res) => {
       email,
       fullName,
       password: passwordHash,
-      accounts: [],
+      contacts: [],
     };
 
     const { insertedId } = await new User().registerUser(userPayload);
@@ -98,6 +98,6 @@ exports.deleteUser = async (req, res) => {
 
 const generateWebToken = (id, userName) => {
   return jwt.sign({ id, userName }, process.env.JWT_SECRET_KEY, {
-    expiresIn: '10m',
+    expiresIn: process.env.JTW_EXPIRATION_TIME,
   });
 };

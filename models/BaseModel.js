@@ -12,6 +12,10 @@ class BaseModel {
     return this.collection.find().toArray();
   }
 
+  findByUserId(query) {
+    return this.collection.find(query).toArray();
+  }
+
   findOne(query) {
     return this.collection.findOne(query);
   }
@@ -19,6 +23,7 @@ class BaseModel {
   deleteOne(id) {
     return this.collection.deleteOne({ _id: new ObjectId(id) });
   }
+
   insertOne(query) {
     return this.collection.insertOne(query);
   }

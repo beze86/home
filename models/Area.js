@@ -12,6 +12,7 @@ class Area extends BaseModel {
   deleteArea(id) {
     return this.deleteOne(id);
   }
+
   createArea(area) {
     return this.insertOne(area);
   }

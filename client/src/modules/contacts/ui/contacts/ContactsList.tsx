@@ -9,13 +9,13 @@ import { ContactsListItem } from 'client/modules/contacts/ui/contacts/ContactsLi
 
 export const ContactsList = () => {
   const navigate = useNavigate();
-  const { createContact, deleteContact, getAllContacts } = contactsApi();
+  const { createContact, deleteContact, getAllContactsByUser } = contactsApi();
   const [contacts, setContacts] = useState<Contact[]>([]);
   const [contactName, setContactName] = useState('');
 
   useEffect(() => {
     const dataOnSuccess = async () => {
-      const { data } = await getAllContacts();
+      const { data } = await getAllContactsByUser();
       setContacts(data);
     };
     dataOnSuccess();

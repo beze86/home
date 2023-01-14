@@ -1,19 +1,25 @@
 const BaseModel = require('./BaseModel');
+const User = require('./User');
+const { ObjectId } = require('mongodb');
 
 class Contact extends BaseModel {
   constructor() {
     super('contacts');
   }
 
-  getAllContacts() {
-    return this.find();
+  getAllContactsByUser({ userId }) {
+    return this.findByUserId({ userId: new ObjectId(userId) });
   }
 
-  deleteContact(id) {
-    return this.deleteOne(id);
+  async deleteContact({ userId, id }) {
+    await this.deleteOne(id);
+    return new User().removeContactFromUser({ userId, contactId: id });
   }
-  createContact(name) {
-    return this.insertOne(name);
+
+  async createContact({ userId, fullName }) {
+    const { insertedId } = await this.insertOne({ userId: new ObjectId(userId), fullName });
+    await new User().addContactToUser({ userId, insertedId });
+    return insertedId;
   }
 }
 
