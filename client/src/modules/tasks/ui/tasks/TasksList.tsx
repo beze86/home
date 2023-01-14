@@ -8,12 +8,12 @@ import { tasksApi } from 'client/modules/tasks/api/task';
 import { Task } from 'client/modules/tasks/type/task';
 
 export const TasksList = () => {
-  const { getAllTasks, createWeeklyTask, deleteWeeklyTask } = tasksApi();
+  const { getAllTasksByUser, createWeeklyTask, deleteWeeklyTask } = tasksApi();
   const [tasks, setTasks] = useState<Task[]>([]);
 
   useEffect(() => {
     const dataOnSuccess = async () => {
-      const { data } = await getAllTasks();
+      const { data } = await getAllTasksByUser();
       data.sort((first, second) => {
         return Number(second.start) - Number(first.start);
       });

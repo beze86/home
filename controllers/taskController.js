@@ -1,8 +1,9 @@
 const Task = require('../models/Task');
 
-exports.getAllTasks = async (req, res) => {
+exports.getAllTasksByUser = async (req, res) => {
+  const userId = req.userId;
   try {
-    const tasks = await new Task().getAllTasks();
+    const tasks = await new Task().getAllTasksByUser({ userId });
     res.status(200).json(tasks);
   } catch (error) {
     console.log(`Tasks not found: ${error}`);
@@ -11,8 +12,9 @@ exports.getAllTasks = async (req, res) => {
 };
 
 exports.createWeeklyTask = async (req, res) => {
+  const userId = req.userId;
   try {
-    const { insertedId } = await new Task().createWeeklyTask();
+    const { insertedId } = await new Task().createWeeklyTask({ userId });
     res.status(201).json({ insertedId });
   } catch (error) {
     console.log(`Weekly task not created: ${error}`);
@@ -21,10 +23,15 @@ exports.createWeeklyTask = async (req, res) => {
 };
 
 exports.deleteWeeklyTask = async (req, res) => {
+  const { id } = req.params;
+  const userId = req.userId;
+  const payload = {
+    userId,
+    id,
+  };
   try {
-    const { id } = req.params;
-    new Task().deleteWeeklyTask(id);
-    res.status(200).json({ msg: `Weekly task deleted id: ${id}` });
+    await new Task().deleteWeeklyTask(payload);
+    res.status(200).json({ msg: `Weekly task deleted id: ${payload.id}` });
   } catch (error) {
     console.log(`Weekly task not deleted: ${error}`);
     res.status(500);

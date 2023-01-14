@@ -11,7 +11,7 @@ export type Task = {
 };
 
 export type TaskRepository = {
-  getAllTasks: () => AxiosPromise<Task[]>;
+  getAllTasksByUser: () => AxiosPromise<Task[]>;
   createWeeklyTask: () => AxiosPromise<{ insertedId: string }>;
   deleteWeeklyTask: (id: Task['_id']) => AxiosPromise<void>;
 };

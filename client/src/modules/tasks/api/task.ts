@@ -19,7 +19,7 @@ API.interceptors.request.use((req) => {
 
 export function tasksApi(): TaskRepository {
   return {
-    getAllTasks() {
+    getAllTasksByUser() {
       return API.get('/');
     },
     createWeeklyTask() {

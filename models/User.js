@@ -37,6 +37,14 @@ class User extends BaseModel {
   removeAreaFromUser({ userId, areaId }) {
     return this.collection.updateOne({ _id: new ObjectId(userId) }, { $pull: { areas: { $in: [new ObjectId(areaId)] } } });
   }
+
+  async addWeeklyTasksToUser({ userId, insertedId }) {
+    return this.collection.updateOne({ _id: new ObjectId(userId) }, { $push: { tasks: insertedId } });
+  }
+
+  removeWeeklyTasksFromUser({ userId, tasksId }) {
+    return this.collection.updateOne({ _id: new ObjectId(userId) }, { $pull: { tasks: { $in: [new ObjectId(tasksId)] } } });
+  }
 }
 
 module.exports = User;
