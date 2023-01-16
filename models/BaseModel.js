@@ -8,11 +8,7 @@ class BaseModel {
     this.collection = getDb().collection(collectionName);
   }
 
-  find() {
-    return this.collection.find().toArray();
-  }
-
-  findByUserId(query) {
+  find(query) {
     return this.collection.find(query).toArray();
   }
 

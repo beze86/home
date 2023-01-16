@@ -8,7 +8,7 @@ class Contact extends BaseModel {
   }
 
   getAllContactsByUser({ userId }) {
-    return this.findByUserId({ userId: new ObjectId(userId) });
+    return this.find({ userId: new ObjectId(userId) });
   }
 
   async deleteContact({ userId, id }) {
@@ -18,7 +18,7 @@ class Contact extends BaseModel {
 
   async createContact({ userId, fullName }) {
     const { insertedId } = await this.insertOne({ userId: new ObjectId(userId), fullName });
-    await new User().addContactToUser({ userId, insertedId });
+    await new User().addContactToUser({ userId, contactId: insertedId });
     return insertedId;
   }
 }
