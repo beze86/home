@@ -8,7 +8,7 @@ class Area extends BaseModel {
   }
 
   getAllAreasByUser({ userId }) {
-    return this.findByUserId({ userId: new ObjectId(userId) });
+    return this.find({ userId: new ObjectId(userId) });
   }
 
   async deleteArea({ userId, id }) {
@@ -18,7 +18,7 @@ class Area extends BaseModel {
 
   async createArea({ userId, area }) {
     const { insertedId } = await this.insertOne({ userId: new ObjectId(userId), area });
-    await new User().addAreaToUser({ userId, insertedId });
+    await new User().addAreaToUser({ userId, areaId: insertedId });
     return insertedId;
   }
 }

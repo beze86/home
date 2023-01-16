@@ -6,10 +6,6 @@ class User extends BaseModel {
     super('users');
   }
 
-  getAllUsers() {
-    return this.find();
-  }
-
   findUserByEmail(email) {
     return this.findOne({ email });
   }
@@ -22,24 +18,24 @@ class User extends BaseModel {
     return this.insertOne(newUserData);
   }
 
-  async addContactToUser({ userId, insertedId }) {
-    return this.collection.updateOne({ _id: new ObjectId(userId) }, { $push: { contacts: insertedId } });
+  async addContactToUser({ userId, contactId }) {
+    return this.collection.updateOne({ _id: new ObjectId(userId) }, { $push: { contacts: contactId } });
   }
 
   removeContactFromUser({ userId, contactId }) {
     return this.collection.updateOne({ _id: new ObjectId(userId) }, { $pull: { contacts: { $in: [new ObjectId(contactId)] } } });
   }
 
-  async addAreaToUser({ userId, insertedId }) {
-    return this.collection.updateOne({ _id: new ObjectId(userId) }, { $push: { areas: insertedId } });
+  async addAreaToUser({ userId, areaId }) {
+    return this.collection.updateOne({ _id: new ObjectId(userId) }, { $push: { areas: areaId } });
   }
 
   removeAreaFromUser({ userId, areaId }) {
     return this.collection.updateOne({ _id: new ObjectId(userId) }, { $pull: { areas: { $in: [new ObjectId(areaId)] } } });
   }
 
-  async addWeeklyTasksToUser({ userId, insertedId }) {
-    return this.collection.updateOne({ _id: new ObjectId(userId) }, { $push: { tasks: insertedId } });
+  async addWeeklyTasksToUser({ userId, tasksId }) {
+    return this.collection.updateOne({ _id: new ObjectId(userId) }, { $push: { tasks: tasksId } });
   }
 
   removeWeeklyTasksFromUser({ userId, tasksId }) {

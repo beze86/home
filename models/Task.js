@@ -13,7 +13,7 @@ class Task extends BaseModel {
   }
 
   getAllTasksByUser({ userId }) {
-    return this.findByUserId({ userId: new ObjectId(userId) });
+    return this.find({ userId: new ObjectId(userId) });
   }
 
   async deleteWeeklyTask({ userId, id }) {
@@ -24,24 +24,35 @@ class Task extends BaseModel {
   async createWeeklyTask({ userId }) {
     const weeklyTasks = await this.setWeeklyTasks(userId);
     const { insertedId } = await this.insertOne({ userId: new ObjectId(userId), ...weeklyTasks });
-    await new User().addWeeklyTasksToUser({ userId, insertedId });
+    await new User().addWeeklyTasksToUser({ userId, tasksId: insertedId });
     return insertedId;
   }
 
-  async setWeeklyTasks(userId) {
-    dayjs.extend(weekday);
-    const nextMonday = dayjs().weekday(1 + 7);
-    const nextSunday = dayjs().weekday(0 + 14);
-    const areas = await new Area().getAllAreasByUser({ userId });
-    const contacts = await new Contact().getAllContactsByUser({ userId });
+  getNextMonday() {
+    return dayjs().weekday(1 + 7);
+  }
+  getNextSunday() {
+    return dayjs().weekday(0 + 14);
+  }
 
+  mapAreasToContacts(areas, contacts) {
     shuffle(areas);
-    const usersWithAreas = contacts.map(({ fullName }, i) => {
+    return contacts.map(({ fullName }, i) => {
       return {
         name: `${fullName}`,
         area: `${areas[i].area}`,
       };
     });
+  }
+
+  async setWeeklyTasks(userId) {
+    dayjs.extend(weekday);
+    const nextMonday = this.getNextMonday();
+    const nextSunday = this.getNextSunday();
+    const areas = await new Area().getAllAreasByUser({ userId });
+    const contacts = await new Contact().getAllContactsByUser({ userId });
+
+    const usersWithAreas = this.mapAreasToContacts(areas, contacts);
     return {
       start: Number(nextMonday),
       end: Number(nextSunday),

@@ -1,18 +1,15 @@
-const { getDb } = require('../db');
+const Database = require('../db');
 const { ObjectId } = require('mongodb');
 
 class BaseModel {
   collection;
 
   constructor(collectionName) {
+    const { getDb } = new Database();
     this.collection = getDb().collection(collectionName);
   }
 
-  find() {
-    return this.collection.find().toArray();
-  }
-
-  findByUserId(query) {
+  find(query) {
     return this.collection.find(query).toArray();
   }
 
