@@ -1,39 +1,40 @@
 const Task = require('../models/Task');
 
 exports.getAllTasksByUser = async (req, res) => {
-  const userId = req.userId;
+  if (!req.userId) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
   try {
-    const tasks = await new Task().getAllTasksByUser({ userId });
-    res.status(200).json(tasks);
+    const tasks = await new Task().getAllTasksByUser({ userId: req.userId });
+    return res.status(200).json(tasks);
   } catch (error) {
-    console.log(`Tasks not found: ${error}`);
-    res.status(500);
+    console.log(`Error retrieving tasks: ${error}`);
+    return res.status(500).json({ error: 'Failed to retrieve tasks' });
   }
 };
 
 exports.createWeeklyTask = async (req, res) => {
-  const userId = req.userId;
+  if (!req.userId) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
   try {
-    const insertedId = await new Task().createWeeklyTask({ userId });
-    res.status(201).json({ insertedId });
+    const insertedId = await new Task().createWeeklyTask({ userId: req.userId });
+    return res.status(201).json({ insertedId });
   } catch (error) {
-    console.log(`Weekly task not created: ${error}`);
-    res.status(500);
+    console.log(`Error creating weekly task: ${error}`);
+    return res.status(500).json({ error: 'Failed to create weekly task' });
   }
 };
 
 exports.deleteWeeklyTask = async (req, res) => {
-  const { id } = req.params;
-  const userId = req.userId;
-  const payload = {
-    userId,
-    id,
-  };
+  if (!req.userId) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
   try {
-    await new Task().deleteWeeklyTask(payload);
-    res.status(200).json({ msg: `Weekly task deleted id: ${payload.id}` });
+    await new Task().deleteWeeklyTask({ userId: req.userId, id: req.params.id });
+    return res.status(200).json({ msg: `Weekly task deleted id: ${req.params.id}` });
   } catch (error) {
-    console.log(`Weekly task not deleted: ${error}`);
-    res.status(500);
+    console.log(`Error deleting weekly task: ${error}`);
+    return res.status(500).json({ error: 'Failed to delete weekly task' });
   }
 };
