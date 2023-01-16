@@ -14,7 +14,7 @@ exports.getAllTasksByUser = async (req, res) => {
 exports.createWeeklyTask = async (req, res) => {
   const userId = req.userId;
   try {
-    const { insertedId } = await new Task().createWeeklyTask({ userId });
+    const insertedId = await new Task().createWeeklyTask({ userId });
     res.status(201).json({ insertedId });
   } catch (error) {
     console.log(`Weekly task not created: ${error}`);
