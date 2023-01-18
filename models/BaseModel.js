@@ -1,11 +1,10 @@
-const Database = require('../db');
+const { getDb } = require('../db');
 const { ObjectId } = require('mongodb');
 
 class BaseModel {
   collection;
 
   constructor(collectionName) {
-    const { getDb } = new Database();
     this.collection = getDb().collection(collectionName);
   }
 
