@@ -1,8 +1,8 @@
 module.exports = {
-  parser: '@babel/eslint-parser',
+  parser: '@typescript-eslint/parser',
   extends: ['plugin:prettier/recommended', 'prettier'],
   parserOptions: {
-    ecmaVersion: 2018,
+    ecmaVersion: 'latest',
     requireConfigFile: false,
   },
   env: {

@@ -1,8 +1,9 @@
-const { dbConnect } = require('./db');
+import { dbConnect } from './db';
 
-const express = require('express');
-const dotenv = require('dotenv');
-dotenv.config();
+import express from 'express';
+import { config } from 'dotenv';
+
+config();
 
 const { protectedRoute } = require('./middlewares/authMiddleware');
 
@@ -33,7 +34,7 @@ if (process.env.NODE_ENV === 'production') {
 
 dbConnect(() => {
   let port = process.env.PORT;
-  if (port == null || port == '') {
+  if (!port) {
     port = 8000;
   }
   app.listen(port);

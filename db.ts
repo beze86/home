@@ -1,18 +1,16 @@
-const { MongoClient } = require('mongodb');
-const dotenv = require('dotenv');
-dotenv.config();
+import { MongoClient } from 'mongodb';
+import { config } from 'dotenv';
 
-const URI = process.env.CONNECTION_STRING_LOCAL || process.env.CONNECTION_STRING_LOCAL;
+config();
+
+const URI = process.env.CONNECTION_STRING_LOCAL || process.env.CONNECTION_STRING_PRODUCTION;
 
 // Create a new MongoClient
-const client = new MongoClient(URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+const client: MongoClient = new MongoClient(URI);
 
-let dbConnection;
+let dbConnection: MongoClient;
 
-const dbConnect = async (callback) => {
+const dbConnect = async (callback: () => void) => {
   try {
     // Connect the client to the server
     dbConnection = await client.connect();
@@ -32,7 +30,4 @@ const getDb = () => {
   throw 'No database found';
 };
 
-module.exports = {
-  dbConnect,
-  getDb,
-};
+export { dbConnect, getDb };
