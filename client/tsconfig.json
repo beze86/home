@@ -12,6 +12,7 @@
       "client/*": ["./src/*"],
     },
     "jsx": "react",
+    "noEmit": true
   },
   "exclude": [
     "node_modules"

@@ -1,6 +1,8 @@
-const Contact = require('../models/Contact');
+import Contact from '../models/Contact';
+import { Request, Response } from 'express';
+import { ObjectId } from 'mongodb';
 
-exports.getAllContactsByUser = async (req, res) => {
+const getAllContactsByUser = async (req: Request, res: Response) => {
   if (!req.userId) {
     return res.status(400).json({ error: 'Invalid request' });
   }
@@ -15,7 +17,7 @@ exports.getAllContactsByUser = async (req, res) => {
   }
 };
 
-exports.createContact = async (req, res) => {
+const createContact = async (req: Request, res: Response) => {
   if (!req.body) {
     return res.status(400).json({ error: 'Invalid request' });
   }
@@ -43,7 +45,7 @@ exports.createContact = async (req, res) => {
   }
 };
 
-exports.deleteContact = async (req, res) => {
+const deleteContact = async (req: Request<{ id: ObjectId }>, res: Response) => {
   if (!req.params.id) {
     return res.status(400).json({ error: 'Invalid request' });
   }
@@ -64,3 +66,5 @@ exports.deleteContact = async (req, res) => {
     return res.status(500).json({ error: 'Failed to delete contact' });
   }
 };
+
+export { deleteContact, getAllContactsByUser, createContact };

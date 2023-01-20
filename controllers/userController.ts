@@ -1,12 +1,14 @@
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
+import bcrypt from 'bcryptjs';
+import { config } from 'dotenv';
+import { Request, Response } from 'express';
+import jwt from 'jsonwebtoken';
+import { ObjectId } from 'mongodb';
 
-const dotenv = require('dotenv');
-dotenv.config();
+import User, { RegisterUserType } from '../models/User';
 
-const User = require('../models/User');
+config();
 
-exports.registerUser = async (req, res) => {
+const registerUser = async (req: Request, res: Response) => {
   if (!req.body) {
     return res.status(400).json({ error: 'Invalid request' });
   }
@@ -25,19 +27,20 @@ exports.registerUser = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const passwordHash = await bcrypt.hash(password, salt);
 
-    const userPayload = {
+    const payload: RegisterUserType = {
       email,
       fullName,
       password: passwordHash,
       contacts: [],
       areas: [],
+      tasks: [],
     };
 
-    const { insertedId } = await new User().registerUser(userPayload);
+    const { insertedId } = await new User().registerUser(payload);
     return res.status(201).json({
-      ...userPayload,
+      ...payload,
       id: insertedId,
-      token: generateWebToken(insertedId, userPayload.fullName),
+      token: generateWebToken(insertedId, payload.fullName),
       msg: 'User Created',
     });
   } catch (error) {
@@ -46,7 +49,7 @@ exports.registerUser = async (req, res) => {
   }
 };
 
-exports.loginUser = async (req, res) => {
+const loginUser = async (req: Request, res: Response) => {
   if (!req.body) {
     return res.status(400).json({ error: 'Invalid request' });
   }
@@ -86,19 +89,13 @@ exports.loginUser = async (req, res) => {
   }
 };
 
-exports.deleteUser = async (req, res) => {
+const deleteUser = async (req: Request<{ id: ObjectId }>, res: Response) => {
   if (!req.params) {
     return res.status(400).json({ error: 'Invalid request' });
   }
 
   try {
     const { id } = req.params;
-    // todo to be implemented
-    // const user = await new User().getUser(id);
-    // if (!user) {
-    //   res.status(404).json({ error: { code: 'user_not_found', message: 'User not found' } });
-    //   return;
-    // }
     await new User().deleteUser(id);
     res.status(200).json({ msg: `User deleted id: ${id}` });
   } catch (error) {
@@ -107,8 +104,10 @@ exports.deleteUser = async (req, res) => {
   }
 };
 
-const generateWebToken = (id, userName) => {
+const generateWebToken = (id: ObjectId, userName: string) => {
   return jwt.sign({ id, userName }, process.env.JWT_SECRET_KEY, {
     expiresIn: process.env.JTW_EXPIRATION_TIME,
   });
 };
+
+export { deleteUser, registerUser, loginUser };

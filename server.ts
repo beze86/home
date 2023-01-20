@@ -1,17 +1,19 @@
-const { dbConnect } = require('./db');
+import path from 'path';
 
-const express = require('express');
-const dotenv = require('dotenv');
-dotenv.config();
+import cors from 'cors';
+import { config } from 'dotenv';
+import express from 'express';
 
-const { protectedRoute } = require('./middlewares/authMiddleware');
+// eslint-disable-next-line import/order
+import database from './Database';
 
-const areaRoutes = require('./routes/area');
-const contactRoutes = require('./routes/contact');
-const taskRoutes = require('./routes/task');
-const userRoutes = require('./routes/user');
-const cors = require('cors');
-const path = require('path');
+config();
+
+import { protectedRoute } from './middlewares/authMiddleware';
+import areaRoutes from './routes/area';
+import contactRoutes from './routes/contact';
+import taskRoutes from './routes/task';
+import userRoutes from './routes/user';
 
 const app = express();
 
@@ -31,10 +33,11 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-dbConnect(() => {
+(async () => {
+  await database.dbConnect();
   let port = process.env.PORT;
-  if (port == null || port == '') {
+  if (!port) {
     port = 8000;
   }
   app.listen(port);
-});
+})();

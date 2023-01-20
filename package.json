@@ -2,13 +2,14 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "server.j",
   "scripts": {
     "format": "prettier -l --write \"**/*.{ts,tsx,js,jsx,less,css,scss}\"",
     "lint": "eslint '**/*.{js,ts,tsx}'",
     "typecheck": "cd ./client && tsc --noEmit",
-    "dev": "nodemon server",
-    "start": "node server",
+    "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/server.js\"",
+    "start": "node dist/server.js",
+    "build": "tsc -p .",
     "heroku-postbuild": "cd client && yarn && yarn run build"
   },
   "keywords": [],
@@ -26,14 +27,23 @@
   "devDependencies": {
     "@babel/core": "^7.20.12",
     "@babel/eslint-parser": "^7.19.1",
+    "@types/bcryptjs": "^2.4.2",
+    "@types/cors": "^2.8.13",
+    "@types/express": "^4.17.15",
+    "@types/jsonwebtoken": "^9.0.1",
+    "@types/node": "^18.11.18",
     "@types/react": "^18.0.26",
+    "@typescript-eslint/eslint-plugin": "^5.48.2",
+    "@typescript-eslint/parser": "^5.48.2",
+    "concurrently": "^7.6.0",
     "eslint": "8.32.0",
     "eslint-config-prettier": "^8.6.0",
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-prettier": "^4.2.1",
     "lint-staged": "^13.1.0",
     "nodemon": "^2.0.20",
-    "prettier": "2.8.3"
+    "prettier": "2.8.3",
+    "typescript": "^4.9.4"
   },
   "engines": {
     "node": "16.x.x",

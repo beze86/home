@@ -1,6 +1,9 @@
-const Area = require('../models/Area');
+import { Request, Response } from 'express';
+import { ObjectId } from 'mongodb';
 
-exports.getAllAreasByUser = async (req, res) => {
+import Area from '../models/Area';
+
+const getAllAreasByUser = async (req: Request, res: Response) => {
   if (!req.userId) {
     return res.status(400).json({ error: 'Invalid request' });
   }
@@ -18,7 +21,7 @@ exports.getAllAreasByUser = async (req, res) => {
   }
 };
 
-exports.createArea = async (req, res) => {
+const createArea = async (req: Request, res: Response) => {
   if (!req.userId) {
     return res.status(400).json({ error: 'Invalid request' });
   }
@@ -43,15 +46,7 @@ exports.createArea = async (req, res) => {
   }
 };
 
-exports.getArea = (req, res) => {
-  res.send('get area');
-};
-
-exports.updateArea = (req, res) => {
-  res.send('update area');
-};
-
-exports.deleteArea = async (req, res) => {
+const deleteArea = async (req: Request<{ id: ObjectId }>, res: Response) => {
   if (!req.params || !req.params.id) {
     return res.status(400).json({ error: 'Invalid request' });
   }
@@ -69,6 +64,8 @@ exports.deleteArea = async (req, res) => {
     res.status(200).json({ msg: `Area deleted id: ${payload.id}` });
   } catch (error) {
     console.log(`Area not deleted: ${error}`);
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: 'Failed to delete Area' });
   }
 };
+
+export { deleteArea, createArea, getAllAreasByUser };
