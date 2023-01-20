@@ -1,6 +1,9 @@
-const Task = require('../models/Task');
+import { Request, Response } from 'express';
+import { ObjectId } from 'mongodb';
 
-exports.getAllTasksByUser = async (req, res) => {
+import Task from '../models/Task';
+
+const getAllTasksByUser = async (req: Request, res: Response) => {
   if (!req.userId) {
     return res.status(401).json({ error: 'Unauthorized' });
   }
@@ -13,7 +16,7 @@ exports.getAllTasksByUser = async (req, res) => {
   }
 };
 
-exports.createWeeklyTask = async (req, res) => {
+const createWeeklyTask = async (req: Request, res: Response) => {
   if (!req.userId) {
     return res.status(401).json({ error: 'Unauthorized' });
   }
@@ -26,7 +29,7 @@ exports.createWeeklyTask = async (req, res) => {
   }
 };
 
-exports.deleteWeeklyTask = async (req, res) => {
+const deleteWeeklyTask = async (req: Request<{ id: ObjectId }>, res: Response) => {
   if (!req.userId) {
     return res.status(401).json({ error: 'Unauthorized' });
   }
@@ -38,3 +41,5 @@ exports.deleteWeeklyTask = async (req, res) => {
     return res.status(500).json({ error: 'Failed to delete weekly task' });
   }
 };
+
+export { getAllTasksByUser, createWeeklyTask, deleteWeeklyTask };

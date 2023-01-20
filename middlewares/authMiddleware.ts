@@ -1,12 +1,16 @@
-const jwt = require('jsonwebtoken');
-const dotenv = require('dotenv');
-dotenv.config();
+import { config } from 'dotenv';
+import { Response, Request, NextFunction } from 'express';
+import jwt, { JwtPayload } from 'jsonwebtoken';
 
-exports.protectedRoute = (req, res, next) => {
+config();
+
+const protectedRoute = (req: Request, res: Response, next: NextFunction) => {
   if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
     try {
       const token = req.headers.authorization.split('Bearer ')[1];
-      const verifiedToken = jwt.verify(token, process.env.JWT_SECRET_KEY);
+
+      const verifiedToken = jwt.verify(token, process.env.JWT_SECRET_KEY) as JwtPayload;
+
       jwt.decode(token);
       req.userId = verifiedToken?.id;
       next();
@@ -18,3 +22,5 @@ exports.protectedRoute = (req, res, next) => {
     throw new Error('Not authorized');
   }
 };
+
+export { protectedRoute };

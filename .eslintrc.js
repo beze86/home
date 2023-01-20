@@ -1,6 +1,6 @@
 module.exports = {
   parser: '@typescript-eslint/parser',
-  extends: ['plugin:prettier/recommended', 'prettier'],
+  extends: ['plugin:import/recommended', 'plugin:prettier/recommended', 'plugin:@typescript-eslint/recommended', 'prettier'],
   parserOptions: {
     ecmaVersion: 'latest',
     requireConfigFile: false,
@@ -10,7 +10,10 @@ module.exports = {
   },
   rules: {
     'no-duplicate-imports': 'error',
-    'no-unused-vars': 'error',
+    'no-unused-vars': 'off',
+    '@typescript-eslint/no-non-null-assertion': 'off',
+    '@typescript-eslint/no-unused-vars': 'error',
+    'import/no-unresolved': 'off',
     //prettier
     'prettier/prettier': [
       'error',
@@ -23,6 +26,51 @@ module.exports = {
         printWidth: 150,
         trailingComma: 'all',
         bracketSpacing: true,
+      },
+    ],
+    // import order
+    'import/order': [
+      'error',
+      {
+        pathGroupsExcludedImportTypes: [],
+        pathGroups: [
+          {
+            pattern: 'client/**',
+            group: 'internal',
+            position: 'after',
+          },
+          {
+            pattern: 'models/**',
+            group: 'internal',
+            position: 'after',
+          },
+          {
+            pattern: 'controllers/**',
+            group: 'internal',
+            position: 'after',
+          },
+          {
+            pattern: 'middlewares/**',
+            group: 'internal',
+            position: 'after',
+          },
+          {
+            pattern: 'routes/**',
+            group: 'internal',
+            position: 'after',
+          },
+          {
+            pattern: '@**/**',
+            group: 'external',
+            position: 'after',
+          },
+        ],
+        groups: ['builtin', 'external', ['parent', 'sibling', 'internal'], 'unknown'],
+        'newlines-between': 'always',
+        alphabetize: {
+          order: 'asc',
+          caseInsensitive: true,
+        },
       },
     ],
   },
