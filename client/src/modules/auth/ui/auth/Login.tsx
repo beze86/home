@@ -1,24 +1,31 @@
-import React, { FormEvent, useState } from 'react';
+import React from 'react';
+import { Controller, useForm } from 'react-hook-form';
 
+import { LoadingButton } from '@mui/lab';
 import { Button, Card, CardContent, Stack, TextField, Typography } from '@mui/material';
+import { useMutation } from '@tanstack/react-query';
 
 import { usersApi } from 'client/modules/auth/api/auth';
+import { User } from 'client/modules/auth/type/auth';
 import { useUserState } from 'client/shared/hooks/useUserState';
 
 export const Login = () => {
-  const [fields, setFields] = useState<{ email: string; password: string }>({
-    email: '',
-    password: '',
-  });
   const { login } = usersApi();
+
+  const { control, handleSubmit } = useForm<Partial<User['data']>>({
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+  });
+
+  const mutateLogin = useMutation(async (submittedData: Partial<User['data']>) => {
+    const { data } = await login(submittedData);
+    setStatesOnLogin(data);
+  });
   const { setStatesOnLogin } = useUserState();
 
-  const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const { data } = await login(fields);
-    setStatesOnLogin(data);
-  };
-
+  const handleLoginSubmit = (data: Partial<User['data']>) => mutateLogin.mutate({ ...data });
   return (
     <>
       <Card
@@ -37,36 +44,54 @@ export const Login = () => {
           <Typography variant="h4" mb={4}>
             Log in
           </Typography>
-          <Stack component="form" onSubmit={handleLogin} gap={6}>
-            <TextField
-              size="small"
-              label="Insert Email"
-              variant="outlined"
-              value={fields.email}
-              onChange={(e) => setFields((state) => ({ ...state, email: e.target.value }))}
-              sx={{
-                flex: {
-                  xs: '1 1 100%',
-                  md: '1 0 auto',
-                },
+          <Stack component="form" onSubmit={handleSubmit(handleLoginSubmit)} gap={6}>
+            <Controller
+              name="email"
+              control={control}
+              rules={{ required: true }}
+              render={({ field: { onChange, ...props } }) => {
+                return (
+                  <TextField
+                    {...props}
+                    size="small"
+                    label="Insert Email"
+                    variant="outlined"
+                    onChange={onChange}
+                    sx={{
+                      flex: {
+                        xs: '1 1 100%',
+                        md: '1 0 auto',
+                      },
+                    }}
+                  />
+                );
               }}
             />
-            <TextField
-              size="small"
-              label="Insert password"
-              variant="outlined"
-              value={fields.password}
-              onChange={(e) => setFields((state) => ({ ...state, password: e.target.value }))}
-              sx={{
-                flex: {
-                  xs: '1 1 100%',
-                  md: '1 0 auto',
-                },
+            <Controller
+              name="password"
+              control={control}
+              rules={{ required: true }}
+              render={({ field: { onChange, ...props } }) => {
+                return (
+                  <TextField
+                    {...props}
+                    size="small"
+                    label="Insert password"
+                    variant="outlined"
+                    onChange={onChange}
+                    sx={{
+                      flex: {
+                        xs: '1 1 100%',
+                        md: '1 0 auto',
+                      },
+                    }}
+                  />
+                );
               }}
             />
-            <Button type="submit" variant="contained">
+            <LoadingButton type="submit" variant="contained" loading={mutateLogin.isLoading}>
               Log in
-            </Button>
+            </LoadingButton>
           </Stack>
         </CardContent>
       </Card>

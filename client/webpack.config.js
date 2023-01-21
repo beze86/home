@@ -5,7 +5,12 @@ const HtmlWebPackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 
+const isDevelopment = process.env.NODE_ENV !== 'production';
+
+console.log(isDevelopment)
+
 module.exports = {
+  mode: isDevelopment ? 'development' : 'production',
   entry: ['regenerator-runtime/runtime', path.resolve(__dirname, 'src/index.tsx')],
   output: {
     path: path.resolve(__dirname, 'build'),
@@ -77,6 +82,7 @@ module.exports = {
     proxy: {
       '/api': 'http://localhost:5000',
     },
+    hot: false
   },
   plugins: [
     new HtmlWebPackPlugin({
