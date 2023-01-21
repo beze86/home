@@ -10,6 +10,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'build'),
     filename: '[name].[contenthash].js',
+    chunkFilename: 'chunk.[id].[chunkhash].js',
     publicPath: '/',
     clean: true,
   },
@@ -28,13 +29,13 @@ module.exports = {
           loader: 'babel-loader',
           options: {
             presets: [
-              require.resolve('@babel/preset-env', {
-                useBuiltIns: 'usage',
+              ['@babel/preset-env', {
+                useBuiltIns: 'entry',
                 corejs: '3.0',
-                targets: '>0.2% , not dead ,not op_mini all',
-              }),
-              require.resolve('@babel/preset-typescript'),
-              require.resolve('@babel/preset-react'),
+                // targets: ['> 0.2% , not dead ,not op_mini all'],
+              }],
+              '@babel/preset-typescript',
+              '@babel/preset-react',
             ],
           },
         },
