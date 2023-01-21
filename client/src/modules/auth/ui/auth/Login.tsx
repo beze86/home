@@ -2,7 +2,7 @@ import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
 import { LoadingButton } from '@mui/lab';
-import { Button, Card, CardContent, Stack, TextField, Typography } from '@mui/material';
+import { Card, CardContent, Stack, TextField, Typography } from '@mui/material';
 import { useMutation } from '@tanstack/react-query';
 
 import { usersApi } from 'client/modules/auth/api/auth';

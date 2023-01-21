@@ -7,8 +7,6 @@ const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
-console.log(isDevelopment)
-
 module.exports = {
   mode: isDevelopment ? 'development' : 'production',
   entry: ['regenerator-runtime/runtime', path.resolve(__dirname, 'src/index.tsx')],
@@ -67,10 +65,10 @@ module.exports = {
       {
         test: /\.js$/,
         enforce: 'pre',
-        use: ['source-map-loader'],
       },
     ],
   },
+  devtool: isDevelopment ? 'eval-source-map' : false,
   devServer: {
     historyApiFallback: true,
     headers: {
