@@ -1,10 +1,11 @@
-import { Suspense } from 'react';
+import { Suspense, lazy } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
 import { CircularProgress } from '@mui/material';
 
 import { Contact } from 'client/modules/home-tasks/ui/contact/Contact';
-import { ContactsList } from 'client/modules/home-tasks/ui/contact/ContactsList';
+
+const ContactsList = lazy(() => import('client/modules/home-tasks/ui/contact/ContactsList'));
 
 export const ContactsRoutes = () => {
   return (

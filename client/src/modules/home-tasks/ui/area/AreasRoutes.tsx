@@ -1,10 +1,11 @@
-import { Suspense } from 'react';
+import { Suspense, lazy } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
 import { CircularProgress } from '@mui/material';
 
 import { Area } from 'client/modules/home-tasks/ui/area/Area';
-import AreasList from 'client/modules/home-tasks/ui/area/AreasList';
+
+const AreasList = lazy(() => import('client/modules/home-tasks/ui/area/AreasList'));
 
 export const AreasRoutes = () => {
   return (

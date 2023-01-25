@@ -1,5 +1,3 @@
-import { AxiosPromise } from 'axios';
-
 export type Task = {
   _id: string;
   start: Date;
@@ -11,7 +9,7 @@ export type Task = {
 };
 
 export type TaskRepository = {
-  getAllTasksByUser: () => AxiosPromise<Task[]>;
-  createWeeklyTask: () => AxiosPromise<{ insertedId: string }>;
-  deleteWeeklyTask: (id: Task['_id']) => AxiosPromise<void>;
+  getAllTasksByUser: () => Promise<Task[]>;
+  createWeeklyTask: () => Promise<void>;
+  deleteWeeklyTask: (id: Task['_id']) => Promise<void>;
 };

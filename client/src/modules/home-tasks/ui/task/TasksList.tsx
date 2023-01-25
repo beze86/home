@@ -1,36 +1,41 @@
 import dayjs from 'dayjs';
-import React, { FormEvent, useEffect, useState } from 'react';
+import { FormEvent } from 'react';
 
 import { Delete } from '@mui/icons-material';
 import { Button, Card, CardContent, IconButton, List, ListItem, Stack, Typography } from '@mui/material';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { tasksApi } from 'client/modules/home-tasks/api/task/task';
-import { Task } from 'client/modules/home-tasks/domain/task/task';
 
-export const TasksList = () => {
+const TASK_LIST_QUERY = ['tasks', 'task-list'];
+const STALE_TIME_5_MIN = 300000;
+
+const TasksList = () => {
   const { getAllTasksByUser, createWeeklyTask, deleteWeeklyTask } = tasksApi();
-  const [tasks, setTasks] = useState<Task[]>([]);
+  const taskListQuery = useQueryClient();
 
-  useEffect(() => {
-    const dataOnSuccess = async () => {
-      const { data } = await getAllTasksByUser();
-      data.sort((first, second) => {
-        return Number(second.start) - Number(first.start);
-      });
-      setTasks(data);
-    };
-    dataOnSuccess();
-  }, []);
+  const { data: tasks } = useQuery(TASK_LIST_QUERY, () => getAllTasksByUser(), {
+    suspense: false,
+    staleTime: STALE_TIME_5_MIN,
+  });
 
-  const handleCreateTaskSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const { mutate: mutateCreateWeeklyTask } = useMutation(() => createWeeklyTask(), {
+    onSuccess: () => taskListQuery.invalidateQueries(TASK_LIST_QUERY),
+  });
+
+  const { mutate: mutateDeleteClick } = useMutation((id: string) => deleteWeeklyTask(id), {
+    onSuccess: () => taskListQuery.invalidateQueries(TASK_LIST_QUERY),
+  });
+
+  if (!tasks) return null;
+
+  const handleCreateTaskSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    await createWeeklyTask();
+    mutateCreateWeeklyTask();
   };
 
   const handleDeleteClick = async (id: string) => {
-    await deleteWeeklyTask(id);
-    const newWeeklyTasks = tasks.filter((task) => task._id !== id);
-    setTasks(newWeeklyTasks);
+    mutateDeleteClick(id);
   };
 
   return (
@@ -112,3 +117,5 @@ export const TasksList = () => {
     </>
   );
 };
+
+export default TasksList;

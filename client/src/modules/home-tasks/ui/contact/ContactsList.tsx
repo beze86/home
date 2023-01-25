@@ -11,7 +11,7 @@ const STALE_TIME_5_MIN = 300000;
 
 const CONTACT_LIST_QUERY = ['contacts', 'contact-list'];
 
-export const ContactsList = () => {
+const ContactsList = () => {
   const navigate = useNavigate();
   const { createContact, deleteContact, getAllContactsByUser } = contactsApi();
   const contactListQuery = useQueryClient();
@@ -138,3 +138,5 @@ export const ContactsList = () => {
     </>
   );
 };
+
+export default ContactsList;

@@ -7,14 +7,27 @@ const API = authenticationToken(PATH);
 
 export function tasksApi(): TaskRepository {
   return {
-    getAllTasksByUser() {
-      return API.get('/');
+    async getAllTasksByUser() {
+      try {
+        const { data } = await API.get('/');
+        return data;
+      } catch (err) {
+        throw new Error('Failed to fetch tasks list');
+      }
     },
-    createWeeklyTask() {
-      return API.post('/');
+    async createWeeklyTask() {
+      try {
+        await API.post('/');
+      } catch (err) {
+        throw new Error('Failed to create weekly task');
+      }
     },
-    deleteWeeklyTask(id) {
-      return API.delete(`/${id}`);
+    async deleteWeeklyTask(id) {
+      try {
+        await API.delete(`/${id}`);
+      } catch (err) {
+        throw new Error('Faild to delete weekly task');
+      }
     },
   };
 }
