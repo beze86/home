@@ -1,8 +1,8 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 
-import { Area } from 'client/modules/areas/ui/areas/Area';
-import { AreasList } from 'client/modules/areas/ui/areas/AreasList';
+import { Area } from 'client/modules/home-tasks/ui/area/Area';
+import { AreasList } from 'client/modules/home-tasks/ui/area/AreasList';
 
 export const AreasRoutes = () => {
   return (

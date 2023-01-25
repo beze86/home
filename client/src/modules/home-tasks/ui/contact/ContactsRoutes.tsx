@@ -1,8 +1,8 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 
-import { Contact } from 'client/modules/contacts/ui/contacts/Contact';
-import { ContactsList } from 'client/modules/contacts/ui/contacts/ContactsList';
+import { Contact } from 'client/modules/home-tasks/ui/contact/Contact';
+import { ContactsList } from 'client/modules/home-tasks/ui/contact/ContactsList';
 
 export const ContactsRoutes = () => {
   return (

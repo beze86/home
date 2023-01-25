@@ -32,13 +32,9 @@ module.exports = {
           loader: 'babel-loader',
           options: {
             presets: [
-              ['@babel/preset-env', {
-                useBuiltIns: 'entry',
-                corejs: '3.0',
-                // targets: ['> 0.2% , not dead ,not op_mini all'],
-              }],
+              '@babel/preset-env',
               '@babel/preset-typescript',
-              '@babel/preset-react',
+              ['@babel/preset-react', {"runtime": "automatic"}],
             ],
           },
         },
@@ -62,10 +58,6 @@ module.exports = {
           'sass-loader',
         ],
       },
-      {
-        test: /\.js$/,
-        enforce: 'pre',
-      },
     ],
   },
   devtool: isDevelopment ? 'eval-source-map' : false,
@@ -80,7 +72,7 @@ module.exports = {
     proxy: {
       '/api': 'http://localhost:5000',
     },
-    hot: false
+    compress:true,
   },
   plugins: [
     new HtmlWebPackPlugin({

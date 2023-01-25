@@ -8,7 +8,7 @@ import { NavbarDesktop } from 'client/shared/layouts/Navbar/NavbarDesktop';
 import { NavbarMobile } from 'client/shared/layouts/Navbar/NavbarMobile';
 
 type Props = {
-  routes: () => RoutesList[];
+  routes: RoutesList[];
 };
 
 export const NavBar = ({ routes }: Props) => {
@@ -27,8 +27,8 @@ export const NavBar = ({ routes }: Props) => {
       <Container sx={{ pl: 5 }}>
         <Toolbar disableGutters sx={{ justifyContent: 'space-between' }}>
           <Logo />
-          <NavbarDesktop pages={routes()} handleCloseNavMenu={handleCloseNavMenu} />
-          <NavbarMobile pages={routes()} anchorElNav={anchorElNav} handleOpenNavMenu={handleOpenNavMenu} handleCloseNavMenu={handleCloseNavMenu} />
+          <NavbarDesktop pages={routes} handleCloseNavMenu={handleCloseNavMenu} />
+          <NavbarMobile pages={routes} anchorElNav={anchorElNav} handleOpenNavMenu={handleOpenNavMenu} handleCloseNavMenu={handleCloseNavMenu} />
         </Toolbar>
       </Container>
     </AppBar>

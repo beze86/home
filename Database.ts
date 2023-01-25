@@ -30,16 +30,6 @@ class Database {
     }
     throw new Error('No database found. Please connect to a database first.');
   }
-
-  public async closeDb() {
-    try {
-      await this.dbConnection?.close();
-      console.log('Database connection closed');
-    } catch (err) {
-      console.log(err);
-      throw err;
-    }
-  }
 }
 
 export default new Database();

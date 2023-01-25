@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 
-import { TasksList } from 'client/modules/tasks/ui/tasks/TasksList';
+import { TasksList } from 'client/modules/home-tasks/ui/task/TasksList';
 
 export const TasksRoutes = () => {
   return (

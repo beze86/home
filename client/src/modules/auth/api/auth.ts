@@ -1,28 +1,22 @@
-import axios from 'axios';
-
-import { UserRepository, profileStorageKey } from 'client/modules/auth/type/auth';
+import { UserRepository, User } from 'client/modules/auth/domain/auth';
+import { authenticationToken } from 'client/modules/authentication-token/application/authentication-token';
 
 const PATH = '/api/v1/users';
 
-const API = axios.create({ baseURL: PATH });
-
-API.interceptors.request.use((req) => {
-  const storedItem = localStorage.getItem(profileStorageKey);
-  if (storedItem) {
-    if (req.headers) {
-      req.headers.authorization = `Bearer ${JSON.parse(storedItem).token}`;
-    }
-  }
-  return req;
-});
+const API = authenticationToken(PATH);
 
 export function usersApi(): UserRepository {
   return {
     register(userData) {
       return API.post('/', userData);
     },
-    login(userData) {
-      return API.post('/login', userData);
+    async login(userData) {
+      try {
+        const { data } = await API.post<User>('/login', userData);
+        return data;
+      } catch (err) {
+        throw new Error('Error requesting to login');
+      }
     },
     delete(id) {
       return API.post(`/${id}`);

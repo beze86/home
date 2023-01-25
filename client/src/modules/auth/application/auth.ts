@@ -1,32 +1,10 @@
-import { AxiosPromise } from 'axios';
 import decode from 'jwt-decode';
 
-// TODO find issue related to eslint with redux
-// eslint-disable-next-line import/named
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 import type { RootState } from 'client/modules/app/store';
-
-export type User = {
-  data: {
-    id: string;
-    fullName: string;
-    email: string;
-    password: string;
-    accounts: string[];
-  };
-};
-
-type UserState = {
-  user: User | null;
-  isLogged: boolean;
-};
-
-type Token = {
-  id: string;
-  exp: number;
-  iat: number;
-};
+import { User, UserState } from 'client/modules/auth/domain/auth';
+import { AuthenticationToken } from 'client/modules/authentication-token/domain/authentication-token';
 
 export const profileStorageKey = 'userProfile';
 
@@ -39,7 +17,7 @@ const isUserLoggedIn = () => {
 
   if (!token) return false;
 
-  const decodedToken = decode<Token>(token);
+  const decodedToken = decode<AuthenticationToken>(token);
 
   return decodedToken.exp * 1000 >= new Date().getTime();
 };
@@ -49,7 +27,7 @@ const initialState: UserState = {
   isLogged: isUserLoggedIn(),
 };
 
-export const userSlice = createSlice({
+const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
@@ -74,9 +52,3 @@ export const { setStatesOnLogin, removeStatesOnLogout, setUserState } = userSlic
 export const userStateSelector = (state: RootState) => state.userState;
 
 export default userSlice.reducer;
-
-export type UserRepository = {
-  register: (userData: Partial<User['data']>) => AxiosPromise<{ insertedId: string }>;
-  login: (userData: Partial<User['data']>) => AxiosPromise<User>;
-  delete: (id: User['data']['id']) => AxiosPromise<void>;
-};

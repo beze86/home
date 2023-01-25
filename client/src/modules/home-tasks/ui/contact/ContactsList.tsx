@@ -3,28 +3,28 @@ import { useNavigate } from 'react-router-dom';
 
 import { Button, Card, CardContent, List, Stack, TextField } from '@mui/material';
 
-import { areasApi } from 'client/modules/areas/api/area';
-import { Area } from 'client/modules/areas/type/area';
-import { AreasListItem } from 'client/modules/areas/ui/areas/AreasListItem';
+import { contactsApi } from 'client/modules/home-tasks/api/contact/contact';
+import { Contact } from 'client/modules/home-tasks/domain/contact/contact';
+import { ContactsListItem } from 'client/modules/home-tasks/ui/contact/ContactsListItem';
 
-export const AreasList = () => {
+export const ContactsList = () => {
   const navigate = useNavigate();
-  const { createArea, deleteArea, getAllAreasByUser } = areasApi();
-  const [areas, setAreas] = useState<Area[]>([]);
-  const [areaName, setAreaName] = useState('');
+  const { createContact, deleteContact, getAllContactsByUser } = contactsApi();
+  const [contacts, setContacts] = useState<Contact[]>([]);
+  const [contactName, setContactName] = useState('');
 
   useEffect(() => {
     const dataOnSuccess = async () => {
-      const { data } = await getAllAreasByUser();
-      setAreas(data);
+      const { data } = await getAllContactsByUser();
+      setContacts(data);
     };
     dataOnSuccess();
   }, []);
 
   const handleDeleteClick = async (id: string) => {
-    await deleteArea(id);
-    const newAreas = areas.filter((area) => area._id !== id);
-    setAreas(newAreas);
+    await deleteContact(id);
+    const newContacts = contacts.filter((contact) => contact._id !== id);
+    setContacts(newContacts);
   };
 
   const handleEditClick = (id: string) => {
@@ -33,9 +33,9 @@ export const AreasList = () => {
 
   const handleCreateTaskSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const { data } = await createArea(areaName);
-    setAreas((prev) => [...prev, { _id: data.insertedId, area: areaName }]);
-    setAreaName('');
+    const { data } = await createContact(contactName);
+    setContacts((prev) => [...prev, { _id: data.insertedId, fullName: contactName }]);
+    setContactName('');
   };
 
   return (
@@ -69,10 +69,10 @@ export const AreasList = () => {
           >
             <TextField
               size="small"
-              label="Add new area/s"
+              label="Add new contact"
               variant="outlined"
-              value={areaName}
-              onChange={(e) => setAreaName(e.target.value)}
+              value={contactName}
+              onChange={(e) => setContactName(e.target.value)}
               sx={{
                 flex: {
                   xs: '1 1 100%',
@@ -81,7 +81,7 @@ export const AreasList = () => {
               }}
             />
             <Button type="submit" variant="contained">
-              Add Area
+              Add Contacts
             </Button>
           </Stack>
         </CardContent>
@@ -104,8 +104,10 @@ export const AreasList = () => {
           }}
         >
           <List disablePadding>
-            {areas.map(({ area, _id }) => {
-              return <AreasListItem key={_id} area={area} id={_id} handleDeleteClick={handleDeleteClick} handleEditClick={handleEditClick} />;
+            {contacts.map(({ fullName, _id }) => {
+              return (
+                <ContactsListItem key={_id} fullName={fullName} id={_id} handleDeleteClick={handleDeleteClick} handleEditClick={handleEditClick} />
+              );
             })}
           </List>
         </CardContent>

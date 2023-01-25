@@ -68,4 +68,24 @@ export const theme = createTheme({
     },
   },
   spacing: ['0', '4px', '8px', '12px', '16px', '24px', '32px', '40px', '48px'],
+  components: {
+    MuiSnackbar: {
+      defaultProps: {
+        anchorOrigin: {
+          vertical: 'bottom',
+          horizontal: 'left',
+        },
+      },
+      styleOverrides: {
+        root: {
+          width: '300px',
+        },
+      },
+    },
+    MuiAlert: {
+      defaultProps: {
+        elevation: 4,
+      },
+    },
+  },
 });

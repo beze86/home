@@ -4,8 +4,8 @@ import React, { FormEvent, useEffect, useState } from 'react';
 import { Delete } from '@mui/icons-material';
 import { Button, Card, CardContent, IconButton, List, ListItem, Stack, Typography } from '@mui/material';
 
-import { tasksApi } from 'client/modules/tasks/api/task';
-import { Task } from 'client/modules/tasks/type/task';
+import { tasksApi } from 'client/modules/home-tasks/api/task/task';
+import { Task } from 'client/modules/home-tasks/domain/task/task';
 
 export const TasksList = () => {
   const { getAllTasksByUser, createWeeklyTask, deleteWeeklyTask } = tasksApi();

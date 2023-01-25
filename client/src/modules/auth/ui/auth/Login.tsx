@@ -1,31 +1,45 @@
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 
 import { LoadingButton } from '@mui/lab';
 import { Card, CardContent, Stack, TextField, Typography } from '@mui/material';
 import { useMutation } from '@tanstack/react-query';
 
 import { usersApi } from 'client/modules/auth/api/auth';
-import { User } from 'client/modules/auth/type/auth';
+import { User } from 'client/modules/auth/domain/auth';
+import { useSnackbar } from 'client/shared/hooks/useSnackbar';
 import { useUserState } from 'client/shared/hooks/useUserState';
 
 export const Login = () => {
+  const navigate = useNavigate();
   const { login } = usersApi();
+  const { snackbar } = useSnackbar();
 
-  const { control, handleSubmit } = useForm<Partial<User['data']>>({
+  const { control, handleSubmit } = useForm<Partial<User>>({
     defaultValues: {
       email: '',
       password: '',
     },
   });
 
-  const mutateLogin = useMutation(async (submittedData: Partial<User['data']>) => {
-    const { data } = await login(submittedData);
-    setStatesOnLogin(data);
-  });
+  const mutateLogin = useMutation(
+    async (submittedData: Partial<User>) => {
+      const data = await login(submittedData);
+      setStatesOnLogin(data);
+      navigate('/tasks');
+      return data;
+    },
+    {
+      onError: () => snackbar('Failed to login', 'error'),
+      onSuccess: ({ fullName }) => {
+        snackbar(`Welcome ${fullName}`, 'success');
+      },
+    },
+  );
   const { setStatesOnLogin } = useUserState();
 
-  const handleLoginSubmit = (data: Partial<User['data']>) => mutateLogin.mutate({ ...data });
+  const handleLoginSubmit = (data: Partial<User>) => mutateLogin.mutate({ ...data });
   return (
     <>
       <Card
