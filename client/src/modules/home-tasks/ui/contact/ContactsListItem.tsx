@@ -4,13 +4,13 @@ import { Create, Delete } from '@mui/icons-material';
 import { IconButton, ListItem, Typography } from '@mui/material';
 
 type Props = {
-  fullName: string;
+  name: string;
   id: string;
   handleEditClick: (id: string) => void;
   handleDeleteClick: (id: string) => void;
 };
 
-export const ContactsListItem = ({ fullName, id, handleEditClick, handleDeleteClick }: Props) => {
+export const ContactsListItem = ({ name, id, handleEditClick, handleDeleteClick }: Props) => {
   return (
     <ListItem
       disableGutters
@@ -26,7 +26,7 @@ export const ContactsListItem = ({ fullName, id, handleEditClick, handleDeleteCl
       }
     >
       <Typography variant="subtitle1" component="p" sx={{ textTransform: 'capitalize' }}>
-        {fullName}
+        {name}
       </Typography>
     </ListItem>
   );

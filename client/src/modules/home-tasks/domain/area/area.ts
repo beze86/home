@@ -1,5 +1,3 @@
-import { AxiosPromise } from 'axios';
-
 type Area = {
   _id: string;
   area: string;

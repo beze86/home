@@ -7,14 +7,27 @@ const API = authenticationToken(PATH);
 
 export function contactsApi(): ContactRepository {
   return {
-    getAllContactsByUser() {
-      return API.get('/');
+    async getAllContactsByUser() {
+      try {
+        const { data } = await API.get('/');
+        return data;
+      } catch (err) {
+        throw new Error('Failed to fetch contacts list');
+      }
     },
-    deleteContact(id) {
-      return API.delete(`/${id}`);
+    async deleteContact(id) {
+      try {
+        await API.delete(`/${id}`);
+      } catch (err) {
+        throw new Error(`Failed to delete contact with id: ${id}`);
+      }
     },
-    createContact(fullName) {
-      return API.post('/', { fullName });
+    async createContact(data) {
+      try {
+        await API.post('/', data);
+      } catch (err) {
+        throw new Error('Failed to create contact');
+      }
     },
   };
 }

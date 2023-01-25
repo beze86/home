@@ -10,29 +10,36 @@ import { AreasListItem } from 'client/modules/home-tasks/ui/area/AreasListItem';
 
 const STALE_TIME_5_MIN = 300000;
 
-const AREA_LIST_QUERIES = ['area', 'area-list'];
+const AREA_LIST_QUERY = ['area', 'area-list'];
 
 const AreasList = () => {
   const navigate = useNavigate();
   const { createArea, deleteArea, getAllAreasByUser } = areasApi();
   const areaListQuery = useQueryClient();
 
-  const { data: areas } = useQuery(AREA_LIST_QUERIES, () => getAllAreasByUser(), {
+  const { data: areas } = useQuery(AREA_LIST_QUERY, () => getAllAreasByUser(), {
     staleTime: STALE_TIME_5_MIN,
   });
 
-  const { handleSubmit, control } = useForm({
+  const {
+    handleSubmit,
+    control,
+    reset: resetForm,
+  } = useForm({
     defaultValues: {
       area: '',
     },
   });
 
   const { mutate: mutateCreateArea } = useMutation((data: { area: string }) => createArea(data), {
-    onSuccess: () => areaListQuery.invalidateQueries(AREA_LIST_QUERIES),
+    onSuccess: () => {
+      resetForm();
+      areaListQuery.invalidateQueries(AREA_LIST_QUERY);
+    },
   });
 
   const { mutate: mutateDeleteArea } = useMutation((id: string) => deleteArea(id), {
-    onSuccess: () => areaListQuery.invalidateQueries(AREA_LIST_QUERIES),
+    onSuccess: () => areaListQuery.invalidateQueries(AREA_LIST_QUERY),
   });
 
   if (!areas) return null;

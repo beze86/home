@@ -1,41 +1,59 @@
-import React, { FormEvent, useEffect, useState } from 'react';
+import { useForm, Controller } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
 import { Button, Card, CardContent, List, Stack, TextField } from '@mui/material';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { contactsApi } from 'client/modules/home-tasks/api/contact/contact';
-import { Contact } from 'client/modules/home-tasks/domain/contact/contact';
 import { ContactsListItem } from 'client/modules/home-tasks/ui/contact/ContactsListItem';
+
+const STALE_TIME_5_MIN = 300000;
+
+const CONTACT_LIST_QUERY = ['contacts', 'contact-list'];
 
 export const ContactsList = () => {
   const navigate = useNavigate();
   const { createContact, deleteContact, getAllContactsByUser } = contactsApi();
-  const [contacts, setContacts] = useState<Contact[]>([]);
-  const [contactName, setContactName] = useState('');
+  const contactListQuery = useQueryClient();
 
-  useEffect(() => {
-    const dataOnSuccess = async () => {
-      const { data } = await getAllContactsByUser();
-      setContacts(data);
-    };
-    dataOnSuccess();
-  }, []);
+  const { data: contacts } = useQuery(CONTACT_LIST_QUERY, () => getAllContactsByUser(), {
+    suspense: false,
+    staleTime: STALE_TIME_5_MIN,
+  });
 
-  const handleDeleteClick = async (id: string) => {
-    await deleteContact(id);
-    const newContacts = contacts.filter((contact) => contact._id !== id);
-    setContacts(newContacts);
+  const {
+    handleSubmit,
+    control,
+    reset: resetForm,
+  } = useForm({
+    defaultValues: {
+      name: '',
+    },
+  });
+
+  const { mutate: mutateCreateContact } = useMutation((data: { name: string }) => createContact(data), {
+    onSuccess: () => {
+      resetForm();
+      contactListQuery.invalidateQueries(CONTACT_LIST_QUERY);
+    },
+  });
+
+  const { mutate: mutateDeleteContact } = useMutation((id: string) => deleteContact(id), {
+    onSuccess: () => contactListQuery.invalidateQueries(CONTACT_LIST_QUERY),
+  });
+
+  if (!contacts) return null;
+
+  const handleDeleteClick = (id: string) => {
+    mutateDeleteContact(id);
   };
 
   const handleEditClick = (id: string) => {
     navigate(id);
   };
 
-  const handleCreateTaskSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const { data } = await createContact(contactName);
-    setContacts((prev) => [...prev, { _id: data.insertedId, fullName: contactName }]);
-    setContactName('');
+  const handleOnSubmitCreateTask = (data: { name: string }) => {
+    mutateCreateContact({ ...data });
   };
 
   return (
@@ -65,19 +83,26 @@ export const ContactsList = () => {
             flexWrap="wrap"
             justifyContent={{ xs: 'flex-end', md: 'space-between' }}
             gap={4}
-            onSubmit={handleCreateTaskSubmit}
+            onSubmit={handleSubmit(handleOnSubmitCreateTask)}
           >
-            <TextField
-              size="small"
-              label="Add new contact"
-              variant="outlined"
-              value={contactName}
-              onChange={(e) => setContactName(e.target.value)}
-              sx={{
-                flex: {
-                  xs: '1 1 100%',
-                  md: '1 0 auto',
-                },
+            <Controller
+              name="name"
+              control={control}
+              render={({ field }) => {
+                return (
+                  <TextField
+                    {...field}
+                    size="small"
+                    label="Add new contact"
+                    variant="outlined"
+                    sx={{
+                      flex: {
+                        xs: '1 1 100%',
+                        md: '1 0 auto',
+                      },
+                    }}
+                  />
+                );
               }}
             />
             <Button type="submit" variant="contained">
@@ -104,10 +129,8 @@ export const ContactsList = () => {
           }}
         >
           <List disablePadding>
-            {contacts.map(({ fullName, _id }) => {
-              return (
-                <ContactsListItem key={_id} fullName={fullName} id={_id} handleDeleteClick={handleDeleteClick} handleEditClick={handleEditClick} />
-              );
+            {contacts.map(({ name, _id }) => {
+              return <ContactsListItem key={_id} name={name} id={_id} handleDeleteClick={handleDeleteClick} handleEditClick={handleEditClick} />;
             })}
           </List>
         </CardContent>

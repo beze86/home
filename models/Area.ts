@@ -22,7 +22,7 @@ type CreateAreaType = {
 interface AreaInterface {
   collection: Collection;
   getAllAreasByUser: (data: GetAllAreasByUserType) => Promise<WithId<Document>[]>;
-  deleteArea: (data: DeleteAreaType) => Promise<UpdateResult>;
+  deleteArea: (data: DeleteAreaType) => Promise<void>;
   createArea: (data: CreateAreaType) => Promise<void>;
 }
 
@@ -39,7 +39,7 @@ class Area implements AreaInterface {
 
   async deleteArea({ userId, id }: DeleteAreaType) {
     await this.collection.deleteOne({ _id: new ObjectId(id) });
-    return new User().removeAreaFromUser({ userId, areaId: id });
+    await new User().removeAreaFromUser({ userId, areaId: id });
   }
 
   async createArea({ userId, area }: CreateAreaType) {

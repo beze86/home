@@ -1,12 +1,10 @@
-import { AxiosPromise } from 'axios';
-
 export type Contact = {
   _id: string;
-  fullName: string;
+  name: string;
 };
 
 export type ContactRepository = {
-  getAllContactsByUser: () => AxiosPromise<Contact[]>;
-  deleteContact: (id: Contact['_id']) => AxiosPromise<void>;
-  createContact: (data: Contact['fullName']) => AxiosPromise<{ insertedId: string }>;
+  getAllContactsByUser: () => Promise<Contact[]>;
+  deleteContact: (id: Contact['_id']) => Promise<void>;
+  createContact: (data: { name: Contact['name'] }) => Promise<void>;
 };

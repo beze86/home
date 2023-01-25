@@ -60,9 +60,9 @@ class Task implements TaskInterface {
 
     const usersWithAreas = () => {
       shuffle(areas);
-      return contacts.map(({ fullName }, i) => {
+      return contacts.map(({ name }, i) => {
         return {
-          name: `${fullName}`,
+          name: `${name}`,
           area: `${areas[i].area}`,
         };
       });

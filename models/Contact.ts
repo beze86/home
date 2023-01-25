@@ -16,14 +16,14 @@ type DeleteContactType = {
 
 type CreateContactType = {
   userId: UserId;
-  fullName: string;
+  name: string;
 };
 
 interface ContactInterface {
   collection: Collection;
   getAllContactsByUser: (data: GetAllContactsByUserType) => Promise<WithId<Document>[]>;
-  deleteContact: (data: DeleteContactType) => Promise<UpdateResult>;
-  createContact: (data: CreateContactType) => Promise<ObjectId>;
+  deleteContact: (data: DeleteContactType) => Promise<void>;
+  createContact: (data: CreateContactType) => Promise<void>;
 }
 
 class Contact implements ContactInterface {
@@ -39,13 +39,12 @@ class Contact implements ContactInterface {
 
   async deleteContact({ userId, id }: DeleteContactType) {
     await this.collection.deleteOne({ _id: new ObjectId(id) });
-    return new User().removeContactFromUser({ userId, contactId: id });
+    await new User().removeContactFromUser({ userId, contactId: id });
   }
 
-  async createContact({ userId, fullName }: CreateContactType) {
-    const { insertedId } = await this.collection.insertOne({ userId: new ObjectId(userId), fullName });
+  async createContact({ userId, name }: CreateContactType) {
+    const { insertedId } = await this.collection.insertOne({ userId: new ObjectId(userId), name });
     await new User().addContactToUser({ userId, contactId: insertedId });
-    return insertedId;
   }
 }
 

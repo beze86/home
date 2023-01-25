@@ -1,6 +1,7 @@
-import Contact from '../models/Contact';
 import { Request, Response } from 'express';
 import { ObjectId } from 'mongodb';
+
+import Contact from '../models/Contact';
 
 const getAllContactsByUser = async (req: Request, res: Response) => {
   if (!req.userId) {
@@ -21,9 +22,9 @@ const createContact = async (req: Request, res: Response) => {
   if (!req.body) {
     return res.status(400).json({ error: 'Invalid request' });
   }
-  const { fullName } = req.body;
+  const { name } = req.body;
 
-  if (!fullName) {
+  if (!name) {
     return res.status(400).json({ error: 'Add missing fields' });
   }
 
@@ -34,7 +35,7 @@ const createContact = async (req: Request, res: Response) => {
   const userId = req.userId;
   const payload = {
     userId,
-    fullName,
+    name,
   };
   try {
     const insertedId = await new Contact().createContact(payload);
