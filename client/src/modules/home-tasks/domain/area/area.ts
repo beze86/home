@@ -6,9 +6,9 @@ type Area = {
 };
 
 type AreaRepository = {
-  getAllAreasByUser: () => AxiosPromise<Area[]>;
-  deleteArea: (id: Area['_id']) => AxiosPromise<void>;
-  createArea: (areaName: string) => AxiosPromise<{ insertedId: string }>;
+  getAllAreasByUser: () => Promise<Area[]>;
+  deleteArea: (id: Area['_id']) => Promise<void>;
+  createArea: (area: { area: string }) => Promise<void>;
 };
 
 export type { Area, AreaRepository };

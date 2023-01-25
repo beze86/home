@@ -14,6 +14,7 @@ const getAllAreasByUser = async (req: Request, res: Response) => {
     if (!areas) {
       return res.status(404).json({ error: 'Areas not found' });
     }
+
     res.status(200).json(areas);
   } catch (error) {
     console.log(`Areas for user not found: ${error}`);
@@ -27,14 +28,14 @@ const createArea = async (req: Request, res: Response) => {
   }
   const userId = req.userId;
 
-  if (!req.body || !req.body.areaName) {
+  if (!req.body) {
     return res.status(400).json({ error: 'Area name is required' });
   }
 
-  const { areaName } = req.body;
+  const { area } = req.body;
   const payload = {
     userId,
-    area: areaName,
+    area,
   };
 
   try {

@@ -1,41 +1,52 @@
-import React, { FormEvent, useEffect, useState } from 'react';
+import { useForm, Controller } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
 import { Button, Card, CardContent, List, Stack, TextField } from '@mui/material';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { areasApi } from 'client/modules/home-tasks/api/area/area';
 import { Area } from 'client/modules/home-tasks/domain/area/area';
 import { AreasListItem } from 'client/modules/home-tasks/ui/area/AreasListItem';
 
-export const AreasList = () => {
+const STALE_TIME_5_MIN = 300000;
+
+const AREA_LIST_QUERIES = ['area', 'area-list'];
+
+const AreasList = () => {
   const navigate = useNavigate();
   const { createArea, deleteArea, getAllAreasByUser } = areasApi();
-  const [areas, setAreas] = useState<Area[]>([]);
-  const [areaName, setAreaName] = useState('');
+  const areaListQuery = useQueryClient();
 
-  useEffect(() => {
-    const dataOnSuccess = async () => {
-      const { data } = await getAllAreasByUser();
-      setAreas(data);
-    };
-    dataOnSuccess();
-  }, []);
+  const { data: areas } = useQuery(AREA_LIST_QUERIES, () => getAllAreasByUser(), {
+    staleTime: STALE_TIME_5_MIN,
+  });
 
-  const handleDeleteClick = async (id: string) => {
-    await deleteArea(id);
-    const newAreas = areas.filter((area) => area._id !== id);
-    setAreas(newAreas);
+  const { handleSubmit, control } = useForm({
+    defaultValues: {
+      area: '',
+    },
+  });
+
+  const { mutate: mutateCreateArea } = useMutation((data: { area: string }) => createArea(data), {
+    onSuccess: () => areaListQuery.invalidateQueries(AREA_LIST_QUERIES),
+  });
+
+  const { mutate: mutateDeleteArea } = useMutation((id: string) => deleteArea(id), {
+    onSuccess: () => areaListQuery.invalidateQueries(AREA_LIST_QUERIES),
+  });
+
+  if (!areas) return null;
+
+  const handleDeleteClick = (id: string) => {
+    mutateDeleteArea(id);
   };
 
   const handleEditClick = (id: string) => {
     navigate(id);
   };
 
-  const handleCreateTaskSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const { data } = await createArea(areaName);
-    setAreas((prev) => [...prev, { _id: data.insertedId, area: areaName }]);
-    setAreaName('');
+  const handleOnSubmitCreateTask = (data: { area: string }) => {
+    mutateCreateArea({ ...data });
   };
 
   return (
@@ -65,19 +76,26 @@ export const AreasList = () => {
             flexWrap="wrap"
             justifyContent={{ xs: 'flex-end', md: 'space-between' }}
             gap={4}
-            onSubmit={handleCreateTaskSubmit}
+            onSubmit={handleSubmit(handleOnSubmitCreateTask)}
           >
-            <TextField
-              size="small"
-              label="Add new area/s"
-              variant="outlined"
-              value={areaName}
-              onChange={(e) => setAreaName(e.target.value)}
-              sx={{
-                flex: {
-                  xs: '1 1 100%',
-                  md: '1 0 auto',
-                },
+            <Controller
+              name="area"
+              control={control}
+              render={({ field }) => {
+                return (
+                  <TextField
+                    {...field}
+                    size="small"
+                    label="Add new area/s"
+                    variant="outlined"
+                    sx={{
+                      flex: {
+                        xs: '1 1 100%',
+                        md: '1 0 auto',
+                      },
+                    }}
+                  />
+                );
               }}
             />
             <Button type="submit" variant="contained">
@@ -113,3 +131,5 @@ export const AreasList = () => {
     </>
   );
 };
+
+export default AreasList;

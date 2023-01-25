@@ -7,14 +7,27 @@ const API = authenticationToken(PATH);
 
 export function areasApi(): AreaRepository {
   return {
-    getAllAreasByUser() {
-      return API.get('/');
+    async getAllAreasByUser() {
+      try {
+        const { data } = await API.get('/');
+        return data;
+      } catch (err) {
+        throw new Error('Failed to fetch area list');
+      }
     },
-    deleteArea(id) {
-      return API.delete(`/${id}`);
+    async deleteArea(id) {
+      try {
+        await API.delete(`/${id}`);
+      } catch (err) {
+        throw new Error('Failed to delete area');
+      }
     },
-    createArea(areaName) {
-      return API.post('/', { areaName });
+    async createArea(data) {
+      try {
+        await API.post('/', data);
+      } catch (err) {
+        throw new Error('Failed to create area');
+      }
     },
   };
 }

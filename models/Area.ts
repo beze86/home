@@ -23,7 +23,7 @@ interface AreaInterface {
   collection: Collection;
   getAllAreasByUser: (data: GetAllAreasByUserType) => Promise<WithId<Document>[]>;
   deleteArea: (data: DeleteAreaType) => Promise<UpdateResult>;
-  createArea: (data: CreateAreaType) => Promise<ObjectId>;
+  createArea: (data: CreateAreaType) => Promise<void>;
 }
 
 class Area implements AreaInterface {
@@ -45,7 +45,6 @@ class Area implements AreaInterface {
   async createArea({ userId, area }: CreateAreaType) {
     const { insertedId } = await this.collection.insertOne({ userId: new ObjectId(userId), area });
     await new User().addAreaToUser({ userId, areaId: insertedId });
-    return insertedId;
   }
 }
 
