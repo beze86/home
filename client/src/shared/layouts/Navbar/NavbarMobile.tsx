@@ -85,10 +85,9 @@ export const NavbarMobile = ({ pages, anchorElNav, handleOpenNavMenu, handleClos
               component={RouterLink}
               to="/login"
               sx={{
-                textDecoration: 'none',
-                '&.active > button ': {
-                  backgroundColor: 'primary.light',
-                },
+                my: 2,
+                color: 'white',
+                display: 'block',
               }}
             >
               <Button

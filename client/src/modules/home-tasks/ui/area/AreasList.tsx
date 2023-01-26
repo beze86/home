@@ -5,7 +5,6 @@ import { Button, Card, CardContent, List, Stack, TextField } from '@mui/material
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { areasApi } from 'client/modules/home-tasks/api/area/area';
-import { Area } from 'client/modules/home-tasks/domain/area/area';
 import { AreasListItem } from 'client/modules/home-tasks/ui/area/AreasListItem';
 
 const STALE_TIME_5_MIN = 300000;
@@ -105,9 +104,7 @@ const AreasList = () => {
                 );
               }}
             />
-            <Button type="submit" variant="contained">
-              Add Area
-            </Button>
+            <Button type="submit">Add Area</Button>
           </Stack>
         </CardContent>
       </Card>

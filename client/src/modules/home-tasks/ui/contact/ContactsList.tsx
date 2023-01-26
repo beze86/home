@@ -71,9 +71,6 @@ const ContactsList = () => {
             py: 4,
             px: 5,
             pb: 4,
-            '&:last-child': {
-              pb: 4,
-            },
           }}
         >
           <Stack
@@ -105,9 +102,7 @@ const ContactsList = () => {
                 );
               }}
             />
-            <Button type="submit" variant="contained">
-              Add Contacts
-            </Button>
+            <Button type="submit">Add Contacts</Button>
           </Stack>
         </CardContent>
       </Card>

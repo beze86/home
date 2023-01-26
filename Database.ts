@@ -9,7 +9,7 @@ class Database {
   private dbConnection: MongoClient | null;
 
   constructor() {
-    this.URI = process.env.CONNECTION_STRING_LOCAL || process.env.CONNECTION_STRING_PRODUCTION;
+    this.URI = !!process.env.NODE_ENV ? process.env.CONNECTION_STRING_PRODUCTION : process.env.CONNECTION_STRING_LOCAL;
     this.client = new MongoClient(this.URI);
     this.dbConnection = null;
   }

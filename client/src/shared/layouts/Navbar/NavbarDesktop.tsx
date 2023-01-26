@@ -41,6 +41,7 @@ export const NavbarDesktop = ({ pages, handleCloseNavMenu }: Props) => {
             }}
           >
             <Button
+              variant="outlined"
               onClick={handleCloseNavMenu}
               sx={{
                 my: 2,
@@ -54,6 +55,7 @@ export const NavbarDesktop = ({ pages, handleCloseNavMenu }: Props) => {
         ))}
       {isLogged ? (
         <Button
+          variant="outlined"
           onClick={handleLogout}
           sx={{
             my: 2,
@@ -68,13 +70,13 @@ export const NavbarDesktop = ({ pages, handleCloseNavMenu }: Props) => {
           component={RouterLink}
           to="/login"
           sx={{
-            textDecoration: 'none',
-            '&.active > button ': {
-              backgroundColor: 'primary.light',
-            },
+            my: 2,
+            color: 'white',
+            display: 'block',
           }}
         >
           <Button
+            variant="outlined"
             onClick={handleCloseNavMenu}
             sx={{
               my: 2,

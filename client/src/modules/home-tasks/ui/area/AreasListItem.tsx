@@ -17,10 +17,10 @@ export const AreasListItem = ({ area, id, handleEditClick, handleDeleteClick }: 
       secondaryAction={
         <>
           <IconButton onClick={() => handleEditClick(id)} edge="start" aria-label="edit">
-            <Create sx={{ color: 'primary.main' }} />
+            <Create color="primary" />
           </IconButton>
           <IconButton onClick={() => handleDeleteClick(id)} edge="end" aria-label="delete">
-            <Delete sx={{ color: 'error.main' }} />
+            <Delete color="error" />
           </IconButton>
         </>
       }

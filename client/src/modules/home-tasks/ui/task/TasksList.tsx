@@ -67,9 +67,7 @@ const TasksList = () => {
             gap={4}
             onSubmit={handleCreateTaskSubmit}
           >
-            <Button type="submit" variant="contained">
-              Create Weekly Task
-            </Button>
+            <Button type="submit">Create Weekly Task</Button>
           </Stack>
         </CardContent>
       </Card>
@@ -88,9 +86,6 @@ const TasksList = () => {
               sx={{
                 py: 4,
                 px: 5,
-                '&:last-child': {
-                  pb: 4,
-                },
               }}
             >
               <Stack direction="row" alignItems="center">
@@ -101,7 +96,7 @@ const TasksList = () => {
                   End: {dayjs(end).format('DD/MM/YYYY')}
                 </Typography>
                 <IconButton onClick={() => handleDeleteClick(_id)} edge="end" aria-label="delete">
-                  <Delete sx={{ color: 'error.main' }} />
+                  <Delete color="error" />
                 </IconButton>
               </Stack>
 

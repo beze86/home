@@ -87,5 +87,10 @@ export const theme = createTheme({
         elevation: 4,
       },
     },
+    MuiButton: {
+      defaultProps: {
+        variant: 'contained',
+      },
+    },
   },
 });

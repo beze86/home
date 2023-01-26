@@ -33,6 +33,11 @@ const createArea = async (req: Request, res: Response) => {
   }
 
   const { area } = req.body;
+
+  if (!area) {
+    return res.status(400).json({ error: 'Add missing fields' });
+  }
+
   const payload = {
     userId,
     area,
