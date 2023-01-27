@@ -22,7 +22,6 @@ const useSnackbar = () => {
           </Snackbar>
         );
       },
-      autoHideDuration: 2345678765432,
     });
 
   return { snackbar };

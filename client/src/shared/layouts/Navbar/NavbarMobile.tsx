@@ -1,4 +1,4 @@
-import React, { MouseEvent } from 'react';
+import { Fragment, MouseEvent, useState } from 'react';
 import { NavLink as RouterLink } from 'react-router-dom';
 
 import MenuIcon from '@mui/icons-material/Menu';
@@ -8,18 +8,23 @@ import { RoutesList } from 'client/App';
 import { Icon } from 'client/shared/components/Icon';
 import { useUserState } from 'client/shared/hooks/useUserState';
 
-type Props = {
-  pages: RoutesList[];
-  anchorElNav: null | HTMLElement;
-  handleOpenNavMenu: (e: MouseEvent<HTMLElement>) => void;
-  handleCloseNavMenu: () => void;
-};
-
-export const NavbarMobile = ({ pages, anchorElNav, handleOpenNavMenu, handleCloseNavMenu }: Props) => {
+export const NavbarMobile = ({ pages }: { pages: RoutesList[] }) => {
   const {
     state: { isLogged },
     removeStatesOnLogout,
   } = useUserState();
+  const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
+  const [iconButtonActive, setIconButtonActive] = useState(false);
+
+  const handleOnClickOpenNavMenu = (evt: MouseEvent<HTMLElement>) => {
+    !iconButtonActive ? setAnchorElNav(evt.currentTarget) : setAnchorElNav(null);
+    setIconButtonActive((prev) => !prev);
+  };
+
+  const handleOnCloseNavMenu = () => {
+    setIconButtonActive(false);
+    setAnchorElNav(null);
+  };
 
   return (
     <Box
@@ -27,17 +32,16 @@ export const NavbarMobile = ({ pages, anchorElNav, handleOpenNavMenu, handleClos
         display: { xs: 'flex', md: 'none', ml: 'auto' },
       }}
     >
-      <IconButton size="large" aria-controls="menu-appbar" aria-haspopup="true" onClick={handleOpenNavMenu} color="inherit">
+      <IconButton size="large" aria-controls="menu-appbar" aria-haspopup="true" onClick={handleOnClickOpenNavMenu} color="inherit">
         <MenuIcon />
       </IconButton>
-      <Drawer anchor="right" open={Boolean(anchorElNav)} onClose={handleCloseNavMenu}>
+      <Drawer anchor="right" open={!!anchorElNav} onClose={handleOnCloseNavMenu}>
         <Box
           sx={(theme) => ({
             display: 'flex',
             alignItems: 'center',
             py: 0,
             px: 1,
-            // necessary for content to be below app bar
             ...theme.mixins.toolbar,
             justifyContent: 'flex-start',
           })}
@@ -45,19 +49,18 @@ export const NavbarMobile = ({ pages, anchorElNav, handleOpenNavMenu, handleClos
         <List sx={{ minWidth: '200px' }}>
           {isLogged &&
             pages.map(({ title, url, icon }) => (
-              <React.Fragment key={title}>
+              <Fragment key={title}>
                 <Link
                   component={RouterLink}
                   to={url}
                   sx={{
                     display: 'block',
-                    textDecoration: 'none',
                     '&.active > li': {
                       backgroundColor: 'grey.100',
                     },
                   }}
                 >
-                  <ListItem sx={{ py: 4 }} onClick={handleCloseNavMenu}>
+                  <ListItem sx={{ py: 4 }} onClick={handleOnCloseNavMenu}>
                     {icon && (
                       <ListItemIcon sx={{ minWidth: '32px' }}>
                         <Icon icon={icon} />
@@ -67,39 +70,17 @@ export const NavbarMobile = ({ pages, anchorElNav, handleOpenNavMenu, handleClos
                   </ListItem>
                 </Link>
                 <Divider />
-              </React.Fragment>
+              </Fragment>
             ))}
           {isLogged ? (
-            <Button
-              onClick={removeStatesOnLogout}
-              sx={{
-                my: 2,
-                color: 'white',
-                display: 'block',
-              }}
-            >
-              Logout
-            </Button>
+            <ListItem>
+              <Button onClick={removeStatesOnLogout}>Logout</Button>
+            </ListItem>
           ) : (
-            <Link
-              component={RouterLink}
-              to="/login"
-              sx={{
-                my: 2,
-                color: 'white',
-                display: 'block',
-              }}
-            >
-              <Button
-                onClick={handleCloseNavMenu}
-                sx={{
-                  my: 2,
-                  color: 'white',
-                  display: 'block',
-                }}
-              >
-                Login
-              </Button>
+            <Link component={RouterLink} to="/login">
+              <ListItem>
+                <Button onClick={handleOnCloseNavMenu}>Login</Button>
+              </ListItem>
             </Link>
           )}
         </List>

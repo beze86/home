@@ -1,4 +1,4 @@
-import { createTheme } from '@mui/material';
+import { createTheme } from '@mui/material/styles';
 
 const Color = {
   primary: {
@@ -87,9 +87,62 @@ export const theme = createTheme({
         elevation: 4,
       },
     },
+    MuiAppBar: {
+      defaultProps: {
+        position: 'sticky',
+      },
+      styleOverrides: {
+        root: ({
+          theme: {
+            zIndex: { drawer },
+          },
+        }) => ({
+          zIndex: drawer + 1,
+        }),
+      },
+    },
     MuiButton: {
       defaultProps: {
         variant: 'contained',
+      },
+    },
+    MuiCardContent: {
+      styleOverrides: {
+        root: ({ theme: { spacing } }) => ({
+          paddingBlock: spacing(4),
+          paddingInline: spacing(5),
+          '&:last-child': {
+            paddingBottom: spacing(4),
+          },
+        }),
+      },
+    },
+    MuiLink: {
+      styleOverrides: {
+        root: {
+          textDecoration: 'none',
+        },
+      },
+    },
+    MuiTextField: {
+      defaultProps: {
+        variant: 'outlined',
+        size: 'small',
+      },
+      styleOverrides: {
+        root: {
+          flex: 'auto',
+        },
+      },
+    },
+    MuiToolbar: {
+      defaultProps: {
+        disableGutters: true,
+      },
+      styleOverrides: {
+        root: {
+          justifyContent: 'space-between',
+        },
       },
     },
   },

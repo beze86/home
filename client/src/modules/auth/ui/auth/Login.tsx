@@ -41,74 +41,45 @@ export const Login = () => {
 
   const handleLoginSubmit = (data: Partial<User>) => mutateLogin.mutate({ ...data });
   return (
-    <>
-      <Card
+    <Card
+      sx={{
+        width: '100%',
+        maxWidth: '600px',
+        margin: 'auto',
+      }}
+    >
+      <CardContent
         sx={{
-          width: '100%',
-          maxWidth: '600px',
-          m: 'auto',
-          mb: 2,
+          '&.MuiCardContent-root': {
+            padding: 8,
+          },
         }}
       >
-        <CardContent
-          sx={{
-            p: 8,
-          }}
-        >
-          <Typography variant="h4" mb={4}>
+        <Typography variant="h4" mb={4}>
+          Log in
+        </Typography>
+        <Stack component="form" onSubmit={handleSubmit(handleLoginSubmit)} gap={6}>
+          <Controller
+            name="email"
+            control={control}
+            rules={{ required: true }}
+            render={({ field: { onChange, ...props } }) => {
+              return <TextField {...props} label="Insert Email" onChange={onChange} />;
+            }}
+          />
+          <Controller
+            name="password"
+            control={control}
+            rules={{ required: true }}
+            render={({ field: { onChange, ...props } }) => {
+              return <TextField {...props} label="Insert password" onChange={onChange} />;
+            }}
+          />
+          <LoadingButton type="submit" variant="contained" loading={mutateLogin.isLoading}>
             Log in
-          </Typography>
-          <Stack component="form" onSubmit={handleSubmit(handleLoginSubmit)} gap={6}>
-            <Controller
-              name="email"
-              control={control}
-              rules={{ required: true }}
-              render={({ field: { onChange, ...props } }) => {
-                return (
-                  <TextField
-                    {...props}
-                    size="small"
-                    label="Insert Email"
-                    variant="outlined"
-                    onChange={onChange}
-                    sx={{
-                      flex: {
-                        xs: '1 1 100%',
-                        md: '1 0 auto',
-                      },
-                    }}
-                  />
-                );
-              }}
-            />
-            <Controller
-              name="password"
-              control={control}
-              rules={{ required: true }}
-              render={({ field: { onChange, ...props } }) => {
-                return (
-                  <TextField
-                    {...props}
-                    size="small"
-                    label="Insert password"
-                    variant="outlined"
-                    onChange={onChange}
-                    sx={{
-                      flex: {
-                        xs: '1 1 100%',
-                        md: '1 0 auto',
-                      },
-                    }}
-                  />
-                );
-              }}
-            />
-            <LoadingButton type="submit" variant="contained" loading={mutateLogin.isLoading}>
-              Log in
-            </LoadingButton>
-          </Stack>
-        </CardContent>
-      </Card>
-    </>
+          </LoadingButton>
+        </Stack>
+      </CardContent>
+    </Card>
   );
 };

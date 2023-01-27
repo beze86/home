@@ -3,8 +3,6 @@ import { Route, Routes } from 'react-router-dom';
 
 import { CircularProgress } from '@mui/material';
 
-import { Contact } from 'client/modules/home-tasks/ui/contact/Contact';
-
 const ContactsList = lazy(() => import('client/modules/home-tasks/ui/contact/ContactsList'));
 
 export const ContactsRoutes = () => {
@@ -19,7 +17,6 @@ export const ContactsRoutes = () => {
             </Suspense>
           }
         />
-        <Route path=":id" element={<Contact />} />
       </Routes>
     </>
   );

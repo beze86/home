@@ -39,34 +39,14 @@ const TasksList = () => {
   };
 
   return (
-    <>
+    <Stack width="100%" maxWidth="600px" alignItems="center" justifyContent="center" margin="auto" gap={2}>
       <Card
         sx={{
           width: '100%',
-          maxWidth: '600px',
-          m: 'auto',
-          mb: 2,
         }}
       >
-        <CardContent
-          sx={{
-            py: 4,
-            px: 5,
-            pb: 4,
-            '&:last-child': {
-              pb: 4,
-            },
-          }}
-        >
-          <Stack
-            component="form"
-            direction={{ xs: 'column', md: 'row' }}
-            alignItems="center"
-            flexWrap="wrap"
-            justifyContent={{ xs: 'flex-end', md: 'space-between' }}
-            gap={4}
-            onSubmit={handleCreateTaskSubmit}
-          >
+        <CardContent>
+          <Stack component="form" direction="row" alignItems="center" justifyContent="flex-end" onSubmit={handleCreateTaskSubmit}>
             <Button type="submit">Create Weekly Task</Button>
           </Stack>
         </CardContent>
@@ -78,16 +58,11 @@ const TasksList = () => {
             sx={{
               width: '100%',
               maxWidth: '600px',
-              m: 'auto',
-              mb: 2,
+              margin: 'auto',
+              marginBottom: 2,
             }}
           >
-            <CardContent
-              sx={{
-                py: 4,
-                px: 5,
-              }}
-            >
+            <CardContent>
               <Stack direction="row" alignItems="center">
                 <Typography component="span" variant="subtitle1" sx={{ mr: 3 }}>
                   Start: {dayjs(start).format('DD/MM/YYYY')}
@@ -109,7 +84,7 @@ const TasksList = () => {
           </Card>
         );
       })}
-    </>
+    </Stack>
   );
 };
 

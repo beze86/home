@@ -3,8 +3,6 @@ import { Route, Routes } from 'react-router-dom';
 
 import { CircularProgress } from '@mui/material';
 
-import { Area } from 'client/modules/home-tasks/ui/area/Area';
-
 const AreasList = lazy(() => import('client/modules/home-tasks/ui/area/AreasList'));
 
 export const AreasRoutes = () => {
@@ -19,7 +17,6 @@ export const AreasRoutes = () => {
             </Suspense>
           }
         />
-        <Route path=":id" element={<Area />} />
       </Routes>
     </>
   );

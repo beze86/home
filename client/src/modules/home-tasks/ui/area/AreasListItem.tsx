@@ -1,16 +1,14 @@
-import React from 'react';
-
 import { Create, Delete } from '@mui/icons-material';
 import { IconButton, ListItem, Typography } from '@mui/material';
 
-type Props = {
+type AreaListItemType = {
   area: string;
   id: string;
   handleEditClick: (id: string) => void;
   handleDeleteClick: (id: string) => void;
 };
 
-export const AreasListItem = ({ area, id, handleEditClick, handleDeleteClick }: Props) => {
+export const AreasListItem = ({ area, id, handleEditClick, handleDeleteClick }: AreaListItemType) => {
   return (
     <ListItem
       disableGutters

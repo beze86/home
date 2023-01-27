@@ -1,17 +1,12 @@
-import React from 'react';
 import { NavLink as RouterLink } from 'react-router-dom';
 
-import { Box, Button, Link } from '@mui/material';
+import { Box, Link } from '@mui/material';
 
 import { RoutesList } from 'client/App';
 import { useUserState } from 'client/shared/hooks/useUserState';
+import { Button } from 'client/shared/layouts/Navbar/Button';
 
-type Props = {
-  pages: RoutesList[];
-  handleCloseNavMenu: () => void;
-};
-
-export const NavbarDesktop = ({ pages, handleCloseNavMenu }: Props) => {
+export const NavbarDesktop = ({ pages }: { pages: RoutesList[] }) => {
   const {
     state: { isLogged },
     removeStatesOnLogout,
@@ -23,8 +18,8 @@ export const NavbarDesktop = ({ pages, handleCloseNavMenu }: Props) => {
   return (
     <Box
       sx={{
-        flexGrow: 1,
         display: { xs: 'none', md: 'flex' },
+        flex: 'auto',
       }}
     >
       {isLogged &&
@@ -34,58 +29,19 @@ export const NavbarDesktop = ({ pages, handleCloseNavMenu }: Props) => {
             component={RouterLink}
             to={url}
             sx={{
-              textDecoration: 'none',
               '&.active > button ': {
                 backgroundColor: 'primary.light',
               },
             }}
           >
-            <Button
-              variant="outlined"
-              onClick={handleCloseNavMenu}
-              sx={{
-                my: 2,
-                color: 'white',
-                display: 'block',
-              }}
-            >
-              {title}
-            </Button>
+            <Button>{title}</Button>
           </Link>
         ))}
       {isLogged ? (
-        <Button
-          variant="outlined"
-          onClick={handleLogout}
-          sx={{
-            my: 2,
-            color: 'white',
-            display: 'block',
-          }}
-        >
-          Logout
-        </Button>
+        <Button onClick={handleLogout}>Logout</Button>
       ) : (
-        <Link
-          component={RouterLink}
-          to="/login"
-          sx={{
-            my: 2,
-            color: 'white',
-            display: 'block',
-          }}
-        >
-          <Button
-            variant="outlined"
-            onClick={handleCloseNavMenu}
-            sx={{
-              my: 2,
-              color: 'white',
-              display: 'block',
-            }}
-          >
-            Login
-          </Button>
+        <Link component={RouterLink} to="/login">
+          <Button>Login</Button>
         </Link>
       )}
     </Box>

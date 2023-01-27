@@ -56,31 +56,19 @@ const AreasList = () => {
   };
 
   return (
-    <>
+    <Stack width="100%" maxWidth="600px" alignItems="center" justifyContent="center" margin="auto" gap={2}>
       <Card
         sx={{
           width: '100%',
-          maxWidth: '600px',
-          m: 'auto',
-          mb: 2,
         }}
       >
-        <CardContent
-          sx={{
-            py: 4,
-            px: 5,
-            pb: 4,
-            '&:last-child': {
-              pb: 4,
-            },
-          }}
-        >
+        <CardContent>
           <Stack
             component="form"
-            direction={{ xs: 'column', md: 'row' }}
+            direction="row"
             alignItems="center"
             flexWrap="wrap"
-            justifyContent={{ xs: 'flex-end', md: 'space-between' }}
+            justifyContent="flex-end"
             gap={4}
             onSubmit={handleSubmit(handleOnSubmitCreateTask)}
           >
@@ -88,20 +76,7 @@ const AreasList = () => {
               name="area"
               control={control}
               render={({ field }) => {
-                return (
-                  <TextField
-                    {...field}
-                    size="small"
-                    label="Add new area/s"
-                    variant="outlined"
-                    sx={{
-                      flex: {
-                        xs: '1 1 100%',
-                        md: '1 0 auto',
-                      },
-                    }}
-                  />
-                );
+                return <TextField {...field} label="Add new area/s" />;
               }}
             />
             <Button type="submit">Add Area</Button>
@@ -111,20 +86,9 @@ const AreasList = () => {
       <Card
         sx={{
           width: '100%',
-          maxWidth: '600px',
-          m: 'auto',
         }}
       >
-        <CardContent
-          sx={{
-            py: 4,
-            px: 5,
-            pb: 4,
-            '&:last-child': {
-              pb: 4,
-            },
-          }}
-        >
+        <CardContent>
           <List disablePadding>
             {areas.map(({ area, _id }) => {
               return <AreasListItem key={_id} area={area} id={_id} handleDeleteClick={handleDeleteClick} handleEditClick={handleEditClick} />;
@@ -132,7 +96,7 @@ const AreasList = () => {
           </List>
         </CardContent>
       </Card>
-    </>
+    </Stack>
   );
 };
 
