@@ -9,8 +9,12 @@ const getAllContactsByUser = async (req: Request, res: Response) => {
   }
   const userId = req.userId;
 
+  const payload = {
+    userId: new ObjectId(userId),
+  };
+
   try {
-    const contacts = await new Contact().getAllContactsByUser({ userId });
+    const contacts = await new Contact().getAllContactsByUser(payload);
     return res.status(201).json(contacts);
   } catch (error) {
     console.log(`Error fetching contacts for user: ${error}`);
@@ -33,10 +37,12 @@ const createContact = async (req: Request, res: Response) => {
   }
 
   const userId = req.userId;
+
   const payload = {
-    userId,
+    userId: new ObjectId(userId),
     name,
   };
+
   try {
     const insertedId = await new Contact().createContact(payload);
     return res.status(201).json({ insertedId });
@@ -46,19 +52,22 @@ const createContact = async (req: Request, res: Response) => {
   }
 };
 
-const deleteContact = async (req: Request<{ id: ObjectId }>, res: Response) => {
+const deleteContact = async (req: Request, res: Response) => {
   if (!req.params.id) {
     return res.status(400).json({ error: 'Invalid request' });
   }
   const { id } = req.params;
+
   if (!req.userId) {
     return res.status(400).json({ error: 'Invalid request' });
   }
   const userId = req.userId;
+
   const payload = {
-    userId,
-    id,
+    userId: new ObjectId(userId),
+    id: new ObjectId(id),
   };
+
   try {
     await new Contact().deleteContact(payload);
     return res.status(200).json({ msg: `Contact deleted id: ${payload.id}` });

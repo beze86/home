@@ -4,7 +4,7 @@ import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import { ObjectId } from 'mongodb';
 
-import User, { RegisterUserType } from '../models/User';
+import User from '../models/User';
 
 config();
 
@@ -27,7 +27,7 @@ const registerUser = async (req: Request, res: Response) => {
     const salt = await bcrypt.genSalt(10);
     const passwordHash = await bcrypt.hash(password, salt);
 
-    const payload: RegisterUserType = {
+    const payload = {
       email,
       fullName,
       password: passwordHash,
@@ -40,7 +40,7 @@ const registerUser = async (req: Request, res: Response) => {
     return res.status(201).json({
       ...payload,
       id: insertedId,
-      token: generateWebToken(insertedId, payload.fullName),
+      token: generateWebToken(insertedId.toString(), payload.fullName),
       msg: 'User Created',
     });
   } catch (error) {
@@ -70,7 +70,7 @@ const loginUser = async (req: Request, res: Response) => {
       return res.status(400).json({ error: 'Invalid credentials' });
     }
 
-    const token = generateWebToken(user._id, user.fullName);
+    const token = generateWebToken(user._id.toString(), user.fullName);
 
     const userPayload = {
       id: user._id,
@@ -89,14 +89,16 @@ const loginUser = async (req: Request, res: Response) => {
   }
 };
 
-const deleteUser = async (req: Request<{ id: ObjectId }>, res: Response) => {
+const deleteUser = async (req: Request, res: Response) => {
   if (!req.params) {
     return res.status(400).json({ error: 'Invalid request' });
   }
 
   try {
     const { id } = req.params;
-    await new User().deleteUser(id);
+    const payload = new ObjectId(id);
+
+    await new User().deleteUser(payload);
     res.status(200).json({ msg: `User deleted id: ${id}` });
   } catch (error) {
     console.log(`User not deleted: ${error}`);
@@ -104,7 +106,7 @@ const deleteUser = async (req: Request<{ id: ObjectId }>, res: Response) => {
   }
 };
 
-const generateWebToken = (id: ObjectId, userName: string) => {
+const generateWebToken = (id: string, userName: string) => {
   return jwt.sign({ id, userName }, process.env.JWT_SECRET_KEY, {
     expiresIn: process.env.JTW_EXPIRATION_TIME,
   });

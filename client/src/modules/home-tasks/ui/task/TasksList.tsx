@@ -6,6 +6,8 @@ import { Button, Card, CardContent, IconButton, List, ListItem, Stack, Typograph
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { tasksApi } from 'client/modules/home-tasks/api/task/task';
+import { TaskId } from 'client/modules/home-tasks/domain/task/task';
+import { CenteredStack } from 'client/shared/components/CenteredStack/CenteredStack';
 
 const TASK_LIST_QUERY = ['tasks', 'task-list'];
 const STALE_TIME_5_MIN = 300000;
@@ -23,30 +25,26 @@ const TasksList = () => {
     onSuccess: () => taskListQuery.invalidateQueries(TASK_LIST_QUERY),
   });
 
-  const { mutate: mutateDeleteClick } = useMutation((id: string) => deleteWeeklyTask(id), {
+  const { mutate: mutateDeleteClick } = useMutation((id: TaskId) => deleteWeeklyTask(id), {
     onSuccess: () => taskListQuery.invalidateQueries(TASK_LIST_QUERY),
   });
 
   if (!tasks) return null;
 
-  const handleCreateTaskSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleOnSubmitCreateTask = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     mutateCreateWeeklyTask();
   };
 
-  const handleDeleteClick = async (id: string) => {
+  const handleOnClickDelete = async (id: TaskId) => {
     mutateDeleteClick(id);
   };
 
   return (
-    <Stack width="100%" maxWidth="600px" alignItems="center" justifyContent="center" margin="auto" gap={2}>
-      <Card
-        sx={{
-          width: '100%',
-        }}
-      >
+    <CenteredStack>
+      <Card>
         <CardContent>
-          <Stack component="form" direction="row" alignItems="center" justifyContent="flex-end" onSubmit={handleCreateTaskSubmit}>
+          <Stack component="form" direction="row" alignItems="center" justifyContent="flex-end" onSubmit={handleOnSubmitCreateTask}>
             <Button type="submit">Create Weekly Task</Button>
           </Stack>
         </CardContent>
@@ -56,10 +54,7 @@ const TasksList = () => {
           <Card
             key={_id}
             sx={{
-              width: '100%',
-              maxWidth: '600px',
-              margin: 'auto',
-              marginBottom: 2,
+              marginBottom: 1,
             }}
           >
             <CardContent>
@@ -70,12 +65,12 @@ const TasksList = () => {
                 <Typography component="span" variant="subtitle1" sx={{ mr: 'auto' }}>
                   End: {dayjs(end).format('DD/MM/YYYY')}
                 </Typography>
-                <IconButton onClick={() => handleDeleteClick(_id)} edge="end" aria-label="delete">
+                <IconButton onClick={() => handleOnClickDelete(_id)} aria-label="delete">
                   <Delete color="error" />
                 </IconButton>
               </Stack>
 
-              <List disablePadding>
+              <List>
                 {users.map(({ name, area }) => {
                   return <ListItem key={name}>{`${name}: ${area}`}</ListItem>;
                 })}
@@ -84,7 +79,7 @@ const TasksList = () => {
           </Card>
         );
       })}
-    </Stack>
+    </CenteredStack>
   );
 };
 

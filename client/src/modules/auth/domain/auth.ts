@@ -1,10 +1,17 @@
-import { AxiosPromise } from 'axios';
+type UserId = string;
 
-type User = {
-  id: string;
-  fullName: string;
+type UserLogin = {
   email: string;
   password: string;
+};
+
+type UserRegister = UserLogin & {
+  fullName: string;
+};
+
+type User = UserRegister & {
+  id: string;
+  fullName: string;
   accounts: string[];
 };
 
@@ -14,9 +21,9 @@ type UserState = {
 };
 
 type UserRepository = {
-  register: (userData: Partial<User>) => AxiosPromise<{ insertedId: string }>;
-  login: (userData: Partial<User>) => Promise<User>;
-  delete: (id: User['id']) => AxiosPromise<void>;
+  register: (data: UserRegister) => Promise<void>;
+  login: (data: UserLogin) => Promise<User>;
+  delete: (id: UserId) => Promise<void>;
 };
 
-export type { User, UserState, UserRepository };
+export type { UserId, User, UserState, UserRepository };

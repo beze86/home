@@ -1,44 +1,47 @@
-import { Collection, DeleteResult, InsertOneResult, ObjectId, UpdateResult, WithId } from 'mongodb';
+import { Collection, DeleteResult, InsertOneResult, ObjectId, WithId } from 'mongodb';
 
+import { AreaId } from './Area';
+import { ContactId } from './Contact';
+import { TaskId } from './Task';
 import database from '../Database';
 
 type UserId = ObjectId;
 
-type RegisterUserType = {
+type RegisterUser = {
   email: string;
   fullName: string;
   password: string;
-  contacts: [];
-  areas: [];
-  tasks: [];
+  contacts: ObjectId[];
+  areas: ObjectId[];
+  tasks: ObjectId[];
 };
 
-type ContactToUserType = {
+type ContactToUser = {
   userId: UserId;
-  contactId: ObjectId;
+  contactId: ContactId;
 };
 
-type AreaToUserType = {
+type AreaToUser = {
   userId: UserId;
-  areaId: ObjectId;
+  areaId: AreaId;
 };
 
-type TasksToUserType = {
+type TasksToUser = {
   userId: UserId;
-  tasksId: ObjectId;
+  tasksId: TaskId;
 };
 
 interface UserInterface {
   collection: Collection;
   findUserByEmail: (data: string) => Promise<WithId<Document> | null>;
   deleteUser: (data: UserId) => Promise<DeleteResult>;
-  registerUser: (data: RegisterUserType) => Promise<InsertOneResult<Document>>;
-  addContactToUser: (data: ContactToUserType) => Promise<UpdateResult>;
-  removeContactFromUser: (data: ContactToUserType) => Promise<UpdateResult>;
-  addAreaToUser: (data: AreaToUserType) => Promise<UpdateResult>;
-  removeAreaFromUser: (data: AreaToUserType) => Promise<UpdateResult>;
-  addWeeklyTasksToUser: (data: TasksToUserType) => Promise<UpdateResult>;
-  removeWeeklyTasksFromUser: (data: TasksToUserType) => Promise<UpdateResult>;
+  registerUser: (data: RegisterUser) => Promise<InsertOneResult<Document>>;
+  addContactToUser: (data: ContactToUser) => Promise<void>;
+  removeContactFromUser: (data: ContactToUser) => Promise<void>;
+  addAreaToUser: (data: AreaToUser) => Promise<void>;
+  removeAreaFromUser: (data: AreaToUser) => Promise<void>;
+  addWeeklyTasksToUser: (data: TasksToUser) => Promise<void>;
+  removeWeeklyTasksFromUser: (data: TasksToUser) => Promise<void>;
 }
 
 class User implements UserInterface {
@@ -48,42 +51,42 @@ class User implements UserInterface {
     this.collection = database.getDb().collection('users');
   }
 
-  findUserByEmail(email: string) {
-    return this.collection.findOne({ email });
+  async findUserByEmail(email: string) {
+    return await this.collection.findOne({ email });
   }
 
-  deleteUser(id: UserId) {
-    return this.collection.deleteOne({ _id: new ObjectId(id) });
+  async deleteUser(id: UserId) {
+    return await this.collection.deleteOne({ _id: new ObjectId(id) });
   }
 
-  registerUser(data: RegisterUserType) {
-    return this.collection.insertOne(data);
+  async registerUser(data: RegisterUser) {
+    return await this.collection.insertOne(data);
   }
 
-  async addContactToUser({ userId, contactId }: ContactToUserType) {
-    return this.collection.updateOne({ _id: new ObjectId(userId) }, { $push: { contacts: contactId } });
+  async addContactToUser({ userId, contactId }: ContactToUser) {
+    await this.collection.updateOne({ _id: new ObjectId(userId) }, { $push: { contacts: contactId } });
   }
 
-  removeContactFromUser({ userId, contactId }: ContactToUserType) {
-    return this.collection.updateOne({ _id: new ObjectId(userId) }, { $pull: { contacts: { $in: [new ObjectId(contactId)] } } });
+  async removeContactFromUser({ userId, contactId }: ContactToUser) {
+    await this.collection.updateOne({ _id: new ObjectId(userId) }, { $pull: { contacts: { $in: [new ObjectId(contactId)] } } });
   }
 
-  async addAreaToUser({ userId, areaId }: AreaToUserType) {
-    return this.collection.updateOne({ _id: new ObjectId(userId) }, { $push: { areas: areaId } });
+  async addAreaToUser({ userId, areaId }: AreaToUser) {
+    await this.collection.updateOne({ _id: new ObjectId(userId) }, { $push: { areas: areaId } });
   }
 
-  removeAreaFromUser({ userId, areaId }: AreaToUserType) {
-    return this.collection.updateOne({ _id: new ObjectId(userId) }, { $pull: { areas: { $in: [new ObjectId(areaId)] } } });
+  async removeAreaFromUser({ userId, areaId }: AreaToUser) {
+    await this.collection.updateOne({ _id: new ObjectId(userId) }, { $pull: { areas: { $in: [areaId] } } });
   }
 
-  async addWeeklyTasksToUser({ userId, tasksId }: TasksToUserType) {
-    return this.collection.updateOne({ _id: new ObjectId(userId) }, { $push: { tasks: tasksId } });
+  async addWeeklyTasksToUser({ userId, tasksId }: TasksToUser) {
+    await this.collection.updateOne({ _id: new ObjectId(userId) }, { $push: { tasks: tasksId } });
   }
 
-  removeWeeklyTasksFromUser({ userId, tasksId }: TasksToUserType) {
-    return this.collection.updateOne({ _id: new ObjectId(userId) }, { $pull: { tasks: { $in: [new ObjectId(tasksId)] } } });
+  async removeWeeklyTasksFromUser({ userId, tasksId }: TasksToUser) {
+    await this.collection.updateOne({ _id: new ObjectId(userId) }, { $pull: { tasks: { $in: [new ObjectId(tasksId)] } } });
   }
 }
 
 export default User;
-export type { RegisterUserType };
+export type { UserId, RegisterUser };

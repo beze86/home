@@ -1,12 +1,18 @@
-type Area = {
-  _id: string;
+type AreaId = string;
+
+type Area = AreaCreation & {
+  _id: AreaId;
+  area: string;
+};
+
+type AreaCreation = {
   area: string;
 };
 
 type AreaRepository = {
   getAllAreasByUser: () => Promise<Area[]>;
-  deleteArea: (id: Area['_id']) => Promise<void>;
-  createArea: (area: { area: string }) => Promise<void>;
+  deleteArea: (id: AreaId) => Promise<void>;
+  createArea: (area: AreaCreation) => Promise<void>;
 };
 
-export type { Area, AreaRepository };
+export type { AreaId, Area, AreaCreation, AreaRepository };

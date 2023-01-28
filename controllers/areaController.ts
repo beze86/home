@@ -9,8 +9,12 @@ const getAllAreasByUser = async (req: Request, res: Response) => {
   }
   const userId = req.userId;
 
+  const payload = {
+    userId: new ObjectId(userId),
+  };
+
   try {
-    const areas = await new Area().getAllAreasByUser({ userId });
+    const areas = await new Area().getAllAreasByUser(payload);
     if (!areas) {
       return res.status(404).json({ error: 'Areas not found' });
     }
@@ -39,7 +43,7 @@ const createArea = async (req: Request, res: Response) => {
   }
 
   const payload = {
-    userId,
+    userId: new ObjectId(userId),
     area,
   };
 
@@ -52,20 +56,23 @@ const createArea = async (req: Request, res: Response) => {
   }
 };
 
-const deleteArea = async (req: Request<{ id: ObjectId }>, res: Response) => {
+const deleteArea = async (req: Request, res: Response) => {
   if (!req.params || !req.params.id) {
     return res.status(400).json({ error: 'Invalid request' });
   }
   const { id } = req.params;
+
   if (!req.userId) {
     return res.status(400).json({ error: 'Invalid request' });
   }
   const userId = req.userId;
+
+  const payload = {
+    userId: new ObjectId(userId),
+    id: new ObjectId(id),
+  };
+
   try {
-    const payload = {
-      userId,
-      id,
-    };
     await new Area().deleteArea(payload);
     res.status(200).json({ msg: `Area deleted id: ${payload.id}` });
   } catch (error) {

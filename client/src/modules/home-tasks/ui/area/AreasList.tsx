@@ -1,18 +1,18 @@
 import { useForm, Controller } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
 
 import { Button, Card, CardContent, List, Stack, TextField } from '@mui/material';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { areasApi } from 'client/modules/home-tasks/api/area/area';
+import { AreaCreation, AreaId } from 'client/modules/home-tasks/domain/area/area';
 import { AreasListItem } from 'client/modules/home-tasks/ui/area/AreasListItem';
+import { CenteredStack } from 'client/shared/components/CenteredStack/CenteredStack';
 
 const STALE_TIME_5_MIN = 300000;
 
 const AREA_LIST_QUERY = ['area', 'area-list'];
 
 const AreasList = () => {
-  const navigate = useNavigate();
   const { createArea, deleteArea, getAllAreasByUser } = areasApi();
   const areaListQuery = useQueryClient();
 
@@ -24,44 +24,36 @@ const AreasList = () => {
     handleSubmit,
     control,
     reset: resetForm,
-  } = useForm({
+  } = useForm<AreaCreation>({
     defaultValues: {
       area: '',
     },
   });
 
-  const { mutate: mutateCreateArea } = useMutation((data: { area: string }) => createArea(data), {
+  const { mutate: mutateCreateArea } = useMutation((data: AreaCreation) => createArea(data), {
     onSuccess: () => {
       resetForm();
       areaListQuery.invalidateQueries(AREA_LIST_QUERY);
     },
   });
 
-  const { mutate: mutateDeleteArea } = useMutation((id: string) => deleteArea(id), {
+  const { mutate: mutateDeleteArea } = useMutation((id: AreaId) => deleteArea(id), {
     onSuccess: () => areaListQuery.invalidateQueries(AREA_LIST_QUERY),
   });
 
   if (!areas) return null;
 
-  const handleDeleteClick = (id: string) => {
+  const handleOnClickDeleteArea = (id: AreaId) => {
     mutateDeleteArea(id);
   };
 
-  const handleEditClick = (id: string) => {
-    navigate(id);
-  };
-
-  const handleOnSubmitCreateTask = (data: { area: string }) => {
+  const handleOnSubmitCreateArea = (data: AreaCreation) => {
     mutateCreateArea({ ...data });
   };
 
   return (
-    <Stack width="100%" maxWidth="600px" alignItems="center" justifyContent="center" margin="auto" gap={2}>
-      <Card
-        sx={{
-          width: '100%',
-        }}
-      >
+    <CenteredStack>
+      <Card>
         <CardContent>
           <Stack
             component="form"
@@ -70,7 +62,7 @@ const AreasList = () => {
             flexWrap="wrap"
             justifyContent="flex-end"
             gap={4}
-            onSubmit={handleSubmit(handleOnSubmitCreateTask)}
+            onSubmit={handleSubmit(handleOnSubmitCreateArea)}
           >
             <Controller
               name="area"
@@ -83,20 +75,16 @@ const AreasList = () => {
           </Stack>
         </CardContent>
       </Card>
-      <Card
-        sx={{
-          width: '100%',
-        }}
-      >
+      <Card>
         <CardContent>
           <List disablePadding>
             {areas.map(({ area, _id }) => {
-              return <AreasListItem key={_id} area={area} id={_id} handleDeleteClick={handleDeleteClick} handleEditClick={handleEditClick} />;
+              return <AreasListItem key={_id} area={area} onClickDeleteArea={() => handleOnClickDeleteArea(_id)} />;
             })}
           </List>
         </CardContent>
       </Card>
-    </Stack>
+    </CenteredStack>
   );
 };
 

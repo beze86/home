@@ -1,29 +1,35 @@
-import { Collection, ObjectId, WithId, Document, UpdateResult } from 'mongodb';
+import { Collection, ObjectId } from 'mongodb';
 
-import User from './User';
+import User, { UserId } from './User';
 import database from '../Database';
 
-type UserId = ObjectId;
+type AreaId = ObjectId;
 
-type GetAllAreasByUserType = {
+type GetAllAreasByUser = {
   userId: UserId;
 };
 
-type DeleteAreaType = {
+type DeleteArea = {
   userId: UserId;
-  id: ObjectId;
+  id: AreaId;
 };
 
-type CreateAreaType = {
+type CreateArea = {
+  userId: UserId;
+  area: string;
+};
+
+type AreaResult = {
+  _id: AreaId;
   userId: UserId;
   area: string;
 };
 
 interface AreaInterface {
   collection: Collection;
-  getAllAreasByUser: (data: GetAllAreasByUserType) => Promise<WithId<Document>[]>;
-  deleteArea: (data: DeleteAreaType) => Promise<void>;
-  createArea: (data: CreateAreaType) => Promise<void>;
+  getAllAreasByUser: (data: GetAllAreasByUser) => Promise<AreaResult[]>;
+  deleteArea: (data: DeleteArea) => Promise<void>;
+  createArea: (data: CreateArea) => Promise<void>;
 }
 
 class Area implements AreaInterface {
@@ -33,19 +39,20 @@ class Area implements AreaInterface {
     this.collection = database.getDb().collection('areas');
   }
 
-  getAllAreasByUser({ userId }: GetAllAreasByUserType) {
-    return this.collection.find({ userId: new ObjectId(userId) }).toArray();
+  async getAllAreasByUser({ userId }: GetAllAreasByUser) {
+    return await this.collection.find<AreaResult>({ userId: new ObjectId(userId) }).toArray();
   }
 
-  async deleteArea({ userId, id }: DeleteAreaType) {
+  async deleteArea({ userId, id }: DeleteArea) {
     await this.collection.deleteOne({ _id: new ObjectId(id) });
-    await new User().removeAreaFromUser({ userId, areaId: id });
+    await new User().removeAreaFromUser({ userId, areaId: new ObjectId(id) });
   }
 
-  async createArea({ userId, area }: CreateAreaType) {
+  async createArea({ userId, area }: CreateArea) {
     const { insertedId } = await this.collection.insertOne({ userId: new ObjectId(userId), area });
     await new User().addAreaToUser({ userId, areaId: insertedId });
   }
 }
 
 export default Area;
+export type { AreaId, CreateArea };

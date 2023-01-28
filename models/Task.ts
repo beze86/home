@@ -1,31 +1,44 @@
-import { Collection, ObjectId, UpdateResult, WithId } from 'mongodb';
+import { Collection, ObjectId, WithId } from 'mongodb';
 
 import Area from './Area';
 import Contact from './Contact';
-import User from './User';
+import User, { UserId } from './User';
 import database from '../Database';
 import { shuffle, getWeekDays } from '../utils';
 
-type UserId = ObjectId;
+type TaskId = ObjectId;
 
-type GetAllTasksByUserType = {
+type GetAllTasksByUser = {
   userId: UserId;
 };
 
-type DeleteWeeklyTaskType = {
+type DeleteWeeklyTask = {
   userId: UserId;
-  id: ObjectId;
+  id: TaskId;
 };
 
-type CreateWeeklyTaskType = {
+type CreateWeeklyTask = {
   userId: UserId;
+};
+
+type UserTask = {
+  name: string;
+  area: string;
+};
+
+type TaskResult = {
+  _id: TaskId;
+  userId: UserId;
+  start: Date;
+  end: Date;
+  users: UserTask[];
 };
 
 interface TaskInterface {
   collection: Collection;
-  getAllTasksByUser: (data: GetAllTasksByUserType) => Promise<WithId<Document>[]>;
-  deleteWeeklyTask: (data: DeleteWeeklyTaskType) => Promise<void>;
-  createWeeklyTask: (data: CreateWeeklyTaskType) => Promise<void>;
+  getAllTasksByUser: (data: GetAllTasksByUser) => Promise<WithId<TaskResult>[]>;
+  deleteWeeklyTask: (data: DeleteWeeklyTask) => Promise<void>;
+  createWeeklyTask: (data: CreateWeeklyTask) => Promise<void>;
   setWeeklyTask: (data: UserId) => Promise<{ start: number; end: number; users: { name: string; area: string }[] }>;
 }
 
@@ -36,16 +49,16 @@ class Task implements TaskInterface {
     this.collection = database.getDb().collection('tasks');
   }
 
-  getAllTasksByUser({ userId }: GetAllTasksByUserType) {
-    return this.collection.find({ userId: new ObjectId(userId) }).toArray();
+  async getAllTasksByUser({ userId }: GetAllTasksByUser) {
+    return await this.collection.find<TaskResult>({ userId: new ObjectId(userId) }).toArray();
   }
 
-  async deleteWeeklyTask({ userId, id }: DeleteWeeklyTaskType) {
+  async deleteWeeklyTask({ userId, id }: DeleteWeeklyTask) {
     await this.collection.deleteOne({ _id: new ObjectId(id) });
     await new User().removeWeeklyTasksFromUser({ userId, tasksId: id });
   }
 
-  async createWeeklyTask({ userId }: CreateWeeklyTaskType) {
+  async createWeeklyTask({ userId }: CreateWeeklyTask) {
     const weeklyTasks = await this.setWeeklyTask(userId);
     const { insertedId } = await this.collection.insertOne({ userId: new ObjectId(userId), ...weeklyTasks });
     await new User().addWeeklyTasksToUser({ userId, tasksId: insertedId });
@@ -76,3 +89,4 @@ class Task implements TaskInterface {
 }
 
 export default Task;
+export type { TaskId };

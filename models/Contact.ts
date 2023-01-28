@@ -1,29 +1,35 @@
-import { Collection, ObjectId, UpdateResult, WithId } from 'mongodb';
+import { Collection, ObjectId, WithId } from 'mongodb';
 
-import User from './User';
+import User, { UserId } from './User';
 import database from '../Database';
 
-type UserId = ObjectId;
+type ContactId = ObjectId;
 
-type GetAllContactsByUserType = {
+type GetAllContactsByUser = {
   userId: UserId;
 };
 
-type DeleteContactType = {
+type DeleteContact = {
   userId: UserId;
-  id: ObjectId;
+  id: ContactId;
 };
 
-type CreateContactType = {
+type CreateContact = {
+  userId: UserId;
+  name: string;
+};
+
+type ContactResult = {
+  _id: ContactId;
   userId: UserId;
   name: string;
 };
 
 interface ContactInterface {
   collection: Collection;
-  getAllContactsByUser: (data: GetAllContactsByUserType) => Promise<WithId<Document>[]>;
-  deleteContact: (data: DeleteContactType) => Promise<void>;
-  createContact: (data: CreateContactType) => Promise<void>;
+  getAllContactsByUser: (data: GetAllContactsByUser) => Promise<WithId<ContactResult>[]>;
+  deleteContact: (data: DeleteContact) => Promise<void>;
+  createContact: (data: CreateContact) => Promise<void>;
 }
 
 class Contact implements ContactInterface {
@@ -33,19 +39,20 @@ class Contact implements ContactInterface {
     this.collection = database.getDb().collection('contacts');
   }
 
-  getAllContactsByUser({ userId }: GetAllContactsByUserType) {
-    return this.collection.find({ userId: new ObjectId(userId) }).toArray();
+  async getAllContactsByUser({ userId }: GetAllContactsByUser) {
+    return await this.collection.find<ContactResult>({ userId: new ObjectId(userId) }).toArray();
   }
 
-  async deleteContact({ userId, id }: DeleteContactType) {
+  async deleteContact({ userId, id }: DeleteContact) {
     await this.collection.deleteOne({ _id: new ObjectId(id) });
-    await new User().removeContactFromUser({ userId, contactId: id });
+    await new User().removeContactFromUser({ userId, contactId: new ObjectId(id) });
   }
 
-  async createContact({ userId, name }: CreateContactType) {
+  async createContact({ userId, name }: CreateContact) {
     const { insertedId } = await this.collection.insertOne({ userId: new ObjectId(userId), name });
     await new User().addContactToUser({ userId, contactId: insertedId });
   }
 }
 
 export default Contact;
+export type { ContactId };

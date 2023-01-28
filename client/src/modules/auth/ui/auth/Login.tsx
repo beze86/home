@@ -8,6 +8,7 @@ import { useMutation } from '@tanstack/react-query';
 
 import { usersApi } from 'client/modules/auth/api/auth';
 import { User } from 'client/modules/auth/domain/auth';
+import { CenteredStack } from 'client/shared/components/CenteredStack/CenteredStack';
 import { useSnackbar } from 'client/shared/hooks/useSnackbar';
 import { useUserState } from 'client/shared/hooks/useUserState';
 
@@ -41,45 +42,41 @@ export const Login = () => {
 
   const handleLoginSubmit = (data: Partial<User>) => mutateLogin.mutate({ ...data });
   return (
-    <Card
-      sx={{
-        width: '100%',
-        maxWidth: '600px',
-        margin: 'auto',
-      }}
-    >
-      <CardContent
-        sx={{
-          '&.MuiCardContent-root': {
-            padding: 8,
-          },
-        }}
-      >
-        <Typography variant="h4" mb={4}>
-          Log in
-        </Typography>
-        <Stack component="form" onSubmit={handleSubmit(handleLoginSubmit)} gap={6}>
-          <Controller
-            name="email"
-            control={control}
-            rules={{ required: true }}
-            render={({ field: { onChange, ...props } }) => {
-              return <TextField {...props} label="Insert Email" onChange={onChange} />;
-            }}
-          />
-          <Controller
-            name="password"
-            control={control}
-            rules={{ required: true }}
-            render={({ field: { onChange, ...props } }) => {
-              return <TextField {...props} label="Insert password" onChange={onChange} />;
-            }}
-          />
-          <LoadingButton type="submit" variant="contained" loading={mutateLogin.isLoading}>
+    <CenteredStack>
+      <Card>
+        <CardContent
+          sx={{
+            '&.MuiCardContent-root': {
+              padding: 8,
+            },
+          }}
+        >
+          <Typography variant="h4" mb={4}>
             Log in
-          </LoadingButton>
-        </Stack>
-      </CardContent>
-    </Card>
+          </Typography>
+          <Stack component="form" onSubmit={handleSubmit(handleLoginSubmit)} gap={6}>
+            <Controller
+              name="email"
+              control={control}
+              rules={{ required: true }}
+              render={({ field: { onChange, ...props } }) => {
+                return <TextField {...props} label="Insert Email" onChange={onChange} />;
+              }}
+            />
+            <Controller
+              name="password"
+              control={control}
+              rules={{ required: true }}
+              render={({ field: { onChange, ...props } }) => {
+                return <TextField {...props} label="Insert password" onChange={onChange} />;
+              }}
+            />
+            <LoadingButton type="submit" variant="contained" loading={mutateLogin.isLoading}>
+              Log in
+            </LoadingButton>
+          </Stack>
+        </CardContent>
+      </Card>
+    </CenteredStack>
   );
 };

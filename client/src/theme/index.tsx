@@ -106,6 +106,13 @@ export const theme = createTheme({
         variant: 'contained',
       },
     },
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          width: '100%',
+        },
+      },
+    },
     MuiCardContent: {
       styleOverrides: {
         root: ({ theme: { spacing } }) => ({

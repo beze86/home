@@ -7,8 +7,8 @@ const API = authenticationToken(PATH);
 
 export function usersApi(): UserRepository {
   return {
-    register(userData) {
-      return API.post('/', userData);
+    register(data) {
+      return API.post('/', data);
     },
     async login(userData) {
       try {

@@ -1,18 +1,18 @@
 import { useForm, Controller } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
 
 import { Button, Card, CardContent, List, Stack, TextField } from '@mui/material';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { contactsApi } from 'client/modules/home-tasks/api/contact/contact';
+import { ContactCreation, ContactId } from 'client/modules/home-tasks/domain/contact/contact';
 import { ContactsListItem } from 'client/modules/home-tasks/ui/contact/ContactsListItem';
+import { CenteredStack } from 'client/shared/components/CenteredStack/CenteredStack';
 
 const STALE_TIME_5_MIN = 300000;
 
 const CONTACT_LIST_QUERY = ['contacts', 'contact-list'];
 
 const ContactsList = () => {
-  const navigate = useNavigate();
   const { createContact, deleteContact, getAllContactsByUser } = contactsApi();
   const contactListQuery = useQueryClient();
 
@@ -25,39 +25,35 @@ const ContactsList = () => {
     handleSubmit,
     control,
     reset: resetForm,
-  } = useForm({
+  } = useForm<ContactCreation>({
     defaultValues: {
       name: '',
     },
   });
 
-  const { mutate: mutateCreateContact } = useMutation((data: { name: string }) => createContact(data), {
+  const { mutate: mutateCreateContact } = useMutation((data: ContactCreation) => createContact(data), {
     onSuccess: () => {
       resetForm();
       contactListQuery.invalidateQueries(CONTACT_LIST_QUERY);
     },
   });
 
-  const { mutate: mutateDeleteContact } = useMutation((id: string) => deleteContact(id), {
+  const { mutate: mutateDeleteContact } = useMutation((id: ContactId) => deleteContact(id), {
     onSuccess: () => contactListQuery.invalidateQueries(CONTACT_LIST_QUERY),
   });
 
   if (!contacts) return null;
 
-  const handleDeleteClick = (id: string) => {
+  const handleDeleteClick = (id: ContactId) => {
     mutateDeleteContact(id);
   };
 
-  const handleEditClick = (id: string) => {
-    navigate(id);
-  };
-
-  const handleOnSubmitCreateTask = (data: { name: string }) => {
+  const handleOnSubmitCreateContact = (data: ContactCreation) => {
     mutateCreateContact({ ...data });
   };
 
   return (
-    <Stack width="100%" maxWidth="600px" alignItems="center" justifyContent="center" margin="auto" gap={2}>
+    <CenteredStack>
       <Card
         sx={{
           width: '100%',
@@ -71,7 +67,7 @@ const ContactsList = () => {
             flexWrap="wrap"
             justifyContent="flex-end"
             gap={4}
-            onSubmit={handleSubmit(handleOnSubmitCreateTask)}
+            onSubmit={handleSubmit(handleOnSubmitCreateContact)}
           >
             <Controller
               name="name"
@@ -84,20 +80,16 @@ const ContactsList = () => {
           </Stack>
         </CardContent>
       </Card>
-      <Card
-        sx={{
-          width: '100%',
-        }}
-      >
+      <Card>
         <CardContent>
           <List disablePadding>
             {contacts.map(({ name, _id }) => {
-              return <ContactsListItem key={_id} name={name} id={_id} handleDeleteClick={handleDeleteClick} handleEditClick={handleEditClick} />;
+              return <ContactsListItem key={_id} name={name} onClickDeleteContact={() => handleDeleteClick(_id)} />;
             })}
           </List>
         </CardContent>
       </Card>
-    </Stack>
+    </CenteredStack>
   );
 };
 

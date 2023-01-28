@@ -1,10 +1,17 @@
-export type Contact = {
-  _id: string;
+type ContactId = string;
+
+type Contact = ContactCreation & {
+  _id: ContactId;
+};
+
+type ContactCreation = {
   name: string;
 };
 
-export type ContactRepository = {
+type ContactRepository = {
   getAllContactsByUser: () => Promise<Contact[]>;
-  deleteContact: (id: Contact['_id']) => Promise<void>;
-  createContact: (data: { name: Contact['name'] }) => Promise<void>;
+  deleteContact: (id: ContactId) => Promise<void>;
+  createContact: (data: ContactCreation) => Promise<void>;
 };
+
+export type { ContactId, Contact, ContactCreation, ContactRepository };
