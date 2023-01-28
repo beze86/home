@@ -1,8 +1,8 @@
-import dayjs from 'dayjs';
+import dayjs, { extend } from 'dayjs';
 import weekday from 'dayjs/plugin/weekday';
 
 const getWeekDays = () => {
-  dayjs.extend(weekday);
+  extend(weekday);
 
   return {
     nextMonday: dayjs().weekday(1 + 7),

@@ -7,7 +7,7 @@ import { Card, CardContent, Stack, TextField, Typography } from '@mui/material';
 import { useMutation } from '@tanstack/react-query';
 
 import { usersApi } from 'client/modules/auth/api/auth';
-import { User, UserLogin } from 'client/modules/auth/domain/auth';
+import { UserLogin } from 'client/modules/auth/domain/auth';
 import { CenteredStack } from 'client/shared/components/CenteredStack/CenteredStack';
 import { useSnackbar } from 'client/shared/hooks/useSnackbar';
 import { useUserState } from 'client/shared/hooks/useUserState';

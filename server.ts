@@ -2,7 +2,7 @@ import path from 'path';
 
 import cors from 'cors';
 import { config } from 'dotenv';
-import express from 'express';
+import express, { static as expressStatic, json } from 'express';
 
 // eslint-disable-next-line import/order
 import database from './Database';
@@ -18,7 +18,7 @@ import userRoutes from './routes/user';
 const app = express();
 
 app.use(cors());
-app.use(express.json());
+app.use(json());
 
 app.use('/api/v1/users', userRoutes);
 app.use('/api/v1/areas', protectedRoute, areaRoutes);
@@ -26,7 +26,7 @@ app.use('/api/v1/contacts', protectedRoute, contactRoutes);
 app.use('/api/v1/tasks', protectedRoute, taskRoutes);
 
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, 'client', 'build')));
+  app.use(expressStatic(path.join(__dirname, 'client', 'build')));
 
   app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));

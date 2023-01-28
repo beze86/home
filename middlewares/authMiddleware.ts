@@ -1,6 +1,6 @@
 import { config } from 'dotenv';
 import { Response, Request, NextFunction } from 'express';
-import jwt, { JwtPayload } from 'jsonwebtoken';
+import { JwtPayload, decode, verify } from 'jsonwebtoken';
 
 config();
 
@@ -9,9 +9,9 @@ const protectedRoute = (req: Request, res: Response, next: NextFunction) => {
     try {
       const token = req.headers.authorization.split('Bearer ')[1];
 
-      const verifiedToken = jwt.verify(token, process.env.JWT_SECRET_KEY) as JwtPayload;
+      const verifiedToken = verify(token, process.env.JWT_SECRET_KEY) as JwtPayload;
 
-      jwt.decode(token);
+      decode(token);
       req.userId = verifiedToken?.id;
       next();
     } catch (error) {

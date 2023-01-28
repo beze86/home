@@ -4,7 +4,7 @@ import { MongoClient } from 'mongodb';
 config();
 
 class Database {
-  private URI: string;
+  URI: string;
   private client: MongoClient;
   private dbConnection: MongoClient | null;
 
@@ -18,9 +18,9 @@ class Database {
     try {
       this.dbConnection = await this.client.connect();
       console.log('Connected successfully to server');
-    } catch (err) {
-      console.log(err);
-      throw err;
+    } catch (error) {
+      console.log(error);
+      throw new Error(`Failed to connect to database with error: ${error}`);
     }
   }
 
