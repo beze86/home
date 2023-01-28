@@ -26,10 +26,10 @@ app.use('/api/v1/contacts', protectedRoute, contactRoutes);
 app.use('/api/v1/tasks', protectedRoute, taskRoutes);
 
 if (process.env.NODE_ENV === 'production') {
-  app.use(expressStatic(path.join(__dirname, 'client', 'build')));
+  app.use(expressStatic(path.join(__dirname, '../client', 'build')));
 
   app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
+    res.sendFile(path.join(__dirname, '../client', 'build', 'index.html'));
   });
 }
 
