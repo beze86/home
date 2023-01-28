@@ -26,4 +26,4 @@ type UserRepository = {
   delete: (id: UserId) => Promise<void>;
 };
 
-export type { UserId, User, UserState, UserRepository };
+export type { UserId, UserLogin, UserRegister, User, UserState, UserRepository };

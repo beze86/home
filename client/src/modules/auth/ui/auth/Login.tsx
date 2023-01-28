@@ -7,7 +7,7 @@ import { Card, CardContent, Stack, TextField, Typography } from '@mui/material';
 import { useMutation } from '@tanstack/react-query';
 
 import { usersApi } from 'client/modules/auth/api/auth';
-import { User } from 'client/modules/auth/domain/auth';
+import { User, UserLogin } from 'client/modules/auth/domain/auth';
 import { CenteredStack } from 'client/shared/components/CenteredStack/CenteredStack';
 import { useSnackbar } from 'client/shared/hooks/useSnackbar';
 import { useUserState } from 'client/shared/hooks/useUserState';
@@ -17,7 +17,7 @@ export const Login = () => {
   const { login } = usersApi();
   const { snackbar } = useSnackbar();
 
-  const { control, handleSubmit } = useForm<Partial<User>>({
+  const { control, handleSubmit } = useForm<UserLogin>({
     defaultValues: {
       email: '',
       password: '',
@@ -25,7 +25,7 @@ export const Login = () => {
   });
 
   const mutateLogin = useMutation(
-    async (submittedData: Partial<User>) => {
+    async (submittedData: UserLogin) => {
       const data = await login(submittedData);
       setStatesOnLogin(data);
       navigate('/tasks');
@@ -40,7 +40,7 @@ export const Login = () => {
   );
   const { setStatesOnLogin } = useUserState();
 
-  const handleLoginSubmit = (data: Partial<User>) => mutateLogin.mutate({ ...data });
+  const handleLoginSubmit = (data: UserLogin) => mutateLogin.mutate({ ...data });
   return (
     <CenteredStack>
       <Card>
