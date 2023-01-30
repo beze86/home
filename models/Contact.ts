@@ -39,8 +39,8 @@ class Contact implements ContactInterface {
     this.collection = database.getDb().collection('contacts');
   }
 
-  async getAllContactsByUser({ userId }: GetAllContactsByUser) {
-    return await this.collection.find<ContactResult>({ userId: new ObjectId(userId) }).toArray();
+  getAllContactsByUser({ userId }: GetAllContactsByUser) {
+    return this.collection.find<ContactResult>({ userId: new ObjectId(userId) }).toArray();
   }
 
   async deleteContact({ userId, id }: DeleteContact) {

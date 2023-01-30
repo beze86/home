@@ -39,8 +39,8 @@ class Area implements AreaInterface {
     this.collection = database.getDb().collection('areas');
   }
 
-  async getAllAreasByUser({ userId }: GetAllAreasByUser) {
-    return await this.collection.find<AreaResult>({ userId: new ObjectId(userId) }).toArray();
+  getAllAreasByUser({ userId }: GetAllAreasByUser) {
+    return this.collection.find<AreaResult>({ userId: new ObjectId(userId) }).toArray();
   }
 
   async deleteArea({ userId, id }: DeleteArea) {

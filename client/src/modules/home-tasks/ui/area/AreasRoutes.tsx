@@ -1,7 +1,7 @@
 import { Suspense, lazy } from 'react';
 import { Route, Routes } from 'react-router-dom';
 
-import { CircularProgress } from '@mui/material';
+import { LoadingSpinner } from 'client/shared/components/LoadingSpinner/LoadingSpinner';
 
 const AreasList = lazy(() => import('client/modules/home-tasks/ui/area/AreasList'));
 
@@ -12,7 +12,7 @@ export const AreasRoutes = () => {
         <Route
           index
           element={
-            <Suspense fallback={<CircularProgress />}>
+            <Suspense fallback={<LoadingSpinner />}>
               <AreasList />
             </Suspense>
           }

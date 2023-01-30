@@ -49,8 +49,8 @@ class Task implements TaskInterface {
     this.collection = database.getDb().collection('tasks');
   }
 
-  async getAllTasksByUser({ userId }: GetAllTasksByUser) {
-    return await this.collection.find<TaskResult>({ userId: new ObjectId(userId) }).toArray();
+  getAllTasksByUser({ userId }: GetAllTasksByUser) {
+    return this.collection.find<TaskResult>({ userId: new ObjectId(userId) }).toArray();
   }
 
   async deleteWeeklyTask({ userId, id }: DeleteWeeklyTask) {

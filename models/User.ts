@@ -1,4 +1,4 @@
-import { Collection, DeleteResult, InsertOneResult, ObjectId, WithId } from 'mongodb';
+import { Collection, InsertOneResult, ObjectId, WithId } from 'mongodb';
 
 import { AreaId } from './Area';
 import { ContactId } from './Contact';
@@ -34,7 +34,7 @@ type TasksToUser = {
 interface UserInterface {
   collection: Collection;
   findUserByEmail: (data: string) => Promise<WithId<Document> | null>;
-  deleteUser: (data: UserId) => Promise<DeleteResult>;
+  deleteUser: (data: UserId) => Promise<void>;
   registerUser: (data: RegisterUser) => Promise<InsertOneResult<Document>>;
   addContactToUser: (data: ContactToUser) => Promise<void>;
   removeContactFromUser: (data: ContactToUser) => Promise<void>;
@@ -56,7 +56,7 @@ class User implements UserInterface {
   }
 
   async deleteUser(id: UserId) {
-    return await this.collection.deleteOne({ _id: new ObjectId(id) });
+    await this.collection.deleteOne({ _id: new ObjectId(id) });
   }
 
   async registerUser(data: RegisterUser) {

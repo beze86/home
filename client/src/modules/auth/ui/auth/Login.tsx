@@ -11,13 +11,19 @@ import { UserLogin } from 'client/modules/auth/domain/auth';
 import { CenteredStack } from 'client/shared/components/CenteredStack/CenteredStack';
 import { useSnackbar } from 'client/shared/hooks/useSnackbar';
 import { useUserState } from 'client/shared/hooks/useUserState';
+import { emailRegexValidation } from 'client/shared/utils/utils';
 
 export const Login = () => {
   const navigate = useNavigate();
   const { login } = usersApi();
   const { snackbar } = useSnackbar();
+  const { setStatesOnLogin } = useUserState();
 
-  const { control, handleSubmit } = useForm<UserLogin>({
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<UserLogin>({
     defaultValues: {
       email: '',
       password: '',
@@ -38,9 +44,13 @@ export const Login = () => {
       },
     },
   );
-  const { setStatesOnLogin } = useUserState();
 
   const handleLoginSubmit = (data: UserLogin) => mutateLogin.mutate({ ...data });
+
+  const emailHasErrors = errors.email?.type === 'pattern' || errors.email?.type === 'required';
+
+  const passwordHasErrors = errors.password?.type === 'required';
+
   return (
     <CenteredStack>
       <Card>
@@ -58,17 +68,31 @@ export const Login = () => {
             <Controller
               name="email"
               control={control}
-              rules={{ required: true }}
+              rules={{
+                required: {
+                  message: 'Email is required',
+                  value: true,
+                },
+                pattern: {
+                  value: emailRegexValidation,
+                  message: 'Email is not valid',
+                },
+              }}
               render={({ field: { onChange, ...props } }) => {
-                return <TextField {...props} label="Insert Email" onChange={onChange} />;
+                return <TextField {...props} label="Insert Email" onChange={onChange} helperText={emailHasErrors && errors.email?.message} error={emailHasErrors} />;
               }}
             />
             <Controller
               name="password"
               control={control}
-              rules={{ required: true }}
+              rules={{
+                required: {
+                  message: 'Password is required',
+                  value: true,
+                },
+              }}
               render={({ field: { onChange, ...props } }) => {
-                return <TextField {...props} label="Insert password" onChange={onChange} />;
+                return <TextField {...props} type="password" label="Insert password" onChange={onChange} helperText={passwordHasErrors && errors.password?.message} error={passwordHasErrors} />;
               }}
             />
             <LoadingButton type="submit" variant="contained" loading={mutateLogin.isLoading}>
