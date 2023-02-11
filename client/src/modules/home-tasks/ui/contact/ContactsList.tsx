@@ -6,7 +6,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { contactsApi } from 'client/modules/home-tasks/api/contact/contact';
 import { ContactCreation, ContactId } from 'client/modules/home-tasks/domain/contact/contact';
 import { ContactsListItem } from 'client/modules/home-tasks/ui/contact/ContactsListItem';
-import { CenteredStack } from 'client/shared/components/CenteredStack/CenteredStack';
+import { Page } from 'client/shared/layouts/Page/Page';
 
 const STALE_TIME_5_MIN = 300000;
 
@@ -53,43 +53,33 @@ const ContactsList = () => {
   };
 
   return (
-    <CenteredStack>
-      <Card
-        sx={{
-          width: '100%',
-        }}
-      >
-        <CardContent>
-          <Stack
-            component="form"
-            direction="row"
-            alignItems="center"
-            flexWrap="wrap"
-            justifyContent="flex-end"
-            gap={4}
-            onSubmit={handleSubmit(handleOnSubmitCreateContact)}
-          >
-            <Controller
-              name="name"
-              control={control}
-              render={({ field }) => {
-                return <TextField {...field} label="Add new contact" />;
-              }}
-            />
-            <Button type="submit">Add Contacts</Button>
-          </Stack>
-        </CardContent>
-      </Card>
-      <Card>
-        <CardContent>
-          <List disablePadding>
-            {contacts.map(({ name, _id }) => {
-              return <ContactsListItem key={_id} name={name} onClickDeleteContact={() => handleDeleteClick(_id)} />;
-            })}
-          </List>
-        </CardContent>
-      </Card>
-    </CenteredStack>
+    <Page>
+      <Page.Main>
+        <Card sx={{ maxWidth: '600px', marginX: 'auto', marginBottom: 3 }}>
+          <CardContent>
+            <Stack component="form" direction="row" alignItems="center" flexWrap="wrap" justifyContent="flex-end" gap={4} onSubmit={handleSubmit(handleOnSubmitCreateContact)}>
+              <Controller
+                name="name"
+                control={control}
+                render={({ field }) => {
+                  return <TextField {...field} label="Add new contact" />;
+                }}
+              />
+              <Button type="submit">Add Contacts</Button>
+            </Stack>
+          </CardContent>
+        </Card>
+        <Card sx={{ maxWidth: '600px', marginX: 'auto' }}>
+          <CardContent>
+            <List disablePadding>
+              {contacts.map(({ name, _id }) => {
+                return <ContactsListItem key={_id} name={name} onClickDeleteContact={() => handleDeleteClick(_id)} />;
+              })}
+            </List>
+          </CardContent>
+        </Card>
+      </Page.Main>
+    </Page>
   );
 };
 

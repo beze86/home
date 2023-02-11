@@ -4,7 +4,7 @@ import { Outlet, Route, Routes } from 'react-router-dom';
 
 import { IconDefinition } from '@fortawesome/fontawesome-common-types';
 import { faCalendarWeek, faCouch, faTasks, faUser } from '@fortawesome/pro-regular-svg-icons';
-import { Box, Container, ThemeProvider } from '@mui/material';
+import { Stack, ThemeProvider, CssBaseline } from '@mui/material';
 
 import { store } from 'client/modules/app/store';
 import { Login } from 'client/modules/auth/ui/auth/Login';
@@ -57,22 +57,15 @@ export const App = () => {
   return (
     <UserStateProvider store={store}>
       <ThemeProvider theme={theme}>
+        <CssBaseline />
         {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
         {/*// @ts-ignore*/}
         <SnackbarProvider>
-          <Box
-            sx={{
-              width: '100%',
-              minHeight: '100vh',
-              backgroundColor: 'grey.200',
-            }}
-          >
+          <Stack sx={{ height: '100vh' }}>
             <NavBar routes={protectedRoutesList} />
-            <Container disableGutters sx={{ padding: 5 }}>
-              <Routing />
-              <Outlet />
-            </Container>
-          </Box>
+            <Routing />
+            <Outlet />
+          </Stack>
         </SnackbarProvider>
       </ThemeProvider>
     </UserStateProvider>

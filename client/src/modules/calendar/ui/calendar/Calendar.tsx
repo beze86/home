@@ -3,8 +3,15 @@ import React from 'react';
 /* eslint import/order: ["error", {"alphabetize": {"order": "desc"}}] */
 
 import FullCalendar from '@fullcalendar/react'; // must go before plugins
-import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin!
+import dayGridPlugin from '@fullcalendar/daygrid';
+import { Page } from 'client/shared/layouts/Page/Page'; // a plugin!
 
 export const Calendar = () => {
-  return <FullCalendar height="100vh" plugins={[dayGridPlugin]} initialView="dayGridMonth" />;
+  return (
+    <Page>
+      <Page.Main>
+        <FullCalendar height="100vh" plugins={[dayGridPlugin]} initialView="dayGridMonth" />
+      </Page.Main>
+    </Page>
+  );
 };

@@ -9,7 +9,7 @@ const isDevelopment = process.env.NODE_ENV !== 'production';
 
 module.exports = {
   mode: isDevelopment ? 'development' : 'production',
-  entry: ['regenerator-runtime/runtime', path.resolve(__dirname, 'src/index.tsx')],
+  entry: ['regenerator-runtime/runtime', path.resolve(__dirname, 'src', 'index.tsx')],
   output: {
     path: path.resolve(__dirname, 'build'),
     filename: '[name].[contenthash].js',
@@ -73,10 +73,11 @@ module.exports = {
       '/api': 'http://localhost:5000',
     },
     compress:true,
+    liveReload: false
   },
   plugins: [
     new HtmlWebPackPlugin({
-      template: './public/index.html',
+      template: path.resolve(__dirname, 'public', 'index.html'),
     }),
     new WebpackManifestPlugin({
       writeToFileEmit: true,

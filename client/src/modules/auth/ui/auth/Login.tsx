@@ -8,9 +8,10 @@ import { useMutation } from '@tanstack/react-query';
 
 import { usersApi } from 'client/modules/auth/api/auth';
 import { UserLogin } from 'client/modules/auth/domain/auth';
-import { CenteredStack } from 'client/shared/components/CenteredStack/CenteredStack';
 import { useSnackbar } from 'client/shared/hooks/useSnackbar';
 import { useUserState } from 'client/shared/hooks/useUserState';
+import { CenteredStack } from 'client/shared/layouts/Page/CenteredStack';
+import { Page } from 'client/shared/layouts/Page/Page';
 import { emailRegexValidation } from 'client/shared/utils/utils';
 
 export const Login = () => {
@@ -52,55 +53,57 @@ export const Login = () => {
   const passwordHasErrors = errors.password?.type === 'required';
 
   return (
-    <CenteredStack>
-      <Card>
-        <CardContent
-          sx={{
-            '&.MuiCardContent-root': {
-              padding: 8,
-            },
-          }}
-        >
-          <Typography variant="h4" mb={4}>
-            Log in
-          </Typography>
-          <Stack component="form" onSubmit={handleSubmit(handleLoginSubmit)} gap={6}>
-            <Controller
-              name="email"
-              control={control}
-              rules={{
-                required: {
-                  message: 'Email is required',
-                  value: true,
-                },
-                pattern: {
-                  value: emailRegexValidation,
-                  message: 'Email is not valid',
-                },
-              }}
-              render={({ field: { onChange, ...props } }) => {
-                return <TextField {...props} label="Insert Email" onChange={onChange} helperText={emailHasErrors && errors.email?.message} error={emailHasErrors} />;
-              }}
-            />
-            <Controller
-              name="password"
-              control={control}
-              rules={{
-                required: {
-                  message: 'Password is required',
-                  value: true,
-                },
-              }}
-              render={({ field: { onChange, ...props } }) => {
-                return <TextField {...props} type="password" label="Insert password" onChange={onChange} helperText={passwordHasErrors && errors.password?.message} error={passwordHasErrors} />;
-              }}
-            />
-            <LoadingButton type="submit" variant="contained" loading={mutateLogin.isLoading}>
+    <Page>
+      <Page.Main>
+        <Card sx={{ maxWidth: '600px', margin: '0 auto' }}>
+          <CardContent
+            sx={{
+              '&.MuiCardContent-root': {
+                padding: 8,
+              },
+            }}
+          >
+            <Typography variant="h4" mb={4}>
               Log in
-            </LoadingButton>
-          </Stack>
-        </CardContent>
-      </Card>
-    </CenteredStack>
+            </Typography>
+            <Stack component="form" onSubmit={handleSubmit(handleLoginSubmit)} gap={6}>
+              <Controller
+                name="email"
+                control={control}
+                rules={{
+                  required: {
+                    message: 'Email is required',
+                    value: true,
+                  },
+                  pattern: {
+                    value: emailRegexValidation,
+                    message: 'Email is not valid',
+                  },
+                }}
+                render={({ field: { onChange, ...props } }) => {
+                  return <TextField {...props} label="Insert Email" onChange={onChange} helperText={emailHasErrors && errors.email?.message} error={emailHasErrors} />;
+                }}
+              />
+              <Controller
+                name="password"
+                control={control}
+                rules={{
+                  required: {
+                    message: 'Password is required',
+                    value: true,
+                  },
+                }}
+                render={({ field: { onChange, ...props } }) => {
+                  return <TextField {...props} type="password" label="Insert password" onChange={onChange} helperText={passwordHasErrors && errors.password?.message} error={passwordHasErrors} />;
+                }}
+              />
+              <LoadingButton type="submit" variant="contained" loading={mutateLogin.isLoading}>
+                Log in
+              </LoadingButton>
+            </Stack>
+          </CardContent>
+        </Card>
+      </Page.Main>
+    </Page>
   );
 };

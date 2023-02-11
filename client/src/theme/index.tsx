@@ -61,14 +61,22 @@ export const theme = createTheme({
     grey: Color.grey,
   },
   typography: {
-    fontFamily: 'Roboto, sans-serif',
     allVariants: {
       color: Text.primary,
-      fontFamily: 'Roboto, sans-serif',
     },
   },
   spacing: ['0', '4px', '8px', '12px', '16px', '24px', '32px', '40px', '48px'],
   components: {
+    MuiCssBaseline: {
+      styleOverrides: (theme) => ({
+        body: {
+          boxSizing: 'border-box',
+          fontFamily: 'Roboto, sans-serif',
+          backgroundColor: theme.palette.grey['100'],
+          margin: '0',
+        },
+      }),
+    },
     MuiSnackbar: {
       defaultProps: {
         anchorOrigin: {
@@ -121,6 +129,14 @@ export const theme = createTheme({
           '&:last-child': {
             paddingBottom: spacing(4),
           },
+        }),
+      },
+    },
+    MuiInputLabel: {
+      styleOverrides: {
+        root: ({ theme: { palette } }) => ({
+          color: palette.grey['400'],
+          fontWeight: 300,
         }),
       },
     },

@@ -6,7 +6,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { areasApi } from 'client/modules/home-tasks/api/area/area';
 import { AreaCreation, AreaId } from 'client/modules/home-tasks/domain/area/area';
 import { AreasListItem } from 'client/modules/home-tasks/ui/area/AreasListItem';
-import { CenteredStack } from 'client/shared/components/CenteredStack/CenteredStack';
+import { Page } from 'client/shared/layouts/Page/Page';
 
 const STALE_TIME_5_MIN = 300000;
 
@@ -52,31 +52,33 @@ const AreasList = () => {
   };
 
   return (
-    <CenteredStack>
-      <Card>
-        <CardContent>
-          <Stack component="form" direction="row" alignItems="center" flexWrap="wrap" justifyContent="flex-end" gap={4} onSubmit={handleSubmit(handleOnSubmitCreateArea)}>
-            <Controller
-              name="area"
-              control={control}
-              render={({ field }) => {
-                return <TextField {...field} label="Add new area/s" />;
-              }}
-            />
-            <Button type="submit">Add Area</Button>
-          </Stack>
-        </CardContent>
-      </Card>
-      <Card>
-        <CardContent>
-          <List disablePadding>
-            {areas.map(({ area, _id }) => {
-              return <AreasListItem key={_id} area={area} onClickDeleteArea={() => handleOnClickDeleteArea(_id)} />;
-            })}
-          </List>
-        </CardContent>
-      </Card>
-    </CenteredStack>
+    <Page>
+      <Page.Main>
+        <Card sx={{ maxWidth: '600px', marginX: 'auto', marginBottom: 3 }}>
+          <CardContent>
+            <Stack component="form" direction="row" alignItems="center" flexWrap="wrap" justifyContent="flex-end" gap={4} onSubmit={handleSubmit(handleOnSubmitCreateArea)}>
+              <Controller
+                name="area"
+                control={control}
+                render={({ field }) => {
+                  return <TextField {...field} label="Add new area/s" />;
+                }}
+              />
+              <Button type="submit">Add Area</Button>
+            </Stack>
+          </CardContent>
+        </Card>
+        <Card sx={{ maxWidth: '600px', marginX: 'auto' }}>
+          <CardContent>
+            <List disablePadding>
+              {areas.map(({ area, _id }) => {
+                return <AreasListItem key={_id} area={area} onClickDeleteArea={() => handleOnClickDeleteArea(_id)} />;
+              })}
+            </List>
+          </CardContent>
+        </Card>
+      </Page.Main>
+    </Page>
   );
 };
 

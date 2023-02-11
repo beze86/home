@@ -7,7 +7,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { tasksApi } from 'client/modules/home-tasks/api/task/task';
 import { TaskId } from 'client/modules/home-tasks/domain/task/task';
-import { CenteredStack } from 'client/shared/components/CenteredStack/CenteredStack';
+import { Page } from 'client/shared/layouts/Page/Page';
 
 const TASK_LIST_QUERY = ['tasks', 'task-list'];
 const STALE_TIME_5_MIN = 300000;
@@ -41,45 +41,49 @@ const TasksList = () => {
   };
 
   return (
-    <CenteredStack>
-      <Card>
-        <CardContent>
-          <Stack component="form" direction="row" alignItems="center" justifyContent="flex-end" onSubmit={handleOnSubmitCreateTask}>
-            <Button type="submit">Create Weekly Task</Button>
-          </Stack>
-        </CardContent>
-      </Card>
-      {tasks.map(({ _id, start, end, users }) => {
-        return (
-          <Card
-            key={_id}
-            sx={{
-              marginBottom: 1,
-            }}
-          >
-            <CardContent>
-              <Stack direction="row" alignItems="center">
-                <Typography component="span" variant="subtitle1" sx={{ mr: 3 }}>
-                  Start: {dayjs(start).format('DD/MM/YYYY')}
-                </Typography>
-                <Typography component="span" variant="subtitle1" sx={{ mr: 'auto' }}>
-                  End: {dayjs(end).format('DD/MM/YYYY')}
-                </Typography>
-                <IconButton onClick={() => handleOnClickDelete(_id)} aria-label="delete">
-                  <Delete color="error" />
-                </IconButton>
-              </Stack>
+    <Page>
+      <Page.Main>
+        <Card sx={{ maxWidth: '600px', marginX: 'auto', marginBottom: 3 }}>
+          <CardContent>
+            <Stack component="form" direction="row" alignItems="center" justifyContent="flex-end" onSubmit={handleOnSubmitCreateTask}>
+              <Button type="submit">Create Weekly Task</Button>
+            </Stack>
+          </CardContent>
+        </Card>
+        {tasks.map(({ _id, start, end, users }) => {
+          return (
+            <Card
+              key={_id}
+              sx={{
+                maxWidth: '600px',
+                marginX: 'auto',
+                marginBottom: 1,
+              }}
+            >
+              <CardContent>
+                <Stack direction="row" alignItems="center">
+                  <Typography component="span" variant="subtitle1" sx={{ mr: 3 }}>
+                    Start: {dayjs(start).format('DD/MM/YYYY')}
+                  </Typography>
+                  <Typography component="span" variant="subtitle1" sx={{ mr: 'auto' }}>
+                    End: {dayjs(end).format('DD/MM/YYYY')}
+                  </Typography>
+                  <IconButton onClick={() => handleOnClickDelete(_id)} aria-label="delete">
+                    <Delete color="error" />
+                  </IconButton>
+                </Stack>
 
-              <List>
-                {users.map(({ name, area }) => {
-                  return <ListItem key={name}>{`${name}: ${area}`}</ListItem>;
-                })}
-              </List>
-            </CardContent>
-          </Card>
-        );
-      })}
-    </CenteredStack>
+                <List>
+                  {users.map(({ name, area }) => {
+                    return <ListItem key={name}>{`${name}: ${area}`}</ListItem>;
+                  })}
+                </List>
+              </CardContent>
+            </Card>
+          );
+        })}
+      </Page.Main>
+    </Page>
   );
 };
 

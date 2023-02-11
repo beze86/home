@@ -8,7 +8,7 @@ import { NavbarMobile } from 'client/shared/layouts/Navbar/NavbarMobile';
 export const NavBar = ({ routes }: { routes: RoutesList[] }) => {
   return (
     <AppBar>
-      <Container sx={{ pl: 5 }}>
+      <Container>
         <Toolbar>
           <Logo />
           <NavbarDesktop pages={routes} />
