@@ -18,35 +18,48 @@ import { ProtectedRoutes } from 'client/shared/components/ProtectedRoute/Protect
 import { NavBar } from 'client/shared/layouts/Navbar/Navbar';
 import { theme } from 'client/theme';
 
-export type RoutesList = {
+export type RouteChildType = {
   title: string;
-  url: string;
+  path: string;
   icon?: IconDefinition;
   element: JSX.Element;
 };
 
-const protectedRoutesList: RoutesList[] = [
+export type RouteType = {
+  title: string;
+  mainPath: string;
+  element?: JSX.Element;
+  children?: RouteChildType[];
+};
+
+const protectedRoutesList: RouteType[] = [
   {
-    title: 'Calendar',
-    url: '/calendar',
-    icon: faCalendarWeek,
-    element: <Calendar />,
+    title: 'House-tasks',
+    mainPath: 'house',
+    children: [
+      {
+        title: 'Calendar',
+        path: 'calendar',
+        icon: faCalendarWeek,
+        element: <Calendar />,
+      },
+      {
+        title: 'Contacts',
+        path: 'contacts',
+        icon: faCouch,
+        element: <ContactsRoutes />,
+      },
+      { title: 'Areas', path: 'areas', icon: faTasks, element: <AreasRoutes /> },
+      { title: 'Tasks', path: 'tasks', icon: faUser, element: <TasksRoutes /> },
+    ],
   },
-  {
-    title: 'Contacts',
-    url: '/contacts',
-    icon: faCouch,
-    element: <ContactsRoutes />,
-  },
-  { title: 'Areas', url: '/areas', icon: faTasks, element: <AreasRoutes /> },
-  { title: 'Tasks', url: '/tasks', icon: faUser, element: <TasksRoutes /> },
 ];
 
 const Routing = () => {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/*" element={<ProtectedRoutes list={protectedRoutesList} />} />
+      <Route path="/*" element={<ProtectedRoutes routes={protectedRoutesList} />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
     </Routes>

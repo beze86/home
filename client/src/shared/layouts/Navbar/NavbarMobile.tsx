@@ -1,19 +1,23 @@
-import { Fragment, MouseEvent, useState } from 'react';
-import { NavLink as RouterLink } from 'react-router-dom';
+import { MouseEvent, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import MenuIcon from '@mui/icons-material/Menu';
-import { Box, Button, Divider, Drawer, IconButton, Link, List, ListItem, ListItemIcon, ListItemText } from '@mui/material';
+import { Box, Divider, Drawer, IconButton, List, ListItemButton } from '@mui/material';
 
-import { RoutesList } from 'client/App';
-import { Icon } from 'client/shared/components/Icon';
+import { RouteType } from 'client/App';
 import { useUserState } from 'client/shared/hooks/useUserState';
+import { NavbarMobileRoute } from 'client/shared/layouts/Navbar/NavbarMobileRoute';
 
-export const NavbarMobile = ({ pages }: { pages: RoutesList[] }) => {
+const LIST_MIN_WIDTH = '200px';
+
+const NavbarMobile = ({ routes }: { routes: RouteType[] }) => {
   const {
     state: { isLogged },
     removeStatesOnLogout,
   } = useUserState();
-  const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
+
+  const navigate = useNavigate();
+  const [anchorElNav, setAnchorElNav] = useState<HTMLElement | null>(null);
   const [iconButtonActive, setIconButtonActive] = useState(false);
 
   const handleOnClickOpenNavMenu = (evt: MouseEvent<HTMLElement>) => {
@@ -21,9 +25,19 @@ export const NavbarMobile = ({ pages }: { pages: RoutesList[] }) => {
     setIconButtonActive((prev) => !prev);
   };
 
-  const handleOnCloseNavMenu = () => {
+  const handleCloseNavMenu = () => {
     setIconButtonActive(false);
     setAnchorElNav(null);
+  };
+
+  const handleClickLogout = () => {
+    handleCloseNavMenu();
+    removeStatesOnLogout();
+  };
+
+  const handleClickLogin = () => {
+    handleCloseNavMenu();
+    navigate('login');
   };
 
   return (
@@ -35,7 +49,7 @@ export const NavbarMobile = ({ pages }: { pages: RoutesList[] }) => {
       <IconButton size="large" aria-controls="menu-appbar" aria-haspopup="true" onClick={handleOnClickOpenNavMenu} color="inherit">
         <MenuIcon />
       </IconButton>
-      <Drawer anchor="right" open={!!anchorElNav} onClose={handleOnCloseNavMenu}>
+      <Drawer anchor="right" open={!!anchorElNav} onClose={handleCloseNavMenu}>
         <Box
           sx={(theme) => ({
             display: 'flex',
@@ -46,45 +60,14 @@ export const NavbarMobile = ({ pages }: { pages: RoutesList[] }) => {
             justifyContent: 'flex-start',
           })}
         />
-        <List sx={{ minWidth: '200px' }}>
-          {isLogged &&
-            pages.map(({ title, url, icon }) => (
-              <Fragment key={title}>
-                <Link
-                  component={RouterLink}
-                  to={url}
-                  sx={{
-                    display: 'block',
-                    '&.active > li': {
-                      backgroundColor: 'grey.100',
-                    },
-                  }}
-                >
-                  <ListItem sx={{ py: 4 }} onClick={handleOnCloseNavMenu}>
-                    {icon && (
-                      <ListItemIcon sx={{ minWidth: '32px' }}>
-                        <Icon icon={icon} />
-                      </ListItemIcon>
-                    )}
-                    <ListItemText primary={title} />
-                  </ListItem>
-                </Link>
-                <Divider />
-              </Fragment>
-            ))}
-          {isLogged ? (
-            <ListItem>
-              <Button onClick={removeStatesOnLogout}>Logout</Button>
-            </ListItem>
-          ) : (
-            <Link component={RouterLink} to="/login">
-              <ListItem>
-                <Button onClick={handleOnCloseNavMenu}>Login</Button>
-              </ListItem>
-            </Link>
-          )}
+        <List sx={{ minWidth: LIST_MIN_WIDTH }}>
+          {isLogged && routes.map((route) => <NavbarMobileRoute key={route.mainPath} route={route} onClick={handleCloseNavMenu} />)}
+          {isLogged ? <ListItemButton onClick={handleClickLogout}>Logout</ListItemButton> : <ListItemButton onClick={handleClickLogin}>Login</ListItemButton>}
+          <Divider />
         </List>
       </Drawer>
     </Box>
   );
 };
+
+export { NavbarMobile };

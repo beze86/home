@@ -1,4 +1,4 @@
-import { Collection, InsertOneResult, ObjectId, WithId } from 'mongodb';
+import { Collection, InsertOneResult, ObjectId, WithId, Document } from 'mongodb';
 
 import { AreaId } from './Area';
 import { ContactId } from './Contact';

@@ -1,20 +1,24 @@
-import { NavLink as RouterLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-import { Box, Link } from '@mui/material';
+import { Box } from '@mui/material';
 
-import { RoutesList } from 'client/App';
+import { RouteType } from 'client/App';
 import { useUserState } from 'client/shared/hooks/useUserState';
 import { Button } from 'client/shared/layouts/Navbar/Button';
+import { NavbarDesktopRoute } from 'client/shared/layouts/Navbar/NavbarDesktopRoute';
 
-export const NavbarDesktop = ({ pages }: { pages: RoutesList[] }) => {
+const NavbarDesktop = ({ routes }: { routes: RouteType[] }) => {
+  const navigate = useNavigate();
+
   const {
     state: { isLogged },
     removeStatesOnLogout,
   } = useUserState();
 
-  const handleLogout = () => {
-    removeStatesOnLogout();
-  };
+  const handleClickLogout = () => removeStatesOnLogout();
+
+  const handleClickLogin = () => navigate('login');
+
   return (
     <Box
       sx={{
@@ -23,27 +27,12 @@ export const NavbarDesktop = ({ pages }: { pages: RoutesList[] }) => {
       }}
     >
       {isLogged &&
-        pages.map(({ title, url }) => (
-          <Link
-            key={title}
-            component={RouterLink}
-            to={url}
-            sx={{
-              '&.active > button ': {
-                backgroundColor: 'primary.light',
-              },
-            }}
-          >
-            <Button>{title}</Button>
-          </Link>
-        ))}
-      {isLogged ? (
-        <Button onClick={handleLogout}>Logout</Button>
-      ) : (
-        <Link component={RouterLink} to="/login">
-          <Button>Login</Button>
-        </Link>
-      )}
+        routes.map((route) => {
+          return <NavbarDesktopRoute key={route.mainPath} route={route} />;
+        })}
+      {isLogged ? <Button onClick={handleClickLogout}>Logout</Button> : <Button onClick={handleClickLogin}>Login</Button>}
     </Box>
   );
 };
+
+export { NavbarDesktop };
