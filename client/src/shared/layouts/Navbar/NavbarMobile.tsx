@@ -61,8 +61,21 @@ const NavbarMobile = ({ routes }: { routes: RouteType[] }) => {
           })}
         />
         <List sx={{ minWidth: LIST_MIN_WIDTH }}>
-          {isLogged && routes.map((route) => <NavbarMobileRoute key={route.mainPath} route={route} onClick={handleCloseNavMenu} />)}
-          {isLogged ? <ListItemButton onClick={handleClickLogout}>Logout</ListItemButton> : <ListItemButton onClick={handleClickLogin}>Login</ListItemButton>}
+          {isLogged && (
+            <>
+              {routes.map((route) => (
+                <NavbarMobileRoute key={route.mainPath} route={route} onClick={handleCloseNavMenu} />
+              ))}
+              <ListItemButton onClick={handleClickLogout} sx={(theme) => ({ color: theme.palette.error.light, fontWeight: '400' })}>
+                Logout
+              </ListItemButton>
+            </>
+          )}
+          {!isLogged && (
+            <ListItemButton onClick={handleClickLogin} sx={(theme) => ({ backgroundColor: theme.palette.primary.main, color: 'white', fontWeight: '500' })}>
+              Login
+            </ListItemButton>
+          )}
           <Divider />
         </List>
       </Drawer>

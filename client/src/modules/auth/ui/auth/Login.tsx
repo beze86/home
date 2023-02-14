@@ -1,4 +1,3 @@
-import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
@@ -10,7 +9,6 @@ import { usersApi } from 'client/modules/auth/api/auth';
 import { UserLogin } from 'client/modules/auth/domain/auth';
 import { useSnackbar } from 'client/shared/hooks/useSnackbar';
 import { useUserState } from 'client/shared/hooks/useUserState';
-import { CenteredStack } from 'client/shared/layouts/Page/CenteredStack';
 import { Page } from 'client/shared/layouts/Page/Page';
 import { emailRegexValidation } from 'client/shared/utils/utils';
 
@@ -64,7 +62,7 @@ export const Login = () => {
             }}
           >
             <Typography variant="h4" mb={4}>
-              Log in
+              Login
             </Typography>
             <Stack component="form" onSubmit={handleSubmit(handleLoginSubmit)} gap={6}>
               <Controller
@@ -98,7 +96,7 @@ export const Login = () => {
                 }}
               />
               <LoadingButton type="submit" variant="contained" loading={mutateLogin.isLoading}>
-                Log in
+                Login
               </LoadingButton>
             </Stack>
           </CardContent>
