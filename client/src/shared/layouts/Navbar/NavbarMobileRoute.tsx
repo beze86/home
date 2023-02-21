@@ -10,7 +10,10 @@ import { Icon } from 'client/shared/components/Icon';
 const NavbarMobileRoute = ({ route: { title, mainPath, children }, onClick }: { route: RouteType; onClick: () => void }) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const [isCollapseVisible, setIsCollapseVisible] = useState(false);
+
+  const isActive = children?.some((child) => `/${mainPath}/${child.path}` === pathname);
+
+  const [isCollapseVisible, setIsCollapseVisible] = useState(isActive);
 
   const handleClickMainRoute = (path: string) => {
     if (!!children) return setIsCollapseVisible((prev) => !prev);
@@ -22,8 +25,6 @@ const NavbarMobileRoute = ({ route: { title, mainPath, children }, onClick }: { 
     onClick();
     navigate(path);
   };
-
-  const isActive = children?.some((child) => `/${mainPath}/${child.path}` === pathname);
 
   return (
     <>
