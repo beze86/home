@@ -7,7 +7,7 @@ import { Button, Stack, TextField } from '@mui/material';
 import { EventCreation } from 'client/modules/calendar/domain/calendar';
 import { Icon } from 'client/shared/components/Icon';
 
-const NewDateDialogDescription = () => {
+const NewDateDialogNote = () => {
   const [isDescriptionVisible, setIsDescriptionVisible] = useState(false);
   const { control } = useFormContext<EventCreation>();
 
@@ -18,14 +18,14 @@ const NewDateDialogDescription = () => {
       <Icon icon={faGripLines} />
       {!isDescriptionVisible ? (
         <Button variant="text" onClick={handleClickShowDescription}>
-          Add description
+          Add note
         </Button>
       ) : (
         <Controller
-          name="description"
+          name="note"
           control={control}
           render={({ field }) => {
-            return <TextField {...field} variant="standard" multiline label="Add description" />;
+            return <TextField {...field} variant="standard" multiline label="Add note" />;
           }}
         />
       )}
@@ -33,4 +33,4 @@ const NewDateDialogDescription = () => {
   );
 };
 
-export { NewDateDialogDescription };
+export { NewDateDialogNote };

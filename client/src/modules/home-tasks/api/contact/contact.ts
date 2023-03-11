@@ -11,21 +11,21 @@ export function contactsApi(): ContactRepository {
       try {
         const { data } = await API.get('/');
         return data;
-      } catch (err) {
+      } catch {
         throw new Error('Failed to fetch contacts list');
       }
     },
     async deleteContact(id) {
       try {
         await API.delete(`/${id}`);
-      } catch (err) {
+      } catch {
         throw new Error(`Failed to delete contact with id: ${id}`);
       }
     },
     async createContact(data) {
       try {
         await API.post('/', data);
-      } catch (err) {
+      } catch {
         throw new Error('Failed to create contact');
       }
     },

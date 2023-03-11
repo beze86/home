@@ -1,29 +1,52 @@
+import { parseISO } from 'date-fns';
 import { useState } from 'react';
 
-import { DateSelectArg, EventClickArg, EventContentArg, EventInput } from '@fullcalendar/core';
+import { DateSelectArg, EventClickArg, EventContentArg } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
-import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction';
+import interactionPlugin from '@fullcalendar/interaction';
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
+import { useQuery } from '@tanstack/react-query';
 
+import { calendarApi } from 'client/modules/calendar/api/calendar';
+import { CalendarEvent } from 'client/modules/calendar/domain/calendar';
+import { CalendarProvider } from 'client/modules/calendar/ui/calendar/CalendarProvider';
 import { EventDialog } from 'client/modules/calendar/ui/calendar/EventDialog';
 import { NewDateDialog } from 'client/modules/calendar/ui/calendar/NewDateDialog/NewDateDialog';
 import { Page } from 'client/shared/layouts/Page/Page';
 
-const INITIAL_EVENTS: EventInput[] = [
+const STALE_TIME_5_MIN = 300000;
+
+const INITIAL_EVENTS: CalendarEvent[] = [
   {
     id: '1',
+    allDay: false,
     title: 'All-day event',
-    start: '2023-03-03T10:10:00',
-    end: '2023-03-06T22:00:00',
-    test: 'ewfwfw',
+    start: parseISO('2023-03-03T10:10:00'),
+    end: parseISO('2023-03-06T22:00:00'),
+    note: 'this is a test',
     textColor: 'green',
+    backgroundColor: '',
   },
-
   {
     id: '2',
+    allDay: false,
     title: 'Timed event',
-    start: '2023-03-04T13:43:50.476+0000',
+    start: parseISO('2023-03-04T13:43:50.476+0000'),
+    end: parseISO('2023-03-04T13:43:50.476+0000'),
+    note: 'this is a test 2',
+    textColor: '',
+    backgroundColor: '',
+  },
+  {
+    id: '3',
+    allDay: true,
+    title: 'Full day event',
+    start: parseISO('2023-03-06T22:43:50.476+0000'),
+    end: parseISO('2023-03-06T23:43:50.476+0000'),
+    note: 'this is a test 2',
+    textColor: '',
+    backgroundColor: '',
   },
 ];
 
@@ -39,6 +62,12 @@ const renderEventContent = (eventContent: EventContentArg) => {
 export const Calendar = () => {
   const [isEventDialogVisible, setEventDialogVisible] = useState<EventClickArg | null>(null);
   const [isNewDateDialogVisible, setNewDateDialogVisible] = useState<DateSelectArg | null>(null);
+
+  const { getEvents } = calendarApi();
+  const { data: eventsData } = useQuery(['calendar', 'events'], () => getEvents(), {
+    suspense: false,
+    staleTime: STALE_TIME_5_MIN,
+  });
 
   const handleEventClickOpenEventDialog = (data: EventClickArg) => {
     console.log(data);
@@ -61,29 +90,24 @@ export const Calendar = () => {
   return (
     <Page>
       <Page.Main>
-        <FullCalendar
-          plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-          headerToolbar={{
-            left: 'prev today next',
-            center: 'title',
-            right: 'dayGridMonth,timeGridWeek,timeGridDay',
-          }}
-          initialView="dayGridMonth"
-          editable
-          selectable
-          initialEvents={INITIAL_EVENTS} // alternatively, use the `events` setting to fetch from a feed
-          select={handleSelectOpenDateDialog}
-          eventContent={renderEventContent} // custom render function
-          eventClick={handleEventClickOpenEventDialog}
-          //eventsSet={} // called after events are initialized/added/changed/removed
-          /* you can update a remote database when these fire:
-          eventAdd={function(){}}
-          eventChange={function(){}}
-          eventRemove={function(){}}
-          */
-        />
-        {isNewDateDialogVisible && <NewDateDialog onClose={handleCloseNewDateDialog} dateData={isNewDateDialogVisible} />}
-        {isEventDialogVisible && <EventDialog onClose={handleCloseEventDialog} eventData={isEventDialogVisible} />}
+        <CalendarProvider>
+          <FullCalendar
+            plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+            headerToolbar={{
+              left: 'prev today next',
+              center: 'title',
+              right: 'dayGridMonth,timeGridWeek,timeGridDay',
+            }}
+            selectable
+            events={eventsData}
+            select={handleSelectOpenDateDialog}
+            eventContent={renderEventContent} // custom render function
+            eventClick={handleEventClickOpenEventDialog}
+            dayMaxEventRows={3}
+          />
+          {isNewDateDialogVisible && <NewDateDialog onClose={handleCloseNewDateDialog} dateData={isNewDateDialogVisible} />}
+          {isEventDialogVisible && <EventDialog onClose={handleCloseEventDialog} eventData={isEventDialogVisible} />}
+        </CalendarProvider>
       </Page.Main>
     </Page>
   );

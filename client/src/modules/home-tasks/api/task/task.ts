@@ -11,21 +11,21 @@ export function tasksApi(): TaskRepository {
       try {
         const { data } = await API.get('/');
         return data;
-      } catch (err) {
+      } catch {
         throw new Error('Failed to fetch tasks list');
       }
     },
     async createWeeklyTask() {
       try {
         await API.post('/');
-      } catch (err) {
+      } catch {
         throw new Error('Failed to create weekly task');
       }
     },
     async deleteWeeklyTask(id) {
       try {
         await API.delete(`/${id}`);
-      } catch (err) {
+      } catch {
         throw new Error('Faild to delete weekly task');
       }
     },

@@ -1,4 +1,4 @@
-import { differenceInBusinessDays, format } from 'date-fns';
+import { format } from 'date-fns';
 import { useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import TimePicker, { TimePickerValue } from 'react-time-picker';
@@ -13,12 +13,23 @@ import { useBreakpoint } from 'client/shared/hooks/useBreakpoint';
 
 type NewDateDialogTimeSelectorType = {
   dateData: DateSelectArg;
+  isSameDay: boolean;
   onChangeStart: (hour: TimePickerValue) => void;
   onChangeEnd: (hour: TimePickerValue) => void;
 };
 
-const NewDateDialogTimeSelector = ({ dateData: { start, end }, onChangeStart, onChangeEnd }: NewDateDialogTimeSelectorType) => {
-  const [isTimeVisible, setIsTimeVisible] = useState(false);
+const NewDateDialogTimeSelector = ({
+  dateData: {
+    allDay,
+    start,
+    end,
+    view: { type },
+  },
+  isSameDay,
+  onChangeStart,
+  onChangeEnd,
+}: NewDateDialogTimeSelectorType) => {
+  const [isTimeVisible, setIsTimeVisible] = useState(!allDay);
   const { isMobile } = useBreakpoint();
 
   const { control, watch } = useFormContext<EventCreation>();
@@ -28,9 +39,7 @@ const NewDateDialogTimeSelector = ({ dateData: { start, end }, onChangeStart, on
   const startDayFormatted = format(start, 'EEEE, dd MMMM');
   const endDayFormatted = format(end, 'EEEE, dd MMMM');
 
-  const isSameDay = differenceInBusinessDays(end, start) === 1;
-
-  const dateText = !isSameDay ? `${startDayFormatted} - ${endDayFormatted}` : startDayFormatted;
+  const dateText = !isSameDay ? `${startDayFormatted} - ${endDayFormatted}` : `${startDayFormatted} - ${startDayFormatted}`;
 
   const isAllDayEvent = !!watch('allDay');
 

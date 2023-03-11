@@ -11,6 +11,7 @@ config();
 
 import { protectedRoute } from './middlewares/authMiddleware';
 import areaRoutes from './routes/area';
+import calendarRoutes from './routes/calendar';
 import contactRoutes from './routes/contact';
 import taskRoutes from './routes/task';
 import userRoutes from './routes/user';
@@ -24,6 +25,7 @@ app.use('/api/v1/users', userRoutes);
 app.use('/api/v1/areas', protectedRoute, areaRoutes);
 app.use('/api/v1/contacts', protectedRoute, contactRoutes);
 app.use('/api/v1/tasks', protectedRoute, taskRoutes);
+app.use('/api/v1/calendar/events', protectedRoute, calendarRoutes);
 
 if (process.env.NODE_ENV === 'production') {
   app.use(expressStatic(path.join(__dirname, '../client', 'build')));

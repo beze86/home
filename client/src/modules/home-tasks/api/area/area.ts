@@ -11,21 +11,21 @@ export function areasApi(): AreaRepository {
       try {
         const { data } = await API.get('/');
         return data;
-      } catch (err) {
+      } catch {
         throw new Error('Failed to fetch area list');
       }
     },
     async deleteArea(id) {
       try {
         await API.delete(`/${id}`);
-      } catch (err) {
+      } catch {
         throw new Error('Failed to delete area');
       }
     },
     async createArea(data) {
       try {
         await API.post('/', data);
-      } catch (err) {
+      } catch {
         throw new Error('Failed to create area');
       }
     },

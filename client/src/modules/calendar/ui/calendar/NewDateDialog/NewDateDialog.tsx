@@ -1,16 +1,15 @@
-import { differenceInBusinessDays, formatISO, sub } from 'date-fns';
+import { differenceInBusinessDays, format, formatISO } from 'date-fns';
 import { useState } from 'react';
 import { Controller, useForm, FormProvider } from 'react-hook-form';
 import { TimePickerValue } from 'react-time-picker';
 
 import { DateSelectArg } from '@fullcalendar/core';
-import { DateClickArg } from '@fullcalendar/interaction';
 import { Button, Dialog, DialogActions, DialogContent, Stack, Box, TextField } from '@mui/material';
 import { useMutation } from '@tanstack/react-query';
 
 import { calendarApi } from 'client/modules/calendar/api/calendar';
 import { EventCreation } from 'client/modules/calendar/domain/calendar';
-import { NewDateDialogDescription } from 'client/modules/calendar/ui/calendar/NewDateDialog/NewDateDialogDescription';
+import { NewDateDialogNote } from 'client/modules/calendar/ui/calendar/NewDateDialog/NewDateDialogNote';
 import { NewDateDialogTimeSelector } from 'client/modules/calendar/ui/calendar/NewDateDialog/NewDateDialogTimeSelector';
 
 const formatToIsoDate = (date: string, hourTime: string) => new Date(formatISO(new Date(`${date}T${hourTime}`)));
@@ -18,7 +17,7 @@ const formatToIsoDate = (date: string, hourTime: string) => new Date(formatISO(n
 type Event = {
   allDay: boolean;
   title: string;
-  description: string;
+  note: string;
   start: TimePickerValue;
   end: TimePickerValue;
   textColor: string;
@@ -32,21 +31,25 @@ type NewDateDialogType = {
 
 const NewDateDialog = ({ onClose, dateData }: NewDateDialogType) => {
   const { createEvent } = calendarApi();
-  const [valueStart, onChangeStart] = useState<TimePickerValue>('11:00');
-  const [valueEnd, onChangeEnd] = useState<TimePickerValue>('12:00');
+  const { start, end } = dateData;
 
-  const { startStr, endStr, start, end } = dateData;
+  const startHourFormatted = format(start, 'hh:mm');
+  const endHourFormatted = format(end, 'hh:mm');
 
-  const isSameDay = differenceInBusinessDays(end, start) === 1;
+  const [valueStart, onChangeStart] = useState<TimePickerValue>(startHourFormatted);
+  const [valueEnd, onChangeEnd] = useState<TimePickerValue>(endHourFormatted);
+
+  const isSameDay = differenceInBusinessDays(end, start) <= 1;
+
   const formMethods = useForm<Event>({
     defaultValues: {
       allDay: dateData.allDay,
       title: '',
-      description: '',
+      note: '',
       start: valueStart,
       end: valueEnd,
-      textColor: '#fff',
-      backgroundColor: 'red',
+      textColor: '',
+      backgroundColor: '',
     },
   });
 
@@ -59,15 +62,14 @@ const NewDateDialog = ({ onClose, dateData }: NewDateDialogType) => {
   });
 
   const handleSubmitCreateEvent = (data: Event) => {
-    const newEndDate = isSameDay ? startStr : endStr;
-    console.log(data);
+    const newEndDate = isSameDay ? start : end;
+
     const newData = {
       ...data,
-      start: !data.allDay ? formatToIsoDate(startStr, data.start.toString()) : start,
-      end: !data.allDay ? formatToIsoDate(newEndDate, data.end.toString()) : end,
+      start: !data.allDay ? formatToIsoDate(format(start, 'yyyy-MM-dd'), data.start.toString()) : start,
+      end: !data.allDay ? formatToIsoDate(format(newEndDate, 'yyyy-MM-dd'), data.end.toString()) : end,
     };
 
-    console.log(newData);
     mutateCreateEvent({ ...newData });
   };
 
@@ -84,8 +86,8 @@ const NewDateDialog = ({ onClose, dateData }: NewDateDialogType) => {
                   return <TextField {...field} fullWidth variant="standard" label="Add title" />;
                 }}
               />
-              <NewDateDialogTimeSelector dateData={dateData} onChangeStart={onChangeStart} onChangeEnd={onChangeEnd} />
-              <NewDateDialogDescription />
+              <NewDateDialogTimeSelector dateData={dateData} isSameDay={isSameDay} onChangeStart={onChangeStart} onChangeEnd={onChangeEnd} />
+              <NewDateDialogNote />
             </Stack>
           </DialogContent>
           <DialogActions>
