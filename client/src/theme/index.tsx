@@ -132,6 +132,37 @@ export const theme = createTheme({
         }),
       },
     },
+    MuiDialog: {
+      defaultProps: {
+        maxWidth: 'sm',
+      },
+      styleOverrides: {
+        paper: {
+          width: '100%',
+        },
+      },
+    },
+    MuiDialogActions: {
+      styleOverrides: {
+        root: ({ theme: { spacing } }) => ({
+          padding: spacing(4, 5),
+        }),
+      },
+    },
+    MuiDialogContent: {
+      defaultProps: {
+        dividers: true,
+      },
+    },
+    MuiInputBase: {
+      styleOverrides: {
+        root: {
+          '&.MuiInputBase-root:before, &.MuiInputBase-root:hover:not(.Mui-disabled, .Mui-error):before, &.MuiInputBase-root:after': {
+            borderBottomWidth: '1px',
+          },
+        },
+      },
+    },
     MuiInputLabel: {
       styleOverrides: {
         root: ({ theme: { palette } }) => ({
@@ -145,6 +176,15 @@ export const theme = createTheme({
         root: {
           textDecoration: 'none',
         },
+      },
+    },
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: ({ theme: { palette } }) => ({
+          '&:hover .MuiOutlinedInput-notchedOutline': {
+            borderColor: palette.grey['400'],
+          },
+        }),
       },
     },
     MuiTextField: {

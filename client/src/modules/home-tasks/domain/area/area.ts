@@ -2,7 +2,6 @@ type AreaId = string;
 
 type Area = AreaCreation & {
   _id: AreaId;
-  area: string;
 };
 
 type AreaCreation = {
