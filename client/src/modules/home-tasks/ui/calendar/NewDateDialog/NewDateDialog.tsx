@@ -7,12 +7,15 @@ import { DateSelectArg } from '@fullcalendar/core';
 import { Button, Dialog, DialogActions, DialogContent, Stack, Box, TextField } from '@mui/material';
 import { useMutation } from '@tanstack/react-query';
 
-import { calendarApi } from 'client/modules/calendar/api/calendar';
-import { EventCreation } from 'client/modules/calendar/domain/calendar';
-import { NewDateDialogNote } from 'client/modules/calendar/ui/calendar/NewDateDialog/NewDateDialogNote';
-import { NewDateDialogTimeSelector } from 'client/modules/calendar/ui/calendar/NewDateDialog/NewDateDialogTimeSelector';
+import { calendarApi } from 'client/modules/home-tasks/api/calendar/calendar';
+import { EventCreation } from 'client/modules/home-tasks/domain/calendar/calendar';
+import { NewDateDialogNote } from 'client/modules/home-tasks/ui/calendar/NewDateDialog/NewDateDialogNote';
+import { NewDateDialogTimeSelector } from 'client/modules/home-tasks/ui/calendar/NewDateDialog/NewDateDialogTimeSelector';
 
-const formatToIsoDate = (date: string, hourTime: string) => new Date(formatISO(new Date(`${date}T${hourTime}`)));
+const formatToIsoDate = (date: Date, hourTime: string) => {
+  const dateFormatted = format(date, 'yyyy-MM-dd');
+  return new Date(formatISO(new Date(`${dateFormatted}T${hourTime}`)));
+};
 
 type Event = {
   allDay: boolean;
@@ -66,8 +69,8 @@ const NewDateDialog = ({ onClose, dateData }: NewDateDialogType) => {
 
     const newData = {
       ...data,
-      start: !data.allDay ? formatToIsoDate(format(start, 'yyyy-MM-dd'), data.start.toString()) : start,
-      end: !data.allDay ? formatToIsoDate(format(newEndDate, 'yyyy-MM-dd'), data.end.toString()) : end,
+      start: !data.allDay ? formatToIsoDate(start, data.start.toString()) : start,
+      end: !data.allDay ? formatToIsoDate(newEndDate, data.end.toString()) : end,
     };
 
     mutateCreateEvent({ ...newData });

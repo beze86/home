@@ -17,7 +17,7 @@ const ProtectedNavigation = ({ children }: { children: JSX.Element }) => {
 const ProtectedRoutes = ({ routes }: { routes: RouteType[] }) => {
   return (
     <Routes>
-      {routes.map(({ children, mainPath, element }) => {
+      {routes.map(({ children, path: mainPath, element }) => {
         if (children) return children.map(({ path, element }) => <Route key={path} path={`${mainPath}/${path}/*`} element={<ProtectedNavigation>{element}</ProtectedNavigation>} />);
         if (!children && element) return <Route key={mainPath} path={mainPath} element={<ProtectedNavigation>{element}</ProtectedNavigation>} />;
       })}

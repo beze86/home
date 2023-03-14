@@ -7,7 +7,7 @@ import { Box, Collapse, Divider, Link, List, ListItemButton, ListItemIcon, ListI
 import { RouteType } from 'client/App';
 import { Icon } from 'client/shared/components/Icon';
 
-const NavbarMobileRoute = ({ route: { title, mainPath, children }, onClick }: { route: RouteType; onClick: () => void }) => {
+const NavbarMobileRoute = ({ route: { title, path: mainPath, children }, onClick }: { route: RouteType; onClick: () => void }) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
 

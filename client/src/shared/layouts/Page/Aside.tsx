@@ -23,6 +23,6 @@ const AsideContainer = styled(Stack)(({ theme: { breakpoints, spacing, palette }
   },
 }));
 
-const Aside: FC<PropsWithChildren<unknown>> = ({ children }) => <AsideContainer>{children}</AsideContainer>;
+const Aside: FC<PropsWithChildren> = ({ children }) => <AsideContainer>{children}</AsideContainer>;
 
 export { Aside };

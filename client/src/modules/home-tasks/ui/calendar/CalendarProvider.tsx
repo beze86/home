@@ -1,11 +1,4 @@
-import { parseISO } from 'date-fns';
 import { createContext, FC, PropsWithChildren, useContext } from 'react';
-
-import { EventInput } from '@fullcalendar/core';
-import { useQuery } from '@tanstack/react-query';
-
-import { calendarApi } from 'client/modules/calendar/api/calendar';
-import { CalendarEvent } from 'client/modules/calendar/domain/calendar';
 
 type CalendarContextType = {
   dateView: {

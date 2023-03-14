@@ -9,9 +9,9 @@ import { Stack, ThemeProvider, CssBaseline } from '@mui/material';
 import { store } from 'client/modules/app/store';
 import { Login } from 'client/modules/auth/ui/auth/Login';
 import { Register } from 'client/modules/auth/ui/auth/Register';
-import { Calendar } from 'client/modules/calendar/ui/calendar/Calendar';
 import { Home } from 'client/modules/home/ui/home/Home';
 import { AreasRoutes } from 'client/modules/home-tasks/ui/area/AreasRoutes';
+import { Calendar } from 'client/modules/home-tasks/ui/calendar/Calendar';
 import { ContactsRoutes } from 'client/modules/home-tasks/ui/contact/ContactsRoutes';
 import { TasksRoutes } from 'client/modules/home-tasks/ui/task/TasksRoutes';
 import { ProtectedRoutes } from 'client/shared/components/ProtectedRoute/ProtectedRoute';
@@ -27,7 +27,7 @@ export type RouteChildType = {
 
 export type RouteType = {
   title: string;
-  mainPath: string;
+  path: string;
   element?: JSX.Element;
   children?: RouteChildType[];
 };
@@ -35,7 +35,7 @@ export type RouteType = {
 const protectedRoutesList: RouteType[] = [
   {
     title: 'House-tasks',
-    mainPath: 'house',
+    path: 'house',
     children: [
       {
         title: 'Calendar',
@@ -71,8 +71,6 @@ export const App = () => {
     <UserStateProvider store={store}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-        {/*// @ts-ignore*/}
         <SnackbarProvider>
           <Stack sx={{ height: '100vh' }}>
             <NavBar routes={protectedRoutesList} />

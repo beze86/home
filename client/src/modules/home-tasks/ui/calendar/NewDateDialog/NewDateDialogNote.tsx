@@ -4,7 +4,7 @@ import { Controller, useFormContext } from 'react-hook-form';
 import { faGripLines } from '@fortawesome/pro-regular-svg-icons';
 import { Button, Stack, TextField } from '@mui/material';
 
-import { EventCreation } from 'client/modules/calendar/domain/calendar';
+import { EventCreation } from 'client/modules/home-tasks/domain/calendar/calendar';
 import { Icon } from 'client/shared/components/Icon';
 
 const NewDateDialogNote = () => {

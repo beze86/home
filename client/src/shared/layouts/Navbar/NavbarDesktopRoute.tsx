@@ -72,10 +72,9 @@ const CascadingMenu: FC<
   );
 };
 
-const NavbarDesktopRoute = ({ route: { title, mainPath, children } }: { route: RouteType }) => {
+const NavbarDesktopRoute = ({ route: { title, path: mainPath, children } }: { route: RouteType }) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
-
   const popupState = usePopupState({
     variant: 'popover',
     popupId: `menu-${title}`,

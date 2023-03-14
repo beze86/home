@@ -7,7 +7,7 @@ import { faClockEight } from '@fortawesome/pro-regular-svg-icons';
 import { DateSelectArg } from '@fullcalendar/core';
 import { Button, Stack, Typography, Checkbox, FormControlLabel, FormControlLabelProps } from '@mui/material';
 
-import { EventCreation } from 'client/modules/calendar/domain/calendar';
+import { EventCreation } from 'client/modules/home-tasks/domain/calendar/calendar';
 import { Icon } from 'client/shared/components/Icon';
 import { useBreakpoint } from 'client/shared/hooks/useBreakpoint';
 
@@ -18,17 +18,7 @@ type NewDateDialogTimeSelectorType = {
   onChangeEnd: (hour: TimePickerValue) => void;
 };
 
-const NewDateDialogTimeSelector = ({
-  dateData: {
-    allDay,
-    start,
-    end,
-    view: { type },
-  },
-  isSameDay,
-  onChangeStart,
-  onChangeEnd,
-}: NewDateDialogTimeSelectorType) => {
+const NewDateDialogTimeSelector = ({ dateData: { allDay, start, end }, isSameDay, onChangeStart, onChangeEnd }: NewDateDialogTimeSelectorType) => {
   const [isTimeVisible, setIsTimeVisible] = useState(!allDay);
   const { isMobile } = useBreakpoint();
 

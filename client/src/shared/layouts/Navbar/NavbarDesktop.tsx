@@ -28,7 +28,7 @@ const NavbarDesktop = ({ routes }: { routes: RouteType[] }) => {
     >
       {isLogged &&
         routes.map((route) => {
-          return <NavbarDesktopRoute key={route.mainPath} route={route} />;
+          return <NavbarDesktopRoute key={route.path} route={route} />;
         })}
       {isLogged ? <Button onClick={handleClickLogout}>Logout</Button> : <Button onClick={handleClickLogin}>Login</Button>}
     </Box>

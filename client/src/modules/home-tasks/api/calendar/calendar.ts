@@ -1,5 +1,5 @@
 import { authenticationToken } from 'client/modules/authentication-token/application/authentication-token';
-import { CalendarRepository } from 'client/modules/calendar/domain/calendar';
+import { CalendarRepository } from 'client/modules/home-tasks/domain/calendar/calendar';
 
 const PATH = '/api/v1/calendar';
 

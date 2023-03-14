@@ -64,7 +64,7 @@ const NavbarMobile = ({ routes }: { routes: RouteType[] }) => {
           {isLogged && (
             <>
               {routes.map((route) => (
-                <NavbarMobileRoute key={route.mainPath} route={route} onClick={handleCloseNavMenu} />
+                <NavbarMobileRoute key={route.path} route={route} onClick={handleCloseNavMenu} />
               ))}
               <ListItemButton onClick={handleClickLogout} sx={(theme) => ({ color: theme.palette.error.light, fontWeight: '400' })}>
                 Logout

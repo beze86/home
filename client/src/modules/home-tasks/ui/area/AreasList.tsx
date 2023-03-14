@@ -17,6 +17,7 @@ const AreasList = () => {
   const areaListQuery = useQueryClient();
 
   const { data: areas } = useQuery(AREA_LIST_QUERY, () => getAllAreasByUser(), {
+    suspense: false,
     staleTime: STALE_TIME_5_MIN,
   });
 
