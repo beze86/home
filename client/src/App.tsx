@@ -1,4 +1,5 @@
 import { SnackbarProvider } from 'notistack';
+import { ReactNode } from 'react';
 import { Provider as UserStateProvider } from 'react-redux';
 import { Outlet, Route, Routes } from 'react-router-dom';
 
@@ -22,20 +23,20 @@ export type RouteChildType = {
   title: string;
   path: string;
   icon?: IconDefinition;
-  element: JSX.Element;
+  element: ReactNode;
 };
 
 export type RouteType = {
   title: string;
   path: string;
-  element?: JSX.Element;
+  element?: ReactNode;
   children?: RouteChildType[];
 };
 
 const protectedRoutesList: RouteType[] = [
   {
     title: 'House-tasks',
-    path: 'house',
+    path: '',
     children: [
       {
         title: 'Calendar',

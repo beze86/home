@@ -11,7 +11,7 @@ const NavbarMobileRoute = ({ route: { title, path: mainPath, children }, onClick
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
-  const isActive = children?.some((child) => `/${mainPath}/${child.path}` === pathname);
+  const isActive = children ? children.some((child) => `/${mainPath}/${child.path}` === pathname) : `/${mainPath}` === pathname;
 
   const [isCollapseVisible, setIsCollapseVisible] = useState(isActive);
 
@@ -35,7 +35,7 @@ const NavbarMobileRoute = ({ route: { title, path: mainPath, children }, onClick
       <Collapse in={isCollapseVisible} timeout="auto" unmountOnExit>
         <List disablePadding>
           {children?.map(({ title, icon, path }) => {
-            const childPath = `/${mainPath}/${path}`;
+            const childPath = `${mainPath}/${path}`;
             return (
               <Link key={path} onClick={() => handleClickChildRoute(childPath)}>
                 <ListItemButton selected={pathname === childPath} sx={{ paddingY: 2, paddingLeft: 8 }}>

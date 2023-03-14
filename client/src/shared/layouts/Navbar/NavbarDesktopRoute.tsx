@@ -82,7 +82,7 @@ const NavbarDesktopRoute = ({ route: { title, path: mainPath, children } }: { ro
 
   const handleClickMainRoute = () => navigate(mainPath);
 
-  const isActive = children?.some((child) => `/${mainPath}/${child.path}` === pathname);
+  const isActive = children ? children.some((child) => `/${mainPath}/${child.path}` === pathname) : `/${mainPath}` === pathname;
 
   return (
     <>
@@ -103,7 +103,7 @@ const NavbarDesktopRoute = ({ route: { title, path: mainPath, children } }: { ro
       {children && (
         <CascadingMenu popupState={popupState}>
           {children.map(({ title, path }) => {
-            const childPath = `/${mainPath}/${path}`;
+            const childPath = `${mainPath}/${path}`;
             return <CascadingMenuItem key={path} title={title} path={childPath} selected={childPath === pathname} />;
           })}
         </CascadingMenu>
