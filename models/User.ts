@@ -1,6 +1,7 @@
 import { Collection, InsertOneResult, ObjectId, WithId, Document } from 'mongodb';
 
 import { AreaId } from './Area';
+import { EventId } from './Calendar';
 import { ContactId } from './Contact';
 import { TaskId } from './Task';
 import database from '../Database';
@@ -31,6 +32,11 @@ type TasksToUser = {
   tasksId: TaskId;
 };
 
+type EventToUser = {
+  userId: UserId;
+  eventId: EventId;
+};
+
 interface UserInterface {
   collection: Collection;
   findUserByEmail: (data: string) => Promise<WithId<Document> | null>;
@@ -42,6 +48,8 @@ interface UserInterface {
   removeAreaFromUser: (data: AreaToUser) => Promise<void>;
   addWeeklyTasksToUser: (data: TasksToUser) => Promise<void>;
   removeWeeklyTasksFromUser: (data: TasksToUser) => Promise<void>;
+  addEventToUser: (data: EventToUser) => Promise<void>;
+  removeEventFromUser: (data: EventToUser) => Promise<void>;
 }
 
 class User implements UserInterface {
@@ -85,6 +93,14 @@ class User implements UserInterface {
 
   async removeWeeklyTasksFromUser({ userId, tasksId }: TasksToUser) {
     await this.collection.updateOne({ _id: new ObjectId(userId) }, { $pull: { tasks: { $in: [new ObjectId(tasksId)] } } });
+  }
+
+  async addEventToUser({ userId, eventId }: EventToUser) {
+    await this.collection.updateOne({ _id: new ObjectId(userId) }, { $push: { events: eventId } });
+  }
+
+  async removeEventFromUser({ userId, eventId }: EventToUser) {
+    await this.collection.updateOne({ _id: new ObjectId(userId) }, { $pull: { events: { $in: [new ObjectId(eventId)] } } });
   }
 }
 

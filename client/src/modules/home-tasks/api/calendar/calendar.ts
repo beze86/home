@@ -23,5 +23,12 @@ export function calendarApi(): CalendarRepository {
         throw new Error('Failed to create calendar event');
       }
     },
+    async deleteEvent(id) {
+      try {
+        await API.delete(`events/${id}`);
+      } catch {
+        throw new Error('Failed to delete calendar event');
+      }
+    },
   };
 }

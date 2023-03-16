@@ -45,7 +45,13 @@ const TasksList = () => {
       <Page.Main>
         <Card sx={{ maxWidth: '600px', marginX: 'auto', marginBottom: 3 }}>
           <CardContent>
-            <Stack component="form" direction="row" alignItems="center" justifyContent="flex-end" onSubmit={handleOnSubmitCreateTask}>
+            <Stack
+              component="form"
+              direction="row"
+              alignItems="center"
+              justifyContent="flex-end"
+              onSubmit={handleOnSubmitCreateTask}
+            >
               <Button type="submit">Create Weekly Task</Button>
             </Stack>
           </CardContent>

@@ -22,7 +22,15 @@ const CascadingContext = createContext<CascadingContextType>({
   rootPopupState: null,
 });
 
-const CascadingMenuItem = ({ title, path, selected }: { title: RouteChildType['title']; path: RouteChildType['path']; selected: boolean }) => {
+const CascadingMenuItem = ({
+  title,
+  path,
+  selected,
+}: {
+  title: RouteChildType['title'];
+  path: RouteChildType['path'];
+  selected: boolean;
+}) => {
   const { rootPopupState } = useContext(CascadingContext);
 
   const navigate = useNavigate();
@@ -82,7 +90,7 @@ const NavbarDesktopRoute = ({ route: { title, path: mainPath, children } }: { ro
 
   const handleClickMainRoute = () => navigate(mainPath);
 
-  const isActive = children ? children.some((child) => `/${mainPath}/${child.path}` === pathname) : `/${mainPath}` === pathname;
+  const isActive = children ? children.some((child) => `${mainPath}/${child.path}` === pathname) : `/${mainPath}` === pathname;
 
   return (
     <>

@@ -1,29 +1,31 @@
 import { differenceInBusinessDays, format, formatISO } from 'date-fns';
-import { useState } from 'react';
 import { Controller, useForm, FormProvider } from 'react-hook-form';
-import { TimePickerValue } from 'react-time-picker';
 
 import { DateSelectArg } from '@fullcalendar/core';
+import { LoadingButton } from '@mui/lab';
 import { Button, Dialog, DialogActions, DialogContent, Stack, Box, TextField } from '@mui/material';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { calendarApi } from 'client/modules/home-tasks/api/calendar/calendar';
 import { EventCreation } from 'client/modules/home-tasks/domain/calendar/calendar';
+import { eventColorsMap } from 'client/modules/home-tasks/domain/calendar/calendar-colors';
+import { NewDateDialogColorSelector } from 'client/modules/home-tasks/ui/calendar/NewDateDialog/NewDateDialogColorSelector';
 import { NewDateDialogNote } from 'client/modules/home-tasks/ui/calendar/NewDateDialog/NewDateDialogNote';
 import { NewDateDialogTimeSelector } from 'client/modules/home-tasks/ui/calendar/NewDateDialog/NewDateDialogTimeSelector';
+import { useSnackbar } from 'client/shared/hooks/useSnackbar';
 
-const formatToIsoDate = (date: Date, hourTime: string) => {
+const formatToIsoDate = (date: Date, hourTime: Date) => {
   const dateFormatted = format(date, 'yyyy-MM-dd');
-  return new Date(formatISO(new Date(`${dateFormatted}T${hourTime}`)));
+  const timeFormatted = format(hourTime, 'HH:mm');
+  return new Date(formatISO(new Date(`${dateFormatted}T${timeFormatted}`)));
 };
 
 type Event = {
   allDay: boolean;
   title: string;
   note: string;
-  start: TimePickerValue;
-  end: TimePickerValue;
-  textColor: string;
+  start: Date;
+  end: Date;
   backgroundColor: string;
 };
 
@@ -33,14 +35,11 @@ type NewDateDialogType = {
 };
 
 const NewDateDialog = ({ onClose, dateData }: NewDateDialogType) => {
+  const eventQueryClient = useQueryClient();
   const { createEvent } = calendarApi();
-  const { start, end } = dateData;
+  const { snackbar } = useSnackbar();
 
-  const startHourFormatted = format(start, 'hh:mm');
-  const endHourFormatted = format(end, 'hh:mm');
-
-  const [valueStart, onChangeStart] = useState<TimePickerValue>(startHourFormatted);
-  const [valueEnd, onChangeEnd] = useState<TimePickerValue>(endHourFormatted);
+  const { start, end, startStr, endStr } = dateData;
 
   const isSameDay = differenceInBusinessDays(end, start) <= 1;
 
@@ -49,55 +48,84 @@ const NewDateDialog = ({ onClose, dateData }: NewDateDialogType) => {
       allDay: dateData.allDay,
       title: '',
       note: '',
-      start: valueStart,
-      end: valueEnd,
-      textColor: '',
-      backgroundColor: '',
+      start: start,
+      end: end,
+      backgroundColor: eventColorsMap['option-one'],
     },
   });
 
-  const { handleSubmit, control } = formMethods;
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = formMethods;
 
-  const { mutate: mutateCreateEvent } = useMutation((data: EventCreation) => createEvent(data), {
+  const mutateCreateEvent = useMutation((data: EventCreation) => createEvent(data), {
     onSuccess: () => {
-      alert('success');
+      onClose();
+      snackbar('Event created', 'success');
+      eventQueryClient.invalidateQueries(['calendar', 'events']);
+    },
+    onError: () => {
+      snackbar('Error on creating event', 'error');
     },
   });
 
   const handleSubmitCreateEvent = (data: Event) => {
-    const newEndDate = isSameDay ? start : end;
+    const endDate = isSameDay ? startStr : endStr;
 
     const newData = {
       ...data,
-      start: !data.allDay ? formatToIsoDate(start, data.start.toString()) : start,
-      end: !data.allDay ? formatToIsoDate(newEndDate, data.end.toString()) : end,
+      end: !data.allDay ? formatToIsoDate(new Date(endDate), data.end) : end,
+      borderColor: data.backgroundColor,
     };
 
-    mutateCreateEvent({ ...newData });
+    mutateCreateEvent.mutate(newData);
   };
 
+  const titleHasErrors = errors.title?.type === 'required';
+
   return (
-    <Dialog open onClose={onClose} maxWidth="sm">
+    <Dialog open onClose={onClose}>
       <FormProvider {...formMethods}>
         <Box component="form" onSubmit={handleSubmit(handleSubmitCreateEvent)}>
           <DialogContent>
-            <Stack gap={4} marginBottom={4}>
+            <Stack gap={5} marginBottom={4}>
               <Controller
                 name="title"
                 control={control}
+                rules={{
+                  required: {
+                    message: 'Title is required',
+                    value: true,
+                  },
+                }}
                 render={({ field }) => {
-                  return <TextField {...field} fullWidth variant="standard" label="Add title" />;
+                  return (
+                    <TextField
+                      autoFocus
+                      {...field}
+                      fullWidth
+                      variant="standard"
+                      label="Add title"
+                      helperText={titleHasErrors && errors.title?.message}
+                      error={titleHasErrors}
+                    />
+                  );
                 }}
               />
-              <NewDateDialogTimeSelector dateData={dateData} isSameDay={isSameDay} onChangeStart={onChangeStart} onChangeEnd={onChangeEnd} />
+              <NewDateDialogTimeSelector dateData={dateData} isSameDay={isSameDay} />
               <NewDateDialogNote />
+              <NewDateDialogColorSelector />
             </Stack>
           </DialogContent>
           <DialogActions>
             <Button onClick={onClose} variant="outlined">
               Cancel
             </Button>
-            <Button type="submit">Create event</Button>
+            <LoadingButton variant="contained" loading={mutateCreateEvent.isLoading} type="submit">
+              Create event
+            </LoadingButton>
           </DialogActions>
         </Box>
       </FormProvider>

@@ -1,6 +1,12 @@
 module.exports = {
   parser: '@typescript-eslint/parser',
-  extends: ['plugin:import/recommended', 'plugin:prettier/recommended', 'plugin:@typescript-eslint/recommended', 'plugin:import/typescript', 'prettier'],
+  extends: [
+    'plugin:import/recommended',
+    'plugin:prettier/recommended',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:import/typescript',
+    'prettier',
+  ],
   parserOptions: {
     ecmaVersion: 'latest',
     requireConfigFile: false,
@@ -23,7 +29,7 @@ module.exports = {
         endOfLine: 'lf',
         semi: true,
         singleQuote: true,
-        printWidth: 200,
+        printWidth: 130,
         trailingComma: 'all',
         bracketSpacing: true,
       },

@@ -1,24 +1,24 @@
 import { format } from 'date-fns';
 import { useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
-import TimePicker, { TimePickerValue } from 'react-time-picker';
 
 import { faClockEight } from '@fortawesome/pro-regular-svg-icons';
 import { DateSelectArg } from '@fullcalendar/core';
 import { Button, Stack, Typography, Checkbox, FormControlLabel, FormControlLabelProps } from '@mui/material';
+import { TimePicker } from '@mui/x-date-pickers';
 
 import { EventCreation } from 'client/modules/home-tasks/domain/calendar/calendar';
 import { Icon } from 'client/shared/components/Icon';
 import { useBreakpoint } from 'client/shared/hooks/useBreakpoint';
 
+const TIMEPICKER_MAX_WIDTH = '80px';
+
 type NewDateDialogTimeSelectorType = {
   dateData: DateSelectArg;
   isSameDay: boolean;
-  onChangeStart: (hour: TimePickerValue) => void;
-  onChangeEnd: (hour: TimePickerValue) => void;
 };
 
-const NewDateDialogTimeSelector = ({ dateData: { allDay, start, end }, isSameDay, onChangeStart, onChangeEnd }: NewDateDialogTimeSelectorType) => {
+const NewDateDialogTimeSelector = ({ dateData: { allDay, start, end }, isSameDay }: NewDateDialogTimeSelectorType) => {
   const [isTimeVisible, setIsTimeVisible] = useState(!allDay);
   const { isMobile } = useBreakpoint();
 
@@ -36,7 +36,7 @@ const NewDateDialogTimeSelector = ({ dateData: { allDay, start, end }, isSameDay
   const handleClickShowTime = () => setIsTimeVisible(true);
 
   return (
-    <Stack flexDirection="row" alignItems="baseline" gap={3}>
+    <Stack flexDirection="row" alignItems={!isTimeVisible ? 'center' : 'baseline'} gap={3}>
       <Icon icon={faClockEight} />
       <Stack gap={3}>
         <Stack flexDirection="row" alignItems="center" gap={3}>
@@ -53,23 +53,29 @@ const NewDateDialogTimeSelector = ({ dateData: { allDay, start, end }, isSameDay
               name="allDay"
               control={control}
               render={({ field: { value, ...rest } }) => {
-                return <FormControlLabel {...rest} label="All Day" value={value} control={<Checkbox checked={value} />} labelPlacement={labelPlacementPosition} />;
+                return (
+                  <FormControlLabel
+                    {...rest}
+                    label="All Day"
+                    value={value}
+                    control={<Checkbox checked={value} />}
+                    labelPlacement={labelPlacementPosition}
+                  />
+                );
               }}
             />
             <Stack flexDirection="row" gap={3} paddingBottom={2}>
               <Controller
                 name="start"
                 control={control}
-                render={({ field: { onChange, ...rest } }) => {
+                render={({ field }) => {
                   return (
                     <TimePicker
-                      {...rest}
+                      {...field}
+                      label="Start time"
+                      ampm={false}
                       disabled={isAllDayEvent}
-                      disableClock
-                      onChange={(value) => {
-                        onChangeStart(value);
-                        onChange(value);
-                      }}
+                      sx={{ maxWidth: TIMEPICKER_MAX_WIDTH }}
                     />
                   );
                 }}
@@ -77,16 +83,14 @@ const NewDateDialogTimeSelector = ({ dateData: { allDay, start, end }, isSameDay
               <Controller
                 name="end"
                 control={control}
-                render={({ field: { onChange, ...rest } }) => {
+                render={({ field }) => {
                   return (
                     <TimePicker
-                      {...rest}
+                      {...field}
+                      label="End time"
+                      ampm={false}
                       disabled={isAllDayEvent}
-                      disableClock
-                      onChange={(value) => {
-                        onChangeEnd(value);
-                        onChange(value);
-                      }}
+                      sx={{ maxWidth: TIMEPICKER_MAX_WIDTH }}
                     />
                   );
                 }}

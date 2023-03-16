@@ -46,7 +46,13 @@ const NavbarMobile = ({ routes }: { routes: RouteType[] }) => {
         display: { xs: 'flex', md: 'none', ml: 'auto' },
       }}
     >
-      <IconButton size="large" aria-controls="menu-appbar" aria-haspopup="true" onClick={handleOnClickOpenNavMenu} color="inherit">
+      <IconButton
+        size="large"
+        aria-controls="menu-appbar"
+        aria-haspopup="true"
+        onClick={handleOnClickOpenNavMenu}
+        color="inherit"
+      >
         <MenuIcon />
       </IconButton>
       <Drawer anchor="right" open={!!anchorElNav} onClose={handleCloseNavMenu}>
@@ -66,13 +72,19 @@ const NavbarMobile = ({ routes }: { routes: RouteType[] }) => {
               {routes.map((route) => (
                 <NavbarMobileRoute key={route.path} route={route} onClick={handleCloseNavMenu} />
               ))}
-              <ListItemButton onClick={handleClickLogout} sx={(theme) => ({ color: theme.palette.error.light, fontWeight: '400' })}>
+              <ListItemButton
+                onClick={handleClickLogout}
+                sx={(theme) => ({ color: theme.palette.error.light, fontWeight: '400' })}
+              >
                 Logout
               </ListItemButton>
             </>
           )}
           {!isLogged && (
-            <ListItemButton onClick={handleClickLogin} sx={(theme) => ({ backgroundColor: theme.palette.primary.main, color: 'white', fontWeight: '500' })}>
+            <ListItemButton
+              onClick={handleClickLogin}
+              sx={(theme) => ({ backgroundColor: theme.palette.primary.main, color: 'white', fontWeight: '500' })}
+            >
               Login
             </ListItemButton>
           )}

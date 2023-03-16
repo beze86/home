@@ -6,6 +6,8 @@ import { Outlet, Route, Routes } from 'react-router-dom';
 import { IconDefinition } from '@fortawesome/fontawesome-common-types';
 import { faCalendarWeek, faCouch, faTasks, faUser } from '@fortawesome/pro-regular-svg-icons';
 import { Stack, ThemeProvider, CssBaseline } from '@mui/material';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 
 import { store } from 'client/modules/app/store';
 import { Login } from 'client/modules/auth/ui/auth/Login';
@@ -70,16 +72,18 @@ const Routing = () => {
 export const App = () => {
   return (
     <UserStateProvider store={store}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <SnackbarProvider>
-          <Stack sx={{ height: '100vh' }}>
-            <NavBar routes={protectedRoutesList} />
-            <Routing />
-            <Outlet />
-          </Stack>
-        </SnackbarProvider>
-      </ThemeProvider>
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <SnackbarProvider>
+            <Stack sx={{ height: '100vh' }}>
+              <NavBar routes={protectedRoutesList} />
+              <Routing />
+              <Outlet />
+            </Stack>
+          </SnackbarProvider>
+        </ThemeProvider>
+      </LocalizationProvider>
     </UserStateProvider>
   );
 };

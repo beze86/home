@@ -57,7 +57,15 @@ const AreasList = () => {
       <Page.Main>
         <Card sx={{ maxWidth: '600px', marginX: 'auto', marginBottom: 3 }}>
           <CardContent>
-            <Stack component="form" direction="row" alignItems="center" flexWrap="wrap" justifyContent="flex-end" gap={4} onSubmit={handleSubmit(handleOnSubmitCreateArea)}>
+            <Stack
+              component="form"
+              direction="row"
+              alignItems="center"
+              flexWrap="wrap"
+              justifyContent="flex-end"
+              gap={4}
+              onSubmit={handleSubmit(handleOnSubmitCreateArea)}
+            >
               <Controller
                 name="area"
                 control={control}

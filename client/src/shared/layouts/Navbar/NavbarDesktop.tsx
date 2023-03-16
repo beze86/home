@@ -23,6 +23,7 @@ const NavbarDesktop = ({ routes }: { routes: RouteType[] }) => {
     <Box
       sx={{
         display: { xs: 'none', md: 'flex' },
+        gap: 2,
         flex: 'auto',
       }}
     >

@@ -14,7 +14,7 @@ const NewDateDialogNote = () => {
   const handleClickShowDescription = () => setIsDescriptionVisible(true);
 
   return (
-    <Stack flexDirection="row" alignItems="center" gap={3}>
+    <Stack flexDirection="row" alignItems={!isDescriptionVisible ? 'center' : 'flex-start'} gap={3}>
       <Icon icon={faGripLines} />
       {!isDescriptionVisible ? (
         <Button variant="text" onClick={handleClickShowDescription}>
@@ -25,7 +25,7 @@ const NewDateDialogNote = () => {
           name="note"
           control={control}
           render={({ field }) => {
-            return <TextField {...field} variant="standard" multiline label="Add note" />;
+            return <TextField {...field} variant="filled" multiline label="Add note" />;
           }}
         />
       )}

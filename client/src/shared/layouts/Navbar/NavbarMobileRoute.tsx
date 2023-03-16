@@ -7,11 +7,17 @@ import { Box, Collapse, Divider, Link, List, ListItemButton, ListItemIcon, ListI
 import { RouteType } from 'client/App';
 import { Icon } from 'client/shared/components/Icon';
 
-const NavbarMobileRoute = ({ route: { title, path: mainPath, children }, onClick }: { route: RouteType; onClick: () => void }) => {
+const NavbarMobileRoute = ({
+  route: { title, path: mainPath, children },
+  onClick,
+}: {
+  route: RouteType;
+  onClick: () => void;
+}) => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
-  const isActive = children ? children.some((child) => `/${mainPath}/${child.path}` === pathname) : `/${mainPath}` === pathname;
+  const isActive = children ? children.some((child) => `${mainPath}/${child.path}` === pathname) : `/${mainPath}` === pathname;
 
   const [isCollapseVisible, setIsCollapseVisible] = useState(isActive);
 
@@ -30,7 +36,9 @@ const NavbarMobileRoute = ({ route: { title, path: mainPath, children }, onClick
     <>
       <ListItemButton selected={isActive} onClick={() => handleClickMainRoute(mainPath)}>
         <ListItemText primary={title} />
-        {!!children && <Box component="span">{isCollapseVisible ? <Icon icon={faChevronUp} /> : <Icon icon={faChevronDown} />}</Box>}
+        {!!children && (
+          <Box component="span">{isCollapseVisible ? <Icon icon={faChevronUp} /> : <Icon icon={faChevronDown} />}</Box>
+        )}
       </ListItemButton>
       <Collapse in={isCollapseVisible} timeout="auto" unmountOnExit>
         <List disablePadding>

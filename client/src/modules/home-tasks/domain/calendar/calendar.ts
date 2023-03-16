@@ -17,13 +17,14 @@ type EventCreation = {
   note: string;
   start: Date;
   end: Date;
-  textColor: string;
   backgroundColor: string;
+  borderColor: string;
 };
 
 type CalendarRepository = {
   getEvents: () => Promise<CalendarEvent>;
   createEvent: (data: EventCreation) => Promise<void>;
+  deleteEvent: (id: EventId) => Promise<void>;
 };
 
-export type { CalendarEvent, EventCreation, CalendarRepository };
+export type { CalendarEvent, EventCreation, CalendarRepository, EventId };

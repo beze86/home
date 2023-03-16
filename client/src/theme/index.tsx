@@ -137,9 +137,19 @@ export const theme = createTheme({
         maxWidth: 'sm',
       },
       styleOverrides: {
-        paper: {
+        container: ({ theme: { breakpoints } }) => ({
+          alignItems: 'flex-end',
+          [breakpoints.up('sm')]: {
+            alignItems: 'center',
+          },
+        }),
+        paper: ({ theme: { breakpoints, spacing } }) => ({
           width: '100%',
-        },
+          margin: spacing(0),
+          [breakpoints.up('sm')]: {
+            margin: spacing(6),
+          },
+        }),
       },
     },
     MuiDialogActions: {
@@ -154,12 +164,20 @@ export const theme = createTheme({
         dividers: true,
       },
     },
+    MuiFilledInput: {
+      styleOverrides: {
+        root: ({ theme: { palette } }) => ({
+          backgroundColor: palette.grey['100'],
+        }),
+      },
+    },
     MuiInputBase: {
       styleOverrides: {
         root: {
-          '&.MuiInputBase-root:before, &.MuiInputBase-root:hover:not(.Mui-disabled, .Mui-error):before, &.MuiInputBase-root:after': {
-            borderBottomWidth: '1px',
-          },
+          '&.MuiInputBase-root:before, &.MuiInputBase-root:hover:not(.Mui-disabled, .Mui-error):before, &.MuiInputBase-root:after':
+            {
+              borderBottomWidth: '1px',
+            },
         },
       },
     },

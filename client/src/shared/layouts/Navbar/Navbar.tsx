@@ -7,7 +7,7 @@ import { NavbarMobile } from 'client/shared/layouts/Navbar/NavbarMobile';
 
 export const NavBar = ({ routes }: { routes: RouteType[] }) => {
   return (
-    <AppBar>
+    <AppBar elevation={1}>
       <Container>
         <Toolbar>
           <Logo />
