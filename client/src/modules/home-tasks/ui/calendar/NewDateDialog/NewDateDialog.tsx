@@ -50,7 +50,7 @@ const NewDateDialog = ({ onClose, dateData }: NewDateDialogType) => {
       note: '',
       start: start,
       end: end,
-      backgroundColor: eventColorsMap['option-one'],
+      backgroundColor: eventColorsMap['option-five'],
     },
   });
 

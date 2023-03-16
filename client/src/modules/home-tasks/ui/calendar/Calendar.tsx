@@ -69,6 +69,11 @@ export const Calendar = () => {
           <Box
             sx={(theme) => ({
               height: '100%',
+              '& .fc-header-toolbar': {
+                display: 'flex',
+                flexWrap: 'wrap',
+                gap: theme.spacing(2),
+              },
               '& .fc-daygrid-more-link': {
                 width: '100%',
               },

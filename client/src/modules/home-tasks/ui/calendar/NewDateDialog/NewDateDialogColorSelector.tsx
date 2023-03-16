@@ -58,7 +58,7 @@ const NewDateDialogColorSelector = () => {
                 return (
                   <MenuItem key={key} value={value}>
                     <Box
-                      sx={{
+                      sx={(theme) => ({
                         borderRadius: '50%',
                         display: 'flex',
                         alignItems: 'center',
@@ -67,7 +67,7 @@ const NewDateDialogColorSelector = () => {
                         width: '20px',
                         backgroundColor: eventColorsMap[key as Color],
                         color: 'white',
-                      }}
+                      })}
                     >
                       {isChecked && <Icon icon={faCheck} size="xs" />}
                     </Box>

@@ -14,17 +14,17 @@ type Color =
 type EventColorsMapType = Record<Color, string>;
 
 const eventColorsMap: EventColorsMapType = {
-  'option-one': 'red',
-  'option-two': 'pink',
-  'option-three': 'orange',
-  'option-four': 'yellow',
-  'option-five': 'green',
-  'option-six': 'darkgreen',
-  'option-seven': 'lightblue',
-  'option-eight': 'darkblue',
-  'option-nine': 'lavender',
-  'option-ten': 'purple',
-  'option-eleven': 'gray',
+  'option-one': '#ff1744',
+  'option-two': '#d32f2f',
+  'option-three': '#ff9800',
+  'option-four': '#ed6c02',
+  'option-five': '#4caf50',
+  'option-six': '#2e7d32',
+  'option-seven': '#4dabf5',
+  'option-eight': '#2196f3',
+  'option-nine': '#dd33fa',
+  'option-ten': '#d500f9',
+  'option-eleven': '#6B7280',
 };
 
 export type { EventColorsMapType, Color };
