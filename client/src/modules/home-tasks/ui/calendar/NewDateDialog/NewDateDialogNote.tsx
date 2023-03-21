@@ -5,7 +5,7 @@ import { faGripLines } from '@fortawesome/pro-regular-svg-icons';
 import { Button, Stack, TextField } from '@mui/material';
 
 import { EventCreation } from 'client/modules/home-tasks/domain/calendar/calendar';
-import { Icon } from 'client/shared/components/Icon';
+import { Icon } from 'client/shared/components';
 
 const NewDateDialogNote = () => {
   const [isDescriptionVisible, setIsDescriptionVisible] = useState(false);
@@ -25,7 +25,7 @@ const NewDateDialogNote = () => {
           name="note"
           control={control}
           render={({ field }) => {
-            return <TextField {...field} variant="filled" multiline label="Add note" />;
+            return <TextField autoFocus {...field} variant="filled" multiline label="Add note" />;
           }}
         />
       )}

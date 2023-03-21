@@ -9,8 +9,8 @@ import { usersApi } from 'client/modules/auth/api/auth';
 import { UserLogin } from 'client/modules/auth/domain/auth';
 import { useSnackbar } from 'client/shared/hooks/useSnackbar';
 import { useUserState } from 'client/shared/hooks/useUserState';
-import { Page } from 'client/shared/layouts/Page/Page';
-import { emailRegexValidation } from 'client/shared/utils/utils';
+import { Page } from 'client/shared/layouts';
+import { emailRegexValidation } from 'client/shared/utils';
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -79,7 +79,15 @@ export const Login = () => {
                   },
                 }}
                 render={({ field: { onChange, ...props } }) => {
-                  return <TextField {...props} label="Insert Email" onChange={onChange} helperText={emailHasErrors && errors.email?.message} error={emailHasErrors} />;
+                  return (
+                    <TextField
+                      {...props}
+                      label="Insert Email"
+                      onChange={onChange}
+                      helperText={emailHasErrors && errors.email?.message}
+                      error={emailHasErrors}
+                    />
+                  );
                 }}
               />
               <Controller
@@ -92,7 +100,16 @@ export const Login = () => {
                   },
                 }}
                 render={({ field: { onChange, ...props } }) => {
-                  return <TextField {...props} type="password" label="Insert password" onChange={onChange} helperText={passwordHasErrors && errors.password?.message} error={passwordHasErrors} />;
+                  return (
+                    <TextField
+                      {...props}
+                      type="password"
+                      label="Insert password"
+                      onChange={onChange}
+                      helperText={passwordHasErrors && errors.password?.message}
+                      error={passwordHasErrors}
+                    />
+                  );
                 }}
               />
               <LoadingButton type="submit" variant="contained" loading={mutateLogin.isLoading}>

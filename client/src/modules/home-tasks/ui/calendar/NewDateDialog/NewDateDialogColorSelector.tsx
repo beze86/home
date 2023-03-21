@@ -5,7 +5,7 @@ import { Box, Stack, TextField, MenuItem } from '@mui/material';
 
 import { EventCreation } from 'client/modules/home-tasks/domain/calendar/calendar';
 import { Color, eventColorsMap } from 'client/modules/home-tasks/domain/calendar/calendar-colors';
-import { Icon } from 'client/shared/components/Icon';
+import { Icon } from 'client/shared/components';
 
 const NewDateDialogColorSelector = () => {
   const { control, watch } = useFormContext<EventCreation>();
@@ -58,7 +58,7 @@ const NewDateDialogColorSelector = () => {
                 return (
                   <MenuItem key={key} value={value}>
                     <Box
-                      sx={(theme) => ({
+                      sx={{
                         borderRadius: '50%',
                         display: 'flex',
                         alignItems: 'center',
@@ -67,9 +67,9 @@ const NewDateDialogColorSelector = () => {
                         width: '20px',
                         backgroundColor: eventColorsMap[key as Color],
                         color: 'white',
-                      })}
+                      }}
                     >
-                      {isChecked && <Icon icon={faCheck} size="xs" />}
+                      {isChecked && <Icon icon={faCheck} />}
                     </Box>
                   </MenuItem>
                 );

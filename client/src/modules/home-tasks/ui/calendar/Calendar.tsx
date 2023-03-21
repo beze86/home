@@ -6,14 +6,14 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
-import { Box, Typography } from '@mui/material';
+import { Box, Stack, Typography } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 
 import { calendarApi } from 'client/modules/home-tasks/api/calendar/calendar';
 import { CalendarProvider } from 'client/modules/home-tasks/ui/calendar/CalendarProvider';
 import { EventDialog } from 'client/modules/home-tasks/ui/calendar/EventDialog';
 import { NewDateDialog } from 'client/modules/home-tasks/ui/calendar/NewDateDialog/NewDateDialog';
-import { Page } from 'client/shared/layouts/Page/Page';
+import { Page } from 'client/shared/layouts';
 
 const STALE_TIME_5_MIN = 300000;
 
@@ -21,26 +21,27 @@ const renderEventContent = (eventContent: EventContentArg) => {
   const startTimeFormat = eventContent.event.start ? format(eventContent.event.start, 'HH:mm') : null;
 
   return (
-    <>
-      <Box
-        sx={{
-          display: 'inline-block',
-          width: '8px',
-          height: '8px',
-          borderRadius: '50%',
-          backgroundColor: eventContent.backgroundColor,
-          marginX: 1,
-        }}
-      ></Box>
+    <Stack className="fc-event-main__stack" flexDirection="row" gap={2} alignItems="center" paddingX={1}>
       {eventContent.timeText && (
-        <Typography component="span" variant="caption" marginRight={2}>
-          {startTimeFormat}
-        </Typography>
+        <>
+          <Box
+            sx={{
+              display: 'inline-block',
+              width: '8px',
+              height: '8px',
+              borderRadius: '50%',
+              backgroundColor: eventContent.backgroundColor,
+            }}
+          ></Box>
+          <Typography component="span" variant="caption">
+            {startTimeFormat}
+          </Typography>
+        </>
       )}
       <Typography component="span" variant="caption">
         {eventContent.event.title}
       </Typography>
-    </>
+    </Stack>
   );
 };
 
@@ -80,8 +81,9 @@ export const Calendar = () => {
               '& .fc-event': {
                 cursor: 'pointer',
                 color: 'white',
+                overflow: 'hidden',
               },
-              '& .fc-event:not(.fc-daygrid-dot-event) .fc-event-main > span': {
+              '& .fc-event:not(.fc-daygrid-dot-event) .fc-event-main > .fc-event-main__stack > span': {
                 color: 'white',
               },
               '.fc-popover': {

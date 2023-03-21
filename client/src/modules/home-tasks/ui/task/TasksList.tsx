@@ -7,7 +7,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { tasksApi } from 'client/modules/home-tasks/api/task/task';
 import { TaskId } from 'client/modules/home-tasks/domain/task/task';
-import { Page } from 'client/shared/layouts/Page/Page';
+import { Page } from 'client/shared/layouts';
 
 const TASK_LIST_QUERY = ['tasks', 'task-list'];
 const STALE_TIME_5_MIN = 300000;

@@ -6,7 +6,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { contactsApi } from 'client/modules/home-tasks/api/contact/contact';
 import { ContactCreation, ContactId } from 'client/modules/home-tasks/domain/contact/contact';
 import { ContactsListItem } from 'client/modules/home-tasks/ui/contact/ContactsListItem';
-import { Page } from 'client/shared/layouts/Page/Page';
+import { Page } from 'client/shared/layouts';
 
 const STALE_TIME_5_MIN = 300000;
 

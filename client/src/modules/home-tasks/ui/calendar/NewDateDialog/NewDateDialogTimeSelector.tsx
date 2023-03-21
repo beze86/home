@@ -8,8 +8,8 @@ import { Button, Stack, Typography, Checkbox, FormControlLabel, FormControlLabel
 import { TimePicker } from '@mui/x-date-pickers';
 
 import { EventCreation } from 'client/modules/home-tasks/domain/calendar/calendar';
-import { Icon } from 'client/shared/components/Icon';
-import { useBreakpoint } from 'client/shared/hooks/useBreakpoint';
+import { Icon } from 'client/shared/components';
+import { useBreakpoint } from 'client/shared/hooks';
 
 const TIMEPICKER_MAX_WIDTH = '80px';
 

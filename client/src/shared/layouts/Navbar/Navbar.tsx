@@ -5,7 +5,7 @@ import { Logo } from 'client/shared/components/Logo';
 import { NavbarDesktop } from 'client/shared/layouts/Navbar/NavbarDesktop';
 import { NavbarMobile } from 'client/shared/layouts/Navbar/NavbarMobile';
 
-export const NavBar = ({ routes }: { routes: RouteType[] }) => {
+const Navbar = ({ routes }: { routes: RouteType[] }) => {
   return (
     <AppBar elevation={1}>
       <Container>
@@ -18,3 +18,5 @@ export const NavBar = ({ routes }: { routes: RouteType[] }) => {
     </AppBar>
   );
 };
+
+export { Navbar };

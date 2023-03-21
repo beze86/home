@@ -8,8 +8,8 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { calendarApi } from 'client/modules/home-tasks/api/calendar/calendar';
 import { EventId } from 'client/modules/home-tasks/domain/calendar/calendar';
-import { Icon } from 'client/shared/components/Icon';
-import { useSnackbar } from 'client/shared/hooks/useSnackbar';
+import { Icon } from 'client/shared/components';
+import { useSnackbar } from 'client/shared/hooks';
 
 type EventDialogType = {
   onClose: () => void;
@@ -41,8 +41,8 @@ const EventDialog = ({ onClose, eventData: { event } }: EventDialogType) => {
   return (
     <Dialog open onClose={onClose}>
       <DialogContent>
-        <Stack gap={4}>
-          <Stack flexDirection="row" alignItems="baseline" gap={3} marginBottom={4}>
+        <Stack gap={4} marginBottom={4}>
+          <Stack flexDirection="row" alignItems="baseline" gap={3}>
             <Box
               sx={{
                 width: '16px',

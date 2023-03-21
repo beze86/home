@@ -12,7 +12,7 @@ import { eventColorsMap } from 'client/modules/home-tasks/domain/calendar/calend
 import { NewDateDialogColorSelector } from 'client/modules/home-tasks/ui/calendar/NewDateDialog/NewDateDialogColorSelector';
 import { NewDateDialogNote } from 'client/modules/home-tasks/ui/calendar/NewDateDialog/NewDateDialogNote';
 import { NewDateDialogTimeSelector } from 'client/modules/home-tasks/ui/calendar/NewDateDialog/NewDateDialogTimeSelector';
-import { useSnackbar } from 'client/shared/hooks/useSnackbar';
+import { useSnackbar } from 'client/shared/hooks';
 
 const formatToIsoDate = (date: Date, hourTime: Date) => {
   const dateFormatted = format(date, 'yyyy-MM-dd');
@@ -90,7 +90,7 @@ const NewDateDialog = ({ onClose, dateData }: NewDateDialogType) => {
       <FormProvider {...formMethods}>
         <Box component="form" onSubmit={handleSubmit(handleSubmitCreateEvent)}>
           <DialogContent>
-            <Stack gap={5} marginBottom={4}>
+            <Stack gap={5} paddingY={4}>
               <Controller
                 name="title"
                 control={control}

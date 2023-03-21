@@ -1,4 +1,4 @@
-import { Page } from 'client/shared/layouts/Page/Page';
+import { Page } from 'client/shared/layouts';
 
 export const Home = () => {
   return (

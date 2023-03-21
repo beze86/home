@@ -7,17 +7,15 @@ const ContactsList = lazy(() => import('client/modules/home-tasks/ui/contact/Con
 
 export const ContactsRoutes = () => {
   return (
-    <>
-      <Routes>
-        <Route
-          index
-          element={
-            <Suspense fallback={<LoadingSpinner />}>
-              <ContactsList />
-            </Suspense>
-          }
-        />
-      </Routes>
-    </>
+    <Routes>
+      <Route
+        index
+        element={
+          <Suspense fallback={<LoadingSpinner />}>
+            <ContactsList />
+          </Suspense>
+        }
+      />
+    </Routes>
   );
 };

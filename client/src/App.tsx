@@ -17,8 +17,8 @@ import { AreasRoutes } from 'client/modules/home-tasks/ui/area/AreasRoutes';
 import { Calendar } from 'client/modules/home-tasks/ui/calendar/Calendar';
 import { ContactsRoutes } from 'client/modules/home-tasks/ui/contact/ContactsRoutes';
 import { TasksRoutes } from 'client/modules/home-tasks/ui/task/TasksRoutes';
-import { ProtectedRoutes } from 'client/shared/components/ProtectedRoute/ProtectedRoute';
-import { NavBar } from 'client/shared/layouts/Navbar/Navbar';
+import { ProtectedRoutes } from 'client/shared/components';
+import { Navbar } from 'client/shared/layouts';
 import { theme } from 'client/theme';
 
 export type RouteChildType = {
@@ -77,7 +77,7 @@ export const App = () => {
           <CssBaseline />
           <SnackbarProvider>
             <Stack sx={{ height: '100vh' }}>
-              <NavBar routes={protectedRoutesList} />
+              <Navbar routes={protectedRoutesList} />
               <Routing />
               <Outlet />
             </Stack>
