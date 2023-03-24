@@ -1,10 +1,9 @@
 import { SnackbarProvider } from 'notistack';
 import { ReactNode } from 'react';
 import { Provider as UserStateProvider } from 'react-redux';
-import { Outlet, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 
 import { IconDefinition } from '@fortawesome/fontawesome-common-types';
-import { faCalendarWeek, faCouch, faTasks, faUser } from '@fortawesome/pro-regular-svg-icons';
 import { Stack, ThemeProvider, CssBaseline } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
@@ -13,10 +12,7 @@ import { store } from 'client/modules/app/store';
 import { Login } from 'client/modules/auth/ui/auth/Login';
 import { Register } from 'client/modules/auth/ui/auth/Register';
 import { Home } from 'client/modules/home/ui/home/Home';
-import { AreasRoutes } from 'client/modules/home-tasks/ui/area/AreasRoutes';
-import { Calendar } from 'client/modules/home-tasks/ui/calendar/Calendar';
-import { ContactsRoutes } from 'client/modules/home-tasks/ui/contact/ContactsRoutes';
-import { TasksRoutes } from 'client/modules/home-tasks/ui/task/TasksRoutes';
+import { HomeTasksRoutes } from 'client/modules/home-utilities/ui';
 import { ProtectedRoutes } from 'client/shared/components';
 import { Navbar } from 'client/shared/layouts';
 import { theme } from 'client/theme';
@@ -35,28 +31,7 @@ export type RouteType = {
   children?: RouteChildType[];
 };
 
-const protectedRoutesList: RouteType[] = [
-  {
-    title: 'House-tasks',
-    path: '',
-    children: [
-      {
-        title: 'Calendar',
-        path: 'calendar',
-        icon: faCalendarWeek,
-        element: <Calendar />,
-      },
-      {
-        title: 'Contacts',
-        path: 'contacts',
-        icon: faCouch,
-        element: <ContactsRoutes />,
-      },
-      { title: 'Areas', path: 'areas', icon: faTasks, element: <AreasRoutes /> },
-      { title: 'Tasks', path: 'tasks', icon: faUser, element: <TasksRoutes /> },
-    ],
-  },
-];
+const protectedRoutesList: RouteType[] = [HomeTasksRoutes];
 
 const Routing = () => {
   return (
@@ -79,7 +54,6 @@ export const App = () => {
             <Stack sx={{ height: '100vh' }}>
               <Navbar routes={protectedRoutesList} />
               <Routing />
-              <Outlet />
             </Stack>
           </SnackbarProvider>
         </ThemeProvider>
