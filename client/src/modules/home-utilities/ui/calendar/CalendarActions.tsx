@@ -11,6 +11,7 @@ type CalendarViewType = 'timeGridDay' | 'timeGridWeek' | 'dayGridMonth' | 'multi
 const CalendarActions = ({ calendar }: { calendar: RefObject<FullCalendar> }) => {
   const [calendarTitle, setCalendarTitle] = useState('');
   const [calendarView, setCalendarView] = useState<CalendarViewType>('dayGridMonth');
+
   const calendarApi = calendar.current?.getApi();
 
   useEffect(() => {

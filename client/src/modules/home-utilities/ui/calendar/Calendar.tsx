@@ -1,5 +1,5 @@
 import { format } from 'date-fns';
-import React, { useRef, useState } from 'react';
+import React, { RefObject, SetStateAction, useEffect, useRef, useState } from 'react';
 
 import { DateSelectArg, EventClickArg, EventContentArg } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -51,11 +51,16 @@ const Calendar = () => {
   const [eventDataDialog, setEventDataDialog] = useState<EventClickArg | null>(null);
   const [newDateDataDialog, setNewDateDataDialog] = useState<DateSelectArg | null>(null);
   const calendarRef = useRef<FullCalendar>(null);
+  const [calendarApi, setCalendarApi] = useState<RefObject<FullCalendar> | null>(null);
 
   const { data: eventsData } = useQuery(['calendar', 'events'], () => Api.getEvents(), {
     suspense: false,
     staleTime: STALE_TIME_5_MIN,
   });
+
+  useEffect(() => {
+    calendarRef.current && setCalendarApi(calendarRef);
+  }, [setCalendarApi]);
 
   const handleEventClickOpenEventDialog = (data: EventClickArg) => setEventDataDialog(data);
 
@@ -107,7 +112,7 @@ const Calendar = () => {
               },
             })}
           >
-            <CalendarActions calendar={calendarRef} />
+            {calendarApi ? <CalendarActions calendar={calendarApi} /> : <Stack height={['88px', '40px']} marginBottom={4} />}
             <FullCalendar
               ref={calendarRef}
               plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, multiMonthPlugin]}
