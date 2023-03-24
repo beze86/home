@@ -6,12 +6,20 @@ import { Stack } from '@mui/material';
 
 type Props = Omit<FontAwesomeIconProps, 'size'> & {
   icon: IconDefinition;
-  size?: number;
+  size?: string;
+  color?: string;
 };
 
-export const Icon = ({ icon, size = 20, ...rest }: Props) => {
+export const Icon = ({ icon, size = '18px', color, ...rest }: Props) => {
   return (
-    <Stack sx={{ width: '1em', height: '1em', '& .svg-inline--fa': { width: '1em', height: '1em', verticalAlign: 'middle' } }}>
+    <Stack
+      sx={{
+        width: size,
+        height: size,
+        color,
+        '& .svg-inline--fa': { width: size, height: size, verticalAlign: 'middle' },
+      }}
+    >
       <FontAwesomeIcon icon={icon} color="inherit" height={size} width={size} {...rest} />
     </Stack>
   );

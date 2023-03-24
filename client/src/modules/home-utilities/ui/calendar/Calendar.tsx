@@ -1,5 +1,5 @@
 import { format } from 'date-fns';
-import React, { RefObject, SetStateAction, useEffect, useRef, useState } from 'react';
+import React, { RefObject, useEffect, useRef, useState } from 'react';
 
 import { DateSelectArg, EventClickArg, EventContentArg } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';

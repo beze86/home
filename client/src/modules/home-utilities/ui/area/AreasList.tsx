@@ -13,7 +13,6 @@ const STALE_TIME_5_MIN = 300000;
 const AREA_LIST_QUERY = ['area', 'area-list'];
 
 const AreasList = () => {
-  // const { deleteArea, getAreas } = areasApi();
   const areaListQuery = useQueryClient();
 
   const { data: areas } = useQuery(AREA_LIST_QUERY, () => Api.getAreas(), {

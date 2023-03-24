@@ -1,7 +1,8 @@
-import { Delete } from '@mui/icons-material';
+import { faTrash } from '@fortawesome/pro-solid-svg-icons';
 import { IconButton, ListItem, Typography } from '@mui/material';
 
 import { AreaCreation } from 'client/modules/home-utilities/domain/area/area';
+import { Icon } from 'client/shared/components';
 
 type AreaListItemType = {
   area: AreaCreation['area'];
@@ -14,7 +15,7 @@ export const AreasListItem = ({ area, onClickDeleteArea }: AreaListItemType) => 
       disableGutters
       secondaryAction={
         <IconButton onClick={onClickDeleteArea} aria-label="delete">
-          <Delete color="error" />
+          <Icon icon={faTrash} size="18px" color="error.main" />
         </IconButton>
       }
     >

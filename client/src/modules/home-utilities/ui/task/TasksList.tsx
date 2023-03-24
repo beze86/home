@@ -1,12 +1,13 @@
 import dayjs from 'dayjs';
 import { FormEvent } from 'react';
 
-import { Delete } from '@mui/icons-material';
+import { faTrash } from '@fortawesome/pro-solid-svg-icons';
 import { Button, Card, CardContent, IconButton, List, ListItem, Stack, Typography } from '@mui/material';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { TaskId } from 'client/modules/home-utilities/domain/task/task';
 import { Api } from 'client/modules/home-utilities/ui';
+import { Icon } from 'client/shared/components';
 import { Page } from 'client/shared/layouts';
 
 const TASK_LIST_QUERY = ['tasks', 'task-list'];
@@ -74,7 +75,7 @@ const TasksList = () => {
                     End: {dayjs(end).format('DD/MM/YYYY')}
                   </Typography>
                   <IconButton onClick={() => handleOnClickDelete(_id)} aria-label="delete">
-                    <Delete color="error" />
+                    <Icon icon={faTrash} size="18px" color="error.main" />
                   </IconButton>
                 </Stack>
 

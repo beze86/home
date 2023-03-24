@@ -46,7 +46,7 @@ const CalendarActions = ({ calendar }: { calendar: RefObject<FullCalendar> }) =>
           <Icon icon={faChevronLeft} />
         </IconButton>
         <IconButton onClick={handleClickNext}>
-          <Icon icon={faChevronRight} size={20} />
+          <Icon icon={faChevronRight} />
         </IconButton>
         <Typography variant="h5" marginLeft="auto">
           {calendarTitle}

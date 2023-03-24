@@ -69,7 +69,7 @@ const NewDateDialogColorSelector = () => {
                         color: 'white',
                       }}
                     >
-                      {isChecked && <Icon icon={faCheck} />}
+                      {isChecked && <Icon icon={faCheck} size="12px" />}
                     </Box>
                   </MenuItem>
                 );
