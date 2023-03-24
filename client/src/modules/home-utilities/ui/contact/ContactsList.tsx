@@ -69,7 +69,7 @@ const ContactsList = () => {
                 name="name"
                 control={control}
                 render={({ field }) => {
-                  return <TextField {...field} label="Add new contact" />;
+                  return <TextField {...field} label="Add new contacts" />;
                 }}
               />
               <Button type="submit">Add Contacts</Button>

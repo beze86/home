@@ -4,6 +4,7 @@ const path = require('path');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
@@ -36,6 +37,7 @@ module.exports = {
               '@babel/preset-typescript',
               ['@babel/preset-react', {"runtime": "automatic"}],
             ],
+            plugins: [isDevelopment && require.resolve('react-refresh/babel')].filter(Boolean),
           },
         },
       },
@@ -73,7 +75,7 @@ module.exports = {
       '/api': 'http://localhost:5000',
     },
     compress:true,
-    liveReload: false
+    hot: true
   },
   plugins: [
     new HtmlWebPackPlugin({
@@ -85,5 +87,6 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: '[name].[contenthash].css',
     }),
-  ],
+    isDevelopment && new ReactRefreshWebpackPlugin()
+  ].filter(Boolean),
 };
