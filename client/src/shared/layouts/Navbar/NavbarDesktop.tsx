@@ -2,9 +2,9 @@ import { useNavigate } from 'react-router-dom';
 
 import { Box } from '@mui/material';
 
-import { RouteType } from 'client/App';
 import { useUserState } from 'client/shared/hooks/useUserState';
 import { Button } from 'client/shared/layouts/Navbar/Button';
+import { RouteType } from 'client/shared/layouts/Navbar/domain/navbar';
 import { NavbarDesktopRoute } from 'client/shared/layouts/Navbar/NavbarDesktopRoute';
 
 const NavbarDesktop = ({ routes }: { routes: RouteType[] }) => {

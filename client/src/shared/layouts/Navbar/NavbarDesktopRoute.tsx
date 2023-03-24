@@ -6,8 +6,9 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 import { MenuItem } from '@mui/material';
 
-import { RouteChildType, RouteType } from 'client/App';
+import { getUrlFromMainPath, isTabActive } from 'client/shared/layouts/Navbar//application/navbar';
 import { Button } from 'client/shared/layouts/Navbar/Button';
+import { RouteChildType, RouteType } from 'client/shared/layouts/Navbar/domain/navbar';
 
 const MENU_ITEM_MIN_WIDTH = '160px';
 const MENU_ACTIVE_CLASS = 'MuiButton-active';
@@ -90,7 +91,9 @@ const NavbarDesktopRoute = ({ route: { title, path: mainPath, children } }: { ro
 
   const handleClickMainRoute = () => navigate(mainPath);
 
-  const isActive = children ? children.some((child) => `${mainPath}/${child.path}` === pathname) : `/${mainPath}` === pathname;
+  const initialPath = getUrlFromMainPath(mainPath);
+
+  const isActive = isTabActive(children, initialPath, mainPath, pathname);
 
   return (
     <>
@@ -111,7 +114,7 @@ const NavbarDesktopRoute = ({ route: { title, path: mainPath, children } }: { ro
       {children && (
         <CascadingMenu popupState={popupState}>
           {children.map(({ title, path }) => {
-            const childPath = `${mainPath}/${path}`;
+            const childPath = `${initialPath}/${path}`;
             return <CascadingMenuItem key={path} title={title} path={childPath} selected={childPath === pathname} />;
           })}
         </CascadingMenu>

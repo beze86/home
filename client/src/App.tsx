@@ -1,9 +1,7 @@
 import { SnackbarProvider } from 'notistack';
-import { ReactNode } from 'react';
 import { Provider as UserStateProvider } from 'react-redux';
 import { Route, Routes } from 'react-router-dom';
 
-import { IconDefinition } from '@fortawesome/fontawesome-common-types';
 import { Stack, ThemeProvider, CssBaseline } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
@@ -15,21 +13,8 @@ import { Home } from 'client/modules/home/ui/home/Home';
 import { HomeTasksRoutes } from 'client/modules/home-utilities/ui';
 import { ProtectedRoutes } from 'client/shared/components';
 import { Navbar } from 'client/shared/layouts';
+import { RouteType } from 'client/shared/layouts/Navbar/domain/navbar';
 import { theme } from 'client/theme';
-
-export type RouteChildType = {
-  title: string;
-  path: string;
-  icon?: IconDefinition;
-  element: ReactNode;
-};
-
-export type RouteType = {
-  title: string;
-  path: string;
-  element?: ReactNode;
-  children?: RouteChildType[];
-};
 
 const protectedRoutesList: RouteType[] = [HomeTasksRoutes];
 

@@ -4,8 +4,9 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { faChevronDown, faChevronUp } from '@fortawesome/pro-regular-svg-icons';
 import { Box, Collapse, Divider, Link, List, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 
-import { RouteType } from 'client/App';
 import { Icon } from 'client/shared/components/Icon';
+import { getUrlFromMainPath, isTabActive } from 'client/shared/layouts/Navbar//application/navbar';
+import { RouteType } from 'client/shared/layouts/Navbar/domain/navbar';
 
 const NavbarMobileRoute = ({
   route: { title, path: mainPath, children },
@@ -17,7 +18,9 @@ const NavbarMobileRoute = ({
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
-  const isActive = children ? children.some((child) => `${mainPath}/${child.path}` === pathname) : `/${mainPath}` === pathname;
+  const initialPath = getUrlFromMainPath(mainPath);
+
+  const isActive = isTabActive(children, initialPath, mainPath, pathname);
 
   const [isCollapseVisible, setIsCollapseVisible] = useState(isActive);
 
@@ -43,7 +46,7 @@ const NavbarMobileRoute = ({
       <Collapse in={isCollapseVisible} timeout="auto" unmountOnExit>
         <List disablePadding>
           {children?.map(({ title, icon, path }) => {
-            const childPath = `${mainPath}/${path}`;
+            const childPath = `${initialPath}/${path}`;
             return (
               <Link key={path} onClick={() => handleClickChildRoute(childPath)}>
                 <ListItemButton selected={pathname === childPath} sx={{ paddingY: 2, paddingLeft: 8 }}>

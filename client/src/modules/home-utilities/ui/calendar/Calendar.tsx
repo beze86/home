@@ -1,15 +1,17 @@
 import { format } from 'date-fns';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 
 import { DateSelectArg, EventClickArg, EventContentArg } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
+import multiMonthPlugin from '@fullcalendar/multimonth';
 import FullCalendar from '@fullcalendar/react';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import { Box, Stack, Typography } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 
 import { Api } from 'client/modules/home-utilities/ui';
+import { CalendarActions } from 'client/modules/home-utilities/ui/calendar/CalendarActions';
 import { CalendarProvider } from 'client/modules/home-utilities/ui/calendar/CalendarProvider';
 import { EventDialog } from 'client/modules/home-utilities/ui/calendar/EventDialog';
 import { NewDateDialog } from 'client/modules/home-utilities/ui/calendar/NewDateDialog/NewDateDialog';
@@ -48,6 +50,7 @@ const renderEventContent = (eventContent: EventContentArg) => {
 const Calendar = () => {
   const [eventDataDialog, setEventDataDialog] = useState<EventClickArg | null>(null);
   const [newDateDataDialog, setNewDateDataDialog] = useState<DateSelectArg | null>(null);
+  const calendarRef = useRef<FullCalendar>(null);
 
   const { data: eventsData } = useQuery(['calendar', 'events'], () => Api.getEvents(), {
     suspense: false,
@@ -104,13 +107,11 @@ const Calendar = () => {
               },
             })}
           >
+            <CalendarActions calendar={calendarRef} />
             <FullCalendar
-              plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-              headerToolbar={{
-                left: 'today prev next',
-                center: 'title',
-                right: 'dayGridMonth,timeGridWeek,timeGridDay',
-              }}
+              ref={calendarRef}
+              plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, multiMonthPlugin]}
+              headerToolbar={false}
               selectable
               height="100%"
               events={eventsData}

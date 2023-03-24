@@ -63,7 +63,7 @@ export const theme = createTheme({
     secondary: Color.secondary,
     error: Color.error,
     warning: Color.warning,
-    info: Color.info,
+    info: Color.grey,
     success: Color.success,
     grey: Color.grey,
   },

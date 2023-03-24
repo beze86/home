@@ -4,8 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Box, Divider, Drawer, IconButton, List, ListItemButton } from '@mui/material';
 
-import { RouteType } from 'client/App';
 import { useUserState } from 'client/shared/hooks/useUserState';
+import { RouteType } from 'client/shared/layouts/Navbar/domain/navbar';
 import { NavbarMobileRoute } from 'client/shared/layouts/Navbar/NavbarMobileRoute';
 
 const LIST_MIN_WIDTH = '200px';

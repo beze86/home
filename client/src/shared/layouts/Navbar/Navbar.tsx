@@ -1,7 +1,7 @@
 import { AppBar, Container, Toolbar } from '@mui/material';
 
-import { RouteType } from 'client/App';
 import { Logo } from 'client/shared/components/Logo';
+import { RouteType } from 'client/shared/layouts/Navbar/domain/navbar';
 import { NavbarDesktop } from 'client/shared/layouts/Navbar/NavbarDesktop';
 import { NavbarMobile } from 'client/shared/layouts/Navbar/NavbarMobile';
 
