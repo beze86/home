@@ -7,10 +7,10 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 
 import { store } from 'client/modules/app/store';
-import { Login } from 'client/modules/auth/ui/auth/Login';
-import { Register } from 'client/modules/auth/ui/auth/Register';
 import { Home } from 'client/modules/home/ui/home/Home';
 import { HomeTasksRoutes } from 'client/modules/home-utilities/ui';
+import { Login } from 'client/modules/user/ui/user/Login';
+import { Register } from 'client/modules/user/ui/user/Register';
 import { ProtectedRoutes } from 'client/shared/components';
 import { Navbar } from 'client/shared/layouts';
 import { RouteType } from 'client/shared/layouts/Navbar/domain/navbar';

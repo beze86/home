@@ -5,8 +5,8 @@ import { LoadingButton } from '@mui/lab';
 import { Card, CardContent, Stack, TextField, Typography } from '@mui/material';
 import { useMutation } from '@tanstack/react-query';
 
-import { usersApi } from 'client/modules/auth/api/auth';
-import { UserLogin } from 'client/modules/auth/domain/auth';
+import { UserLogin } from 'client/modules/user/domain/user';
+import { Api } from 'client/modules/user/ui';
 import { useSnackbar } from 'client/shared/hooks/useSnackbar';
 import { useUserState } from 'client/shared/hooks/useUserState';
 import { Page } from 'client/shared/layouts';
@@ -14,9 +14,8 @@ import { emailRegexValidation } from 'client/shared/utils';
 
 export const Login = () => {
   const navigate = useNavigate();
-  const { login } = usersApi();
   const { snackbar } = useSnackbar();
-  const { setStatesOnLogin } = useUserState();
+  const { loginUser } = useUserState();
 
   const {
     control,
@@ -29,20 +28,14 @@ export const Login = () => {
     },
   });
 
-  const mutateLogin = useMutation(
-    async (submittedData: UserLogin) => {
-      const data = await login(submittedData);
-      setStatesOnLogin(data);
+  const mutateLogin = useMutation((data: UserLogin) => Api.login(data), {
+    onError: () => snackbar('Failed to login', 'error'),
+    onSuccess: (data) => {
+      loginUser(data);
       navigate('/tasks');
-      return data;
+      snackbar(`Welcome ${data.fullName}`, 'success');
     },
-    {
-      onError: () => snackbar('Failed to login', 'error'),
-      onSuccess: ({ fullName }) => {
-        snackbar(`Welcome ${fullName}`, 'success');
-      },
-    },
-  );
+  });
 
   const handleLoginSubmit = (data: UserLogin) => mutateLogin.mutate({ ...data });
 

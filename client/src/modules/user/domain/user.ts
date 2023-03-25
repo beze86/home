@@ -26,4 +26,8 @@ type UserRepository = {
   delete: (id: UserId) => Promise<void>;
 };
 
+const PROFILE_STORAGE_KEY = 'userProfile';
+
 export type { UserId, UserLogin, UserRegister, User, UserState, UserRepository };
+
+export { PROFILE_STORAGE_KEY };

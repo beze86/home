@@ -1,9 +1,11 @@
 import { ReactNode } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
-import { RouteChildType, RouteType } from 'client/App';
 import { Home } from 'client/modules/home/ui/home/Home';
+import { isAuthenticated } from 'client/modules/user/application/auth-store';
+import { PROFILE_STORAGE_KEY } from 'client/modules/user/domain/user';
 import { useUserState } from 'client/shared/hooks/useUserState';
+import { RouteChildType, RouteType } from 'client/shared/layouts/Navbar/domain/navbar';
 
 const routesWithChildren = (children: RouteChildType[], mainPath: string, title: string) => {
   return (
@@ -20,11 +22,19 @@ const routesWithoutChildren = (element: ReactNode, mainPath: string, title: stri
 };
 
 const ProtectedNavigation = ({ children }: { children: ReactNode }): JSX.Element => {
-  const {
-    state: { isLogged },
-  } = useUserState();
+  const { logoutUser } = useUserState();
 
-  if (!isLogged) return <Navigate to="/login" />;
+  const profileLocalStorage = localStorage.getItem(PROFILE_STORAGE_KEY);
+
+  const isUserAuthenticated = isAuthenticated(profileLocalStorage);
+
+  if (!isUserAuthenticated) {
+    logoutUser();
+  }
+
+  if (!isUserAuthenticated) {
+    return <Navigate to="/login" />;
+  }
 
   return <>{children}</>;
 };

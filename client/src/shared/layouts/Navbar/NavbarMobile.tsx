@@ -13,7 +13,7 @@ const LIST_MIN_WIDTH = '200px';
 const NavbarMobile = ({ routes }: { routes: RouteType[] }) => {
   const {
     state: { isLogged },
-    removeStatesOnLogout,
+    logoutUser,
   } = useUserState();
 
   const navigate = useNavigate();
@@ -32,7 +32,7 @@ const NavbarMobile = ({ routes }: { routes: RouteType[] }) => {
 
   const handleClickLogout = () => {
     handleCloseNavMenu();
-    removeStatesOnLogout();
+    logoutUser();
   };
 
   const handleClickLogin = () => {

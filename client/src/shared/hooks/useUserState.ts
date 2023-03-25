@@ -1,8 +1,9 @@
 import { useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { removeStatesOnLogout, setStatesOnLogin, setUserState, userStateSelector } from 'client/modules/auth/application/auth';
-import { User } from 'client/modules/auth/domain/auth';
+import { loginUser, logoutUser, setUserState, userStateSelector } from 'client/modules/user/application/auth-store';
+import { User } from 'client/modules/user/domain/user';
+
 export const useUserState = () => {
   const dispatch = useDispatch();
   const state = useSelector(userStateSelector);
@@ -11,8 +12,8 @@ export const useUserState = () => {
     return {
       state,
       setUserState: (userData: User) => dispatch(setUserState(userData)),
-      setStatesOnLogin: (userData: User) => dispatch(setStatesOnLogin(userData)),
-      removeStatesOnLogout: () => dispatch(removeStatesOnLogout()),
+      loginUser: (userData: User) => dispatch(loginUser(userData)),
+      logoutUser: () => dispatch(logoutUser()),
     };
   }, [state, dispatch]);
 };

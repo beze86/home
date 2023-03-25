@@ -12,10 +12,10 @@ const NavbarDesktop = ({ routes }: { routes: RouteType[] }) => {
 
   const {
     state: { isLogged },
-    removeStatesOnLogout,
+    logoutUser,
   } = useUserState();
 
-  const handleClickLogout = () => removeStatesOnLogout();
+  const handleClickLogout = () => logoutUser();
 
   const handleClickLogin = () => navigate('login');
 
