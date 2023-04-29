@@ -10,7 +10,8 @@ import database from './Database';
 config();
 
 import { protectedRoute } from './middlewares/authMiddleware';
-import areaRoutes from './routes/area';
+// import areaRoutes from './routes/area';
+import areaRoutes from './modules/home-utilities/infrastructure/area/router/area-router';
 import calendarRoutes from './routes/calendar';
 import contactRoutes from './routes/contact';
 import taskRoutes from './routes/task';
