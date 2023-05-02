@@ -36,7 +36,7 @@ class Area implements AreaInterface {
   collection;
 
   constructor() {
-    this.collection = database.getDb().collection('areas');
+    this.collection = database.get().collection('areas');
   }
 
   getAllAreasByUser({ userId }: GetAllAreasByUser) {

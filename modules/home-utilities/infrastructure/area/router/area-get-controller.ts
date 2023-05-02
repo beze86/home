@@ -4,6 +4,9 @@ import { ObjectId } from 'mongodb';
 import AreaApplication from '../../../application/area/areaApplication';
 import MongoAreaRepository from '../api/area-repository';
 
+const repository = new MongoAreaRepository();
+const app = new AreaApplication(repository);
+
 const getAreas = async (req: Request, res: Response) => {
   if (!req.userId) {
     return res.status(400).json({ error: 'Invalid request' });
@@ -15,8 +18,6 @@ const getAreas = async (req: Request, res: Response) => {
   };
 
   try {
-    const repository = new MongoAreaRepository();
-    const app = new AreaApplication(repository);
     const areas = await app.getAreas(payload);
     if (!areas) {
       return res.status(404).json({ error: 'Areas not found' });

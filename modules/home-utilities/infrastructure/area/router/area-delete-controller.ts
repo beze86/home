@@ -4,6 +4,9 @@ import { ObjectId } from 'mongodb';
 import AreaApplication from '../../../application/area/areaApplication';
 import MongoAreaRepository from '../api/area-repository';
 
+const repository = new MongoAreaRepository();
+const app = new AreaApplication(repository);
+
 const deleteArea = async (req: Request, res: Response) => {
   if (!req.params || !req.params.id) {
     return res.status(400).json({ error: 'Invalid request' });
@@ -21,8 +24,6 @@ const deleteArea = async (req: Request, res: Response) => {
   };
 
   try {
-    const repository = new MongoAreaRepository();
-    const app = new AreaApplication(repository);
     await app.deleteArea(payload);
     res.status(200).json({ msg: `Area deleted id: ${payload.id}` });
   } catch (error) {

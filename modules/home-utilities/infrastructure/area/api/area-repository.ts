@@ -9,7 +9,7 @@ class MongoAreaRepository implements AreaRepository {
   private readonly collection;
 
   constructor() {
-    this.collection = database.getDb().collection('areas');
+    this.collection = database.get().collection('areas');
   }
 
   getAreas({ userId }: GetAreas) {

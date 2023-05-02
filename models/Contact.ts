@@ -36,7 +36,7 @@ class Contact implements ContactInterface {
   collection;
 
   constructor() {
-    this.collection = database.getDb().collection('contacts');
+    this.collection = database.get().collection('contacts');
   }
 
   getAllContactsByUser({ userId }: GetAllContactsByUser) {

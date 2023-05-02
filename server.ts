@@ -36,11 +36,26 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-(async () => {
-  await database.dbConnect();
-  let port = process.env.PORT;
-  if (!port) {
-    port = 8000;
+async function startServer() {
+  try {
+    await database.connect();
+    const port = process.env.PORT || 8000;
+    const server = app.listen(port, () => {
+      console.log(`Server is listening on port ${port}`);
+    });
+
+    server.on('close', async () => {
+      try {
+        await database.close();
+      } catch (error) {
+        console.error(`Failed to disconnect from database: ${error}`);
+        process.exit(1);
+      }
+    });
+  } catch (error) {
+    console.error(`Failed to start server: ${error}`);
+    process.exit(1);
   }
-  app.listen(port);
-})();
+}
+
+startServer();

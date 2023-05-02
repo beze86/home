@@ -46,7 +46,7 @@ class Task implements TaskInterface {
   collection;
 
   constructor() {
-    this.collection = database.getDb().collection('tasks');
+    this.collection = database.get().collection('tasks');
   }
 
   getAllTasksByUser({ userId }: GetAllTasksByUser) {

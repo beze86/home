@@ -43,7 +43,7 @@ class Calendar implements CalendarInterface {
   collection;
 
   constructor() {
-    this.collection = database.getDb().collection('calendar');
+    this.collection = database.get().collection('calendar');
   }
 
   getEvents(userId: UserId) {

@@ -56,7 +56,7 @@ class User implements UserInterface {
   collection;
 
   constructor() {
-    this.collection = database.getDb().collection('users');
+    this.collection = database.get().collection('users');
   }
 
   async findUserByEmail(email: string) {
