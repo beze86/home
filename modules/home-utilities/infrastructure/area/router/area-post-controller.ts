@@ -2,12 +2,8 @@ import { Request, Response } from 'express';
 import { ObjectId } from 'mongodb';
 
 import AreaApplication from '../../../application/area/areaApplication';
-import MongoAreaRepository from '../api/area-repository';
 
-const repository = new MongoAreaRepository();
-const app = new AreaApplication(repository);
-
-const createArea = async (req: Request, res: Response) => {
+const createArea = (app: AreaApplication) => async (req: Request, res: Response) => {
   if (!req.userId) {
     return res.status(400).json({ error: 'Invalid request' });
   }

@@ -1,14 +1,10 @@
 import { Request, Response } from 'express';
 import { ObjectId } from 'mongodb';
 
-import Contact from '../../../../../models/Contact';
 import { ContactApplication } from '../../../application/contact/contactApplication';
 import MongoContactRepository from '../api/contact-repository';
 
-const repository = new MongoContactRepository();
-const app = new ContactApplication(repository);
-
-const createContact = async (req: Request, res: Response) => {
+const createContact = (app: ContactApplication) => async (req: Request, res: Response) => {
   if (!req.body) {
     return res.status(400).json({ error: 'Invalid request' });
   }

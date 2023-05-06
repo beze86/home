@@ -2,12 +2,8 @@ import { Request, Response } from 'express';
 import { ObjectId } from 'mongodb';
 
 import { ContactApplication } from '../../../application/contact/contactApplication';
-import MongoContactRepository from '../api/contact-repository';
 
-const repository = new MongoContactRepository();
-const app = new ContactApplication(repository);
-
-const deleteContact = async (req: Request, res: Response) => {
+const deleteContact = (app: ContactApplication) => async (req: Request, res: Response) => {
   if (!req.params.id) {
     return res.status(400).json({ error: 'Invalid request' });
   }

@@ -14,7 +14,6 @@ import { protectedRoute } from './middlewares/authMiddleware';
 import areaRoutes from './modules/home-utilities/infrastructure/area/router/area-router';
 import contactRoutes from './modules/home-utilities/infrastructure/contact/router/contact-router';
 import calendarRoutes from './routes/calendar';
-// import contactRoutes from './routes/contact';
 import taskRoutes from './routes/task';
 import userRoutes from './routes/user';
 
