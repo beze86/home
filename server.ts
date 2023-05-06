@@ -10,11 +10,10 @@ import database from './Database';
 config();
 
 import { protectedRoute } from './middlewares/authMiddleware';
-// import areaRoutes from './routes/area';
 import areaRoutes from './modules/home-utilities/infrastructure/area/router/area-router';
 import contactRoutes from './modules/home-utilities/infrastructure/contact/router/contact-router';
+import taskRoutes from './modules/home-utilities/infrastructure/task/router/task-router';
 import calendarRoutes from './routes/calendar';
-import taskRoutes from './routes/task';
 import userRoutes from './routes/user';
 
 const app = express();
