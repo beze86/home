@@ -4,10 +4,11 @@ import { ObjectId } from 'mongodb';
 import AreaApplication from '../../../application/area/areaApplication';
 
 const getAreas = (app: AreaApplication) => async (req: Request, res: Response) => {
-  if (!req.userId) {
+  const userId = req.userId;
+
+  if (!userId) {
     return res.status(400).json({ error: 'Invalid request' });
   }
-  const userId = req.userId;
 
   const payload = {
     userId: new ObjectId(userId),

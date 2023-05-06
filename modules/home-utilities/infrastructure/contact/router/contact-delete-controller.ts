@@ -9,10 +9,11 @@ const deleteContact = (app: ContactApplication) => async (req: Request, res: Res
   }
   const { id } = req.params;
 
-  if (!req.userId) {
+  const userId = req.userId;
+
+  if (!userId) {
     return res.status(400).json({ error: 'Invalid request' });
   }
-  const userId = req.userId;
 
   const payload = {
     userId: new ObjectId(userId),

@@ -2,7 +2,6 @@ import { Request, Response } from 'express';
 import { ObjectId } from 'mongodb';
 
 import { ContactApplication } from '../../../application/contact/contactApplication';
-import MongoContactRepository from '../api/contact-repository';
 
 const createContact = (app: ContactApplication) => async (req: Request, res: Response) => {
   if (!req.body) {
@@ -14,11 +13,11 @@ const createContact = (app: ContactApplication) => async (req: Request, res: Res
     return res.status(400).json({ error: 'Add missing fields' });
   }
 
-  if (!req.userId) {
+  const userId = req.userId;
+
+  if (!userId) {
     return res.status(400).json({ error: 'Invalid request' });
   }
-
-  const userId = req.userId;
 
   const payload = {
     userId: new ObjectId(userId),

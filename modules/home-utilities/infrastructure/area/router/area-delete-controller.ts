@@ -9,10 +9,11 @@ const deleteArea = (app: AreaApplication) => async (req: Request, res: Response)
   }
   const { id } = req.params;
 
-  if (!req.userId) {
+  const userId = req.userId;
+
+  if (!userId) {
     return res.status(400).json({ error: 'Invalid request' });
   }
-  const userId = req.userId;
 
   const payload = {
     userId: new ObjectId(userId),

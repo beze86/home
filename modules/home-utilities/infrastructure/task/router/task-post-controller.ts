@@ -4,10 +4,11 @@ import { ObjectId } from 'mongodb';
 import TaskApplication from '../../../application/task/taskApplication';
 
 const createWeeklyTask = (app: TaskApplication) => async (req: Request, res: Response) => {
-  if (!req.userId) {
+  const userId = req.userId;
+
+  if (!userId) {
     return res.status(401).json({ error: 'Unauthorized' });
   }
-  const userId = req.userId;
 
   const payload = {
     userId: new ObjectId(userId),

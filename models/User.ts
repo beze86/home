@@ -76,7 +76,7 @@ class User implements UserInterface {
   }
 
   async removeContactFromUser({ userId, contactId }: ContactToUser) {
-    await this.collection.updateOne({ _id: new ObjectId(userId) }, { $pull: { contacts: { $in: [new ObjectId(contactId)] } } });
+    await this.collection.updateOne({ _id: new ObjectId(userId) }, { $pull: { contacts: { $in: [contactId] } } });
   }
 
   async addAreaToUser({ userId, areaId }: AreaToUser) {
@@ -92,7 +92,7 @@ class User implements UserInterface {
   }
 
   async removeWeeklyTasksFromUser({ userId, tasksId }: TasksToUser) {
-    await this.collection.updateOne({ _id: new ObjectId(userId) }, { $pull: { tasks: { $in: [new ObjectId(tasksId)] } } });
+    await this.collection.updateOne({ _id: new ObjectId(userId) }, { $pull: { tasks: { $in: [tasksId] } } });
   }
 
   async addEventToUser({ userId, eventId }: EventToUser) {
@@ -100,7 +100,7 @@ class User implements UserInterface {
   }
 
   async removeEventFromUser({ userId, eventId }: EventToUser) {
-    await this.collection.updateOne({ _id: new ObjectId(userId) }, { $pull: { events: { $in: [new ObjectId(eventId)] } } });
+    await this.collection.updateOne({ _id: new ObjectId(userId) }, { $pull: { events: { $in: [eventId] } } });
   }
 }
 

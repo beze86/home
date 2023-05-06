@@ -1,10 +1,7 @@
 import { ObjectId } from 'mongodb';
 
 import database from '../../../../../Database';
-import Area from '../../../../../models/Area';
-import Contact from '../../../../../models/Contact';
-import User, { UserId } from '../../../../../models/User';
-import { getWeekDays, shuffle } from '../../../../../utils';
+import User from '../../../../../models/User';
 import { CreateWeeklyTask, DeleteWeeklyTask, GetWeeklyTasks, TaskRepository, TaskResult } from '../../../domain/task/task';
 
 class MongoTaskRepository implements TaskRepository {
@@ -23,33 +20,9 @@ class MongoTaskRepository implements TaskRepository {
     await new User().removeWeeklyTasksFromUser({ userId, tasksId: id });
   }
 
-  async createWeeklyTask({ userId }: CreateWeeklyTask) {
-    const weeklyTasks = await this.setWeeklyTask(userId);
-    const { insertedId } = await this.collection.insertOne({ userId: new ObjectId(userId), ...weeklyTasks });
+  async createWeeklyTask({ userId, weeklyTask }: CreateWeeklyTask) {
+    const { insertedId } = await this.collection.insertOne({ userId: new ObjectId(userId), ...weeklyTask });
     await new User().addWeeklyTasksToUser({ userId, tasksId: insertedId });
-  }
-
-  async setWeeklyTask(userId: UserId) {
-    const nextMonday = getWeekDays().nextMonday;
-    const nextSunday = getWeekDays().nextSunday;
-    const areas = await new Area().getAllAreasByUser({ userId });
-    const contacts = await new Contact().getAllContactsByUser({ userId });
-
-    const usersWithAreas = () => {
-      shuffle(areas);
-      return contacts.map(({ name }, i) => {
-        return {
-          name: `${name}`,
-          area: `${areas[i].area}`,
-        };
-      });
-    };
-
-    return {
-      start: Number(nextMonday),
-      end: Number(nextSunday),
-      users: [...usersWithAreas()],
-    };
   }
 }
 
