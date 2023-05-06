@@ -11,9 +11,9 @@ config();
 
 import { protectedRoute } from './middlewares/authMiddleware';
 import areaRoutes from './modules/home-utilities/infrastructure/area/router/area-router';
+import calendarRoutes from './modules/home-utilities/infrastructure/calendar/router/calendar-router';
 import contactRoutes from './modules/home-utilities/infrastructure/contact/router/contact-router';
 import taskRoutes from './modules/home-utilities/infrastructure/task/router/task-router';
-import calendarRoutes from './routes/calendar';
 import userRoutes from './routes/user';
 
 const app = express();
