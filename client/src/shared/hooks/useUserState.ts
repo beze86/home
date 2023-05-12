@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { loginUser, logoutUser, setUserState, userStateSelector } from 'client/modules/user/application/auth-store';
 import { User } from 'client/modules/user/domain/user';
 
-export const useUserState = () => {
+const useUserState = () => {
   const dispatch = useDispatch();
   const state = useSelector(userStateSelector);
 
@@ -17,3 +17,5 @@ export const useUserState = () => {
     };
   }, [state, dispatch]);
 };
+
+export { useUserState };

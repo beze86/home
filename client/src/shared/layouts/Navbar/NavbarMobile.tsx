@@ -2,7 +2,7 @@ import { MouseEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import MenuIcon from '@mui/icons-material/Menu';
-import { Box, Divider, Drawer, IconButton, List, ListItemButton } from '@mui/material';
+import { Box, Divider, Drawer, IconButton, List, ListItemButton, Stack } from '@mui/material';
 
 import { useUserState } from 'client/shared/hooks/useUserState';
 import { RouteType } from 'client/shared/layouts/Navbar/domain/navbar';
@@ -36,6 +36,11 @@ const NavbarMobile = ({ routes }: { routes: RouteType[] }) => {
   };
 
   const handleClickLogin = () => {
+    handleCloseNavMenu();
+    navigate('login');
+  };
+
+  const handleClickRegister = () => {
     handleCloseNavMenu();
     navigate('login');
   };
@@ -81,12 +86,11 @@ const NavbarMobile = ({ routes }: { routes: RouteType[] }) => {
             </>
           )}
           {!isLogged && (
-            <ListItemButton
-              onClick={handleClickLogin}
-              sx={(theme) => ({ backgroundColor: theme.palette.primary.main, color: 'white', fontWeight: '500' })}
-            >
-              Login
-            </ListItemButton>
+            <>
+              <ListItemButton onClick={handleClickLogin}>Login</ListItemButton>
+              <Divider />
+              <ListItemButton onClick={handleClickRegister}>Register</ListItemButton>
+            </>
           )}
           <Divider />
         </List>

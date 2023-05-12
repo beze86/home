@@ -34,6 +34,7 @@ const registerUser = async (req: Request, res: Response) => {
       contacts: [],
       areas: [],
       tasks: [],
+      events: [],
     };
 
     const { insertedId } = await new User().registerUser(payload);

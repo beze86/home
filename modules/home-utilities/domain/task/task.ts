@@ -1,8 +1,6 @@
 import { ObjectId, WithId } from 'mongodb';
 
 import { UserId } from '../../../../models/User';
-import { AreaResult } from '../area/area';
-import { ContactResult } from '../contact/contact';
 
 type TaskId = ObjectId;
 
@@ -34,7 +32,7 @@ type TaskResult = {
 };
 
 interface TaskRepository {
-  getWeeklyTasks: (data: GetWeeklyTasks) => Promise<WithId<TaskResult>[]>;
+  getWeeklyTasks: (data: GetWeeklyTasks) => Promise<TaskResult[]>;
   deleteWeeklyTask: (data: DeleteWeeklyTask) => Promise<void>;
   createWeeklyTask: (data: CreateWeeklyTask) => Promise<void>;
 }

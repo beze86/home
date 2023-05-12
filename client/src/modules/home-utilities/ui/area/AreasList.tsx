@@ -24,6 +24,7 @@ const AreasList = () => {
     handleSubmit,
     control,
     reset: resetForm,
+    formState: { errors },
   } = useForm<AreaCreation>({
     defaultValues: {
       area: '',
@@ -59,7 +60,7 @@ const AreasList = () => {
             <Stack
               component="form"
               direction="row"
-              alignItems="center"
+              alignItems="baseline"
               flexWrap="wrap"
               justifyContent="flex-end"
               gap={4}
@@ -68,8 +69,29 @@ const AreasList = () => {
               <Controller
                 name="area"
                 control={control}
-                render={({ field }) => {
-                  return <TextField {...field} label="Add new area/s" />;
+                rules={{
+                  required: {
+                    message: 'Required field',
+                    value: true,
+                  },
+                  minLength: {
+                    message: 'Minimum 3 characters required',
+                    value: 3,
+                  },
+                }}
+                render={({ field: { onChange, ...rest } }) => {
+                  return (
+                    <TextField
+                      {...rest}
+                      label="Add new area/s"
+                      onChange={(evt) => {
+                        const value = evt.currentTarget.value.trim().toLowerCase();
+                        onChange(value);
+                      }}
+                      error={!!errors.area}
+                      helperText={errors.area?.message}
+                    />
+                  );
                 }}
               />
               <Button type="submit">Add Area</Button>

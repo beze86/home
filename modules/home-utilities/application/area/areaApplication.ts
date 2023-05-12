@@ -1,6 +1,6 @@
 import { AreaRepository, CreateArea, DeleteArea, GetAreas } from '../../domain/area/area';
 
-class AreaApplication implements AreaRepository {
+class AreaApplication {
   private readonly repository: AreaRepository;
 
   constructor(repository: AreaRepository) {

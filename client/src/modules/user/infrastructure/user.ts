@@ -1,3 +1,5 @@
+import { AxiosError } from 'axios';
+
 import { authenticationToken } from 'client/modules/authentication-token/application/authentication-token';
 import { User, UserRepository } from 'client/modules/user/domain/user';
 
@@ -7,8 +9,17 @@ const API = authenticationToken(PATH);
 
 const userApi = (): UserRepository => {
   return {
-    register(data) {
-      return API.post('/', data);
+    async register(userData) {
+      try {
+        const { data } = await API.post<User>('/register', userData);
+        return data;
+      } catch (err) {
+        const error = err as AxiosError<{ error: string }>;
+        if (error instanceof AxiosError && error.response) {
+          throw new Error(error.response.data.error);
+        }
+        throw new Error('Error requesting to register');
+      }
     },
 
     async login(userData) {

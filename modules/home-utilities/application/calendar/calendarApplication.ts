@@ -1,7 +1,6 @@
-import { CreateEvent } from '../../../../models/Calendar';
-import { CalendarRepository, DeleteEvent, GetEvents } from '../../domain/calendar/calendar';
+import { CalendarRepository, CreateEvent, DeleteEvent, GetEvents } from '../../domain/calendar/calendar';
 
-class CalendarApplication implements CalendarRepository {
+class CalendarApplication {
   private readonly repository: CalendarRepository;
 
   constructor(repository: CalendarRepository) {

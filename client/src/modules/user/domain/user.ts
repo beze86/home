@@ -5,14 +5,21 @@ type UserLogin = {
   password: string;
 };
 
-type UserRegister = UserLogin & {
+type UserRegister = {
   fullName: string;
+  email: string;
+  password: string;
 };
 
-type User = UserRegister & {
-  id: string;
+type User = {
+  id: UserId;
+  email: string;
   fullName: string;
-  accounts: string[];
+  password: string;
+  contacts: string[];
+  areas: string[];
+  tasks: string[];
+  events: string[];
 };
 
 type UserState = {
@@ -21,7 +28,7 @@ type UserState = {
 };
 
 type UserRepository = {
-  register: (data: UserRegister) => Promise<void>;
+  register: (data: UserRegister) => Promise<User>;
   login: (data: UserLogin) => Promise<User>;
   delete: (id: UserId) => Promise<void>;
 };

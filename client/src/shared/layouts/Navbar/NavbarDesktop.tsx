@@ -18,6 +18,7 @@ const NavbarDesktop = ({ routes }: { routes: RouteType[] }) => {
   const handleClickLogout = () => logoutUser();
 
   const handleClickLogin = () => navigate('login');
+  const handleClickRegister = () => navigate('register');
 
   return (
     <Box
@@ -31,7 +32,14 @@ const NavbarDesktop = ({ routes }: { routes: RouteType[] }) => {
         routes.map((route) => {
           return <NavbarDesktopRoute key={route.path} route={route} />;
         })}
-      {isLogged ? <Button onClick={handleClickLogout}>Logout</Button> : <Button onClick={handleClickLogin}>Login</Button>}
+      {isLogged ? (
+        <Button onClick={handleClickLogout}>Logout</Button>
+      ) : (
+        <>
+          <Button onClick={handleClickLogin}>Login</Button>
+          <Button onClick={handleClickRegister}>Register</Button>
+        </>
+      )}
     </Box>
   );
 };

@@ -1,8 +1,8 @@
 import { Controller, useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 
 import { LoadingButton } from '@mui/lab';
-import { Card, CardContent, Stack, TextField, Typography } from '@mui/material';
+import { Card, CardContent, Link, Stack, TextField, Typography } from '@mui/material';
 import { useMutation } from '@tanstack/react-query';
 
 import { UserLogin } from 'client/modules/user/domain/user';
@@ -12,7 +12,7 @@ import { useUserState } from 'client/shared/hooks/useUserState';
 import { Page } from 'client/shared/layouts';
 import { emailRegexValidation } from 'client/shared/utils';
 
-export const Login = () => {
+const Login = () => {
   const navigate = useNavigate();
   const { snackbar } = useSnackbar();
   const { loginUser } = useUserState();
@@ -75,7 +75,7 @@ export const Login = () => {
                   return (
                     <TextField
                       {...props}
-                      label="Insert Email"
+                      label="Insert email"
                       onChange={onChange}
                       helperText={emailHasErrors && errors.email?.message}
                       error={emailHasErrors}
@@ -105,9 +105,15 @@ export const Login = () => {
                   );
                 }}
               />
-              <LoadingButton type="submit" variant="contained" loading={mutateLogin.isLoading}>
-                Login
-              </LoadingButton>
+              <Stack alignItems="center" gap={4}>
+                <LoadingButton type="submit" variant="contained" sx={{ alignSelf: 'normal' }} loading={mutateLogin.isLoading}>
+                  Login
+                </LoadingButton>
+                <Typography color="grey.500">or</Typography>
+                <Link to="/register" component={RouterLink}>
+                  Register
+                </Link>
+              </Stack>
             </Stack>
           </CardContent>
         </Card>
@@ -115,3 +121,5 @@ export const Login = () => {
     </Page>
   );
 };
+
+export { Login };

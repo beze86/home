@@ -4,7 +4,7 @@ import { registerUser, loginUser, deleteUser } from '../controllers/userControll
 
 const router = Router();
 
-router.route('/').post(registerUser);
+router.route('/register').post(registerUser);
 router.route('/login').post(loginUser);
 
 router.route('/:id').delete(deleteUser);

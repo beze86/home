@@ -24,6 +24,7 @@ const ContactsList = () => {
     handleSubmit,
     control,
     reset: resetForm,
+    formState: { errors },
   } = useForm<ContactCreation>({
     defaultValues: {
       name: '',
@@ -59,7 +60,7 @@ const ContactsList = () => {
             <Stack
               component="form"
               direction="row"
-              alignItems="center"
+              alignItems="baseline"
               flexWrap="wrap"
               justifyContent="flex-end"
               gap={4}
@@ -68,8 +69,29 @@ const ContactsList = () => {
               <Controller
                 name="name"
                 control={control}
-                render={({ field }) => {
-                  return <TextField {...field} label="Add new contacts" />;
+                rules={{
+                  required: {
+                    message: 'Required field',
+                    value: true,
+                  },
+                  minLength: {
+                    message: 'Minimum 3 characters required',
+                    value: 3,
+                  },
+                }}
+                render={({ field: { onChange, ...rest } }) => {
+                  return (
+                    <TextField
+                      {...rest}
+                      label="Add new contacts"
+                      onChange={(evt) => {
+                        const value = evt.currentTarget.value.trim().toLowerCase();
+                        onChange(value);
+                      }}
+                      error={!!errors.name}
+                      helperText={errors.name?.message}
+                    />
+                  );
                 }}
               />
               <Button type="submit">Add Contacts</Button>

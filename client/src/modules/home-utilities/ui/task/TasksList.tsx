@@ -81,7 +81,16 @@ const TasksList = () => {
 
                 <List>
                   {users.map(({ name, area }) => {
-                    return <ListItem key={name}>{`${name}: ${area}`}</ListItem>;
+                    return (
+                      <ListItem key={`${name}-${area}`}>
+                        <Typography component="span" sx={{ textTransform: 'capitalize', mr: 2 }}>
+                          {name}:
+                        </Typography>
+                        <Typography component="span" sx={{ textTransform: 'lowercase' }}>
+                          {area}
+                        </Typography>
+                      </ListItem>
+                    );
                   })}
                 </List>
               </CardContent>

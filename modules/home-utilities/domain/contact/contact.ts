@@ -1,4 +1,4 @@
-import { ObjectId, WithId } from 'mongodb';
+import { ObjectId } from 'mongodb';
 
 import { UserId } from '../../../../models/User';
 
@@ -25,7 +25,7 @@ type ContactResult = {
 };
 
 interface ContactRepository {
-  getContacts: (data: GetContacts) => Promise<WithId<ContactResult>[]>;
+  getContacts: (data: GetContacts) => Promise<ContactResult[]>;
   deleteContact: (data: DeleteContact) => Promise<void>;
   createContact: (data: CreateContact) => Promise<void>;
 }
