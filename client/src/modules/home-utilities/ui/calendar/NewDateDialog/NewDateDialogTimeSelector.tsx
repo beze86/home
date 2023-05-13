@@ -11,7 +11,7 @@ import { EventCreation } from 'client/modules/home-utilities/domain/calendar/cal
 import { Icon } from 'client/shared/components';
 import { useBreakpoint } from 'client/shared/hooks';
 
-const TIMEPICKER_MAX_WIDTH = '80px';
+const TIMEPICKER_MAX_WIDTH = '120px';
 
 type NewDateDialogTimeSelectorType = {
   dateData: DateSelectArg;
