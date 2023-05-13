@@ -1,6 +1,8 @@
-import { ObjectId } from 'mongodb';
+import { InsertOneResult, ObjectId } from 'mongodb';
 
 import { UserId } from '../../../users/domain/user';
+import { AreaResult } from '../area/area';
+import { ContactResult } from '../contact/contact';
 
 type TaskId = ObjectId;
 
@@ -8,8 +10,13 @@ type GetWeeklyTasks = {
   userId: UserId;
 };
 
-type DeleteWeeklyTask = {
+type GetWeeklyTasksAreasAndContacts = {
   userId: UserId;
+  areas: AreaResult[];
+  contacts: ContactResult[];
+};
+
+type DeleteWeeklyTask = {
   id: TaskId;
 };
 
@@ -34,7 +41,15 @@ type TaskResult = {
 interface TaskRepository {
   getWeeklyTasks: (data: GetWeeklyTasks) => Promise<TaskResult[]>;
   deleteWeeklyTask: (data: DeleteWeeklyTask) => Promise<void>;
-  createWeeklyTask: (data: CreateWeeklyTask) => Promise<void>;
+  createWeeklyTask: (data: CreateWeeklyTask) => Promise<InsertOneResult>;
 }
 
-export type { TaskId, GetWeeklyTasks, DeleteWeeklyTask, CreateWeeklyTask, TaskRepository, TaskResult };
+export type {
+  TaskId,
+  GetWeeklyTasksAreasAndContacts,
+  GetWeeklyTasks,
+  DeleteWeeklyTask,
+  CreateWeeklyTask,
+  TaskRepository,
+  TaskResult,
+};

@@ -1,4 +1,4 @@
-import { ObjectId } from 'mongodb';
+import { InsertOneResult, ObjectId } from 'mongodb';
 
 import { UserId } from '../../../users/domain/user';
 
@@ -9,7 +9,6 @@ type GetAreas = {
 };
 
 type DeleteArea = {
-  userId: UserId;
   id: AreaId;
 };
 
@@ -27,7 +26,7 @@ type AreaResult = {
 interface AreaRepository {
   getAreas: (data: GetAreas) => Promise<AreaResult[]>;
   deleteArea: (data: DeleteArea) => Promise<void>;
-  createArea: (data: CreateArea) => Promise<void>;
+  createArea: (data: CreateArea) => Promise<InsertOneResult>;
 }
 
 export type { AreaId, GetAreas, CreateArea, DeleteArea, AreaResult, AreaRepository };

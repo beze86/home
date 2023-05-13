@@ -1,10 +1,11 @@
 import { Request, Response } from 'express';
 import { ObjectId } from 'mongodb';
 
+import UserApplication from '../../../../users/application/user';
 import { ContactApplication } from '../../../application/contact/contactApplication';
 import { CreateContact } from '../../../domain/contact/contact';
 
-const createContact = (app: ContactApplication) => async (req: Request, res: Response) => {
+const createContact = (contactApp: ContactApplication, userApp: UserApplication) => async (req: Request, res: Response) => {
   if (!req.body) {
     return res.status(400).json({ error: 'Invalid request' });
   }
@@ -26,7 +27,10 @@ const createContact = (app: ContactApplication) => async (req: Request, res: Res
   };
 
   try {
-    const insertedId = await app.createContact(payload);
+    const { insertedId } = await contactApp.createContact(payload);
+
+    await userApp.addContactToUser({ userId: payload.userId, contactId: insertedId });
+
     return res.status(201).json({ insertedId });
   } catch (error) {
     console.log(`Error creating contact: ${error}`);

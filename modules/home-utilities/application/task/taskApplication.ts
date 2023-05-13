@@ -1,38 +1,29 @@
 import { getWeekDays, shuffle } from '../../../../utils';
-import { AreaRepository } from '../../domain/area/area';
-import { ContactRepository } from '../../domain/contact/contact';
-import { DeleteWeeklyTask, GetWeeklyTasks, TaskRepository } from '../../domain/task/task';
+import { DeleteWeeklyTask, GetWeeklyTasks, GetWeeklyTasksAreasAndContacts, TaskRepository } from '../../domain/task/task';
 
-class TaskApplication implements TaskRepository {
-  private readonly taskRepository: TaskRepository;
-  private readonly areaRepository: AreaRepository;
-  private readonly contactRepository: ContactRepository;
+class TaskApplication {
+  private readonly repository: TaskRepository;
 
-  constructor(taskRepository: TaskRepository, areaRepository: AreaRepository, contactRepository: ContactRepository) {
-    this.taskRepository = taskRepository;
-    this.areaRepository = areaRepository;
-    this.contactRepository = contactRepository;
+  constructor(repository: TaskRepository) {
+    this.repository = repository;
   }
 
   getWeeklyTasks({ userId }: GetWeeklyTasks) {
-    return this.taskRepository.getWeeklyTasks({ userId });
+    return this.repository.getWeeklyTasks({ userId });
   }
 
-  async createWeeklyTask({ userId }: GetWeeklyTasks) {
-    const weeklyTask = await this.setWeeklyTask({ userId });
-    return this.taskRepository.createWeeklyTask({ userId, weeklyTask });
+  async createWeeklyTask({ userId, areas, contacts }: GetWeeklyTasksAreasAndContacts) {
+    const weeklyTask = this.setWeeklyTask({ userId, areas, contacts });
+    return this.repository.createWeeklyTask({ userId, weeklyTask });
   }
 
   deleteWeeklyTask({ userId, id }: DeleteWeeklyTask) {
-    return this.taskRepository.deleteWeeklyTask({ userId, id });
+    return this.repository.deleteWeeklyTask({ userId, id });
   }
 
-  async setWeeklyTask({ userId }: GetWeeklyTasks) {
+  setWeeklyTask({ areas, contacts }: GetWeeklyTasksAreasAndContacts) {
     const nextMonday = getWeekDays().nextMonday;
     const nextSunday = getWeekDays().nextSunday;
-
-    const areas = await this.areaRepository.getAreas({ userId });
-    const contacts = await this.contactRepository.getContacts({ userId });
 
     shuffle(areas);
 

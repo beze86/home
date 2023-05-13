@@ -1,4 +1,4 @@
-import { ObjectId } from 'mongodb';
+import { InsertOneResult, ObjectId } from 'mongodb';
 
 import { UserId } from '../../../users/domain/user';
 
@@ -9,7 +9,6 @@ type GetContacts = {
 };
 
 type DeleteContact = {
-  userId: UserId;
   id: ContactId;
 };
 
@@ -27,7 +26,7 @@ type ContactResult = {
 interface ContactRepository {
   getContacts: (data: GetContacts) => Promise<ContactResult[]>;
   deleteContact: (data: DeleteContact) => Promise<void>;
-  createContact: (data: CreateContact) => Promise<void>;
+  createContact: (data: CreateContact) => Promise<InsertOneResult>;
 }
 
 export type { ContactId, GetContacts, DeleteContact, CreateContact, ContactResult, ContactRepository };

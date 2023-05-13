@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import { ObjectId } from 'mongodb';
 
-import User from '../../../../models/User';
 import UserApplication from '../../application/user';
 import { DeleteUser } from '../../domain/user';
 

@@ -1,10 +1,11 @@
 import { Request, Response } from 'express';
 import { ObjectId } from 'mongodb';
 
+import UserApplication from '../../../../users/application/user';
 import AreaApplication from '../../../application/area/areaApplication';
 import { CreateArea } from '../../../domain/area/area';
 
-const createArea = (app: AreaApplication) => async (req: Request, res: Response) => {
+const createArea = (areaApp: AreaApplication, userApp: UserApplication) => async (req: Request, res: Response) => {
   const userId = req.userId;
 
   if (!userId) {
@@ -27,7 +28,10 @@ const createArea = (app: AreaApplication) => async (req: Request, res: Response)
   };
 
   try {
-    const insertedId = await app.createArea(payload);
+    const { insertedId } = await areaApp.createArea(payload);
+
+    await userApp.addAreaToUser({ userId: payload.userId, areaId: insertedId });
+
     res.status(201).json({ insertedId });
   } catch (error) {
     console.log(`Area not created: ${error}`);

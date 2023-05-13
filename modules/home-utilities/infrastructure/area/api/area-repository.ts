@@ -1,8 +1,5 @@
-import { ObjectId } from 'mongodb';
-
 import database from '../../../../../Database';
 import { CreateArea } from '../../../../../models/Area';
-import User from '../../../../../models/User';
 import { AreaRepository, AreaResult, DeleteArea, GetAreas } from '../../../domain/area/area';
 
 class MongoAreaRepository implements AreaRepository {
@@ -17,13 +14,11 @@ class MongoAreaRepository implements AreaRepository {
   }
 
   async createArea({ userId, area }: CreateArea) {
-    const { insertedId } = await this.collection.insertOne({ userId, area });
-    await new User().addAreaToUser({ userId, areaId: insertedId });
+    return await this.collection.insertOne({ userId, area });
   }
 
-  async deleteArea({ userId, id }: DeleteArea) {
+  async deleteArea({ id }: DeleteArea) {
     await this.collection.deleteOne({ _id: id });
-    await new User().removeAreaFromUser({ userId, areaId: id });
   }
 }
 
