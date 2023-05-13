@@ -15,8 +15,8 @@ class AreaApplication {
     return this.repository.createArea({ userId, area });
   }
 
-  deleteArea({ userId, id }: DeleteArea) {
-    return this.repository.deleteArea({ userId, id });
+  deleteArea({ id }: DeleteArea) {
+    return this.repository.deleteArea({ id });
   }
 }
 

@@ -1,6 +1,5 @@
 import database from '../../../../../Database';
-import { CreateArea } from '../../../../../models/Area';
-import { AreaRepository, AreaResult, DeleteArea, GetAreas } from '../../../domain/area/area';
+import { AreaRepository, AreaResult, DeleteArea, GetAreas, CreateArea } from '../../../domain/area/area';
 
 class MongoAreaRepository implements AreaRepository {
   private readonly collection;

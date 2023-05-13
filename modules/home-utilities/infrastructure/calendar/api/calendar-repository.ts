@@ -1,9 +1,7 @@
 import { ObjectId } from 'mongodb';
 
 import database from '../../../../../Database';
-import { CreateEvent } from '../../../../../models/Calendar';
-import User from '../../../../../models/User';
-import { CalendarRepository, DeleteEvent, EventResult, GetEvents } from '../../../domain/calendar/calendar';
+import { CalendarRepository, CreateEvent, DeleteEvent, EventResult, GetEvents } from '../../../domain/calendar/calendar';
 
 class MongoCalendarRepository implements CalendarRepository {
   private readonly collection;
@@ -17,13 +15,11 @@ class MongoCalendarRepository implements CalendarRepository {
   }
 
   async createEvent({ userId, ...data }: CreateEvent) {
-    const { insertedId } = await this.collection.insertOne({ userId, ...data });
-    await new User().addEventToUser({ userId, eventId: insertedId });
+    return await this.collection.insertOne({ userId, ...data });
   }
 
-  async deleteEvent({ userId, id }: DeleteEvent) {
+  async deleteEvent({ id }: DeleteEvent) {
     await this.collection.deleteOne({ _id: new ObjectId(id) });
-    await new User().removeEventFromUser({ userId, eventId: id });
   }
 }
 

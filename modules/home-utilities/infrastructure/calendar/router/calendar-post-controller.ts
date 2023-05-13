@@ -1,10 +1,11 @@
 import { Request, Response } from 'express';
 import { ObjectId } from 'mongodb';
 
+import UserApplication from '../../../../users/application/user';
 import CalendarApplication from '../../../application/calendar/calendarApplication';
 import { CreateEvent } from '../../../domain/calendar/calendar';
 
-const createEvent = (app: CalendarApplication) => async (req: Request, res: Response) => {
+const createEvent = (calendarApp: CalendarApplication, userApp: UserApplication) => async (req: Request, res: Response) => {
   const userId = req.userId;
 
   if (!userId) {
@@ -33,7 +34,9 @@ const createEvent = (app: CalendarApplication) => async (req: Request, res: Resp
   };
 
   try {
-    const insertedId = await app.createEvent(payload);
+    const { insertedId } = await calendarApp.createEvent(payload);
+    await userApp.addEventToUser({ userId: payload.userId, eventId: insertedId });
+
     res.status(201).json({ insertedId });
   } catch (error) {
     console.log(`Event not created: ${error}`);

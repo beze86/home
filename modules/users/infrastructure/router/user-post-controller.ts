@@ -1,9 +1,9 @@
 import { genSalt, hash, compare } from 'bcryptjs';
 import { Request, Response } from 'express';
 
-import { RegisterUser } from '../../../../models/User';
 import { generateWebToken } from '../../../web-token/application/web-token';
 import UserApplication from '../../application/user';
+import { RegisterUser } from '../../domain/user';
 
 const registerUser = (app: UserApplication) => async (req: Request, res: Response) => {
   if (!req.body) {

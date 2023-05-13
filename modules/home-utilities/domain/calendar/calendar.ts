@@ -1,4 +1,4 @@
-import { ObjectId } from 'mongodb';
+import { InsertOneResult, ObjectId } from 'mongodb';
 
 import { UserId } from '../../../users/domain/user';
 
@@ -31,13 +31,12 @@ type CreateEvent = {
 };
 
 type DeleteEvent = {
-  userId: UserId;
   id: EventId;
 };
 
 interface CalendarRepository {
   getEvents: (data: GetEvents) => Promise<EventResult[]>;
-  createEvent: (data: CreateEvent) => Promise<void>;
+  createEvent: (data: CreateEvent) => Promise<InsertOneResult>;
   deleteEvent: (data: DeleteEvent) => Promise<void>;
 }
 

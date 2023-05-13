@@ -15,8 +15,8 @@ class ContactApplication {
     return this.repository.createContact({ userId, name });
   }
 
-  deleteContact({ userId, id }: DeleteContact) {
-    return this.repository.deleteContact({ userId, id });
+  deleteContact({ id }: DeleteContact) {
+    return this.repository.deleteContact({ id });
   }
 }
 

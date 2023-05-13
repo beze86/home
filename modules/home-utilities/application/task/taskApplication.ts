@@ -17,8 +17,8 @@ class TaskApplication {
     return this.repository.createWeeklyTask({ userId, weeklyTask });
   }
 
-  deleteWeeklyTask({ userId, id }: DeleteWeeklyTask) {
-    return this.repository.deleteWeeklyTask({ userId, id });
+  deleteWeeklyTask({ id }: DeleteWeeklyTask) {
+    return this.repository.deleteWeeklyTask({ id });
   }
 
   setWeeklyTask({ areas, contacts }: GetWeeklyTasksAreasAndContacts) {

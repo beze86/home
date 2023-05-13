@@ -15,8 +15,8 @@ class CalendarApplication {
     return this.repository.createEvent(data);
   }
 
-  deleteEvent({ userId, id }: DeleteEvent) {
-    return this.repository.deleteEvent({ userId, id });
+  deleteEvent({ id }: DeleteEvent) {
+    return this.repository.deleteEvent({ id });
   }
 }
 
