@@ -1,6 +1,6 @@
-import { ObjectId, WithId } from 'mongodb';
+import { ObjectId } from 'mongodb';
 
-import { UserId } from '../../../../models/User';
+import { UserId } from '../../../users/domain/user';
 
 type TaskId = ObjectId;
 
@@ -37,4 +37,4 @@ interface TaskRepository {
   createWeeklyTask: (data: CreateWeeklyTask) => Promise<void>;
 }
 
-export type { GetWeeklyTasks, DeleteWeeklyTask, CreateWeeklyTask, TaskRepository, TaskResult };
+export type { TaskId, GetWeeklyTasks, DeleteWeeklyTask, CreateWeeklyTask, TaskRepository, TaskResult };

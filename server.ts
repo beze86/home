@@ -14,7 +14,7 @@ import areaRoutes from './modules/home-utilities/infrastructure/area/router/area
 import calendarRoutes from './modules/home-utilities/infrastructure/calendar/router/calendar-router';
 import contactRoutes from './modules/home-utilities/infrastructure/contact/router/contact-router';
 import taskRoutes from './modules/home-utilities/infrastructure/task/router/task-router';
-import userRoutes from './routes/user';
+import userRoutes from './modules/users/infrastructure/router/user-router';
 
 const app = express();
 

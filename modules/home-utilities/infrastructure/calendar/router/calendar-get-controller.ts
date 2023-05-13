@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { ObjectId } from 'mongodb';
 
 import CalendarApplication from '../../../application/calendar/calendarApplication';
+import { GetEvents } from '../../../domain/calendar/calendar';
 
 const getEvents = (app: CalendarApplication) => async (req: Request, res: Response) => {
   const userId = req.userId;
@@ -9,12 +10,12 @@ const getEvents = (app: CalendarApplication) => async (req: Request, res: Respon
   if (!userId) {
     return res.status(400).json({ error: 'Invalid request' });
   }
-  const userIdPayload = {
+  const payload: GetEvents = {
     userId: new ObjectId(userId),
   };
 
   try {
-    const events = await app.getEvents(userIdPayload);
+    const events = await app.getEvents(payload);
 
     if (!events) {
       return res.status(404).json({ error: 'Calendar events not found' });

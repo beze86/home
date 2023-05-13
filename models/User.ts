@@ -15,6 +15,7 @@ type RegisterUser = {
   contacts: ObjectId[];
   areas: ObjectId[];
   tasks: ObjectId[];
+  events: ObjectId[];
 };
 
 type ContactToUser = {

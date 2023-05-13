@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { ObjectId } from 'mongodb';
 
 import AreaApplication from '../../../application/area/areaApplication';
+import { GetAreas } from '../../../domain/area/area';
 
 const getAreas = (app: AreaApplication) => async (req: Request, res: Response) => {
   const userId = req.userId;
@@ -10,7 +11,7 @@ const getAreas = (app: AreaApplication) => async (req: Request, res: Response) =
     return res.status(400).json({ error: 'Invalid request' });
   }
 
-  const payload = {
+  const payload: GetAreas = {
     userId: new ObjectId(userId),
   };
 

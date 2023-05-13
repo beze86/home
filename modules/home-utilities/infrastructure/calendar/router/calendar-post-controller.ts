@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 import { ObjectId } from 'mongodb';
 
-import { CreateEvent } from '../../../../../models/Calendar';
 import CalendarApplication from '../../../application/calendar/calendarApplication';
+import { CreateEvent } from '../../../domain/calendar/calendar';
 
 const createEvent = (app: CalendarApplication) => async (req: Request, res: Response) => {
   const userId = req.userId;

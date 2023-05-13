@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { ObjectId } from 'mongodb';
 
 import { ContactApplication } from '../../../application/contact/contactApplication';
+import { DeleteContact } from '../../../domain/contact/contact';
 
 const deleteContact = (app: ContactApplication) => async (req: Request, res: Response) => {
   if (!req.params.id) {
@@ -15,7 +16,7 @@ const deleteContact = (app: ContactApplication) => async (req: Request, res: Res
     return res.status(400).json({ error: 'Invalid request' });
   }
 
-  const payload = {
+  const payload: DeleteContact = {
     userId: new ObjectId(userId),
     id: new ObjectId(id),
   };

@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { ObjectId } from 'mongodb';
 
 import { ContactApplication } from '../../../application/contact/contactApplication';
+import { CreateContact } from '../../../domain/contact/contact';
 
 const createContact = (app: ContactApplication) => async (req: Request, res: Response) => {
   if (!req.body) {
@@ -19,7 +20,7 @@ const createContact = (app: ContactApplication) => async (req: Request, res: Res
     return res.status(400).json({ error: 'Invalid request' });
   }
 
-  const payload = {
+  const payload: CreateContact = {
     userId: new ObjectId(userId),
     name,
   };

@@ -1,6 +1,6 @@
 import { ObjectId } from 'mongodb';
 
-import { UserId } from '../../../../models/User';
+import { UserId } from '../../../users/domain/user';
 
 type AreaId = ObjectId;
 

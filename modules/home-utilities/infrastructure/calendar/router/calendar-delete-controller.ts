@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { ObjectId } from 'mongodb';
 
 import CalendarApplication from '../../../application/calendar/calendarApplication';
+import { DeleteEvent } from '../../../domain/calendar/calendar';
 
 const deleteEvent = (app: CalendarApplication) => async (req: Request, res: Response) => {
   if (!req.params.id) {
@@ -15,7 +16,7 @@ const deleteEvent = (app: CalendarApplication) => async (req: Request, res: Resp
     return res.status(400).json({ error: 'Invalid request' });
   }
 
-  const payload = {
+  const payload: DeleteEvent = {
     userId: new ObjectId(userId),
     id: new ObjectId(id),
   };

@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { ObjectId } from 'mongodb';
 
 import AreaApplication from '../../../application/area/areaApplication';
+import { CreateArea } from '../../../domain/area/area';
 
 const createArea = (app: AreaApplication) => async (req: Request, res: Response) => {
   const userId = req.userId;
@@ -20,7 +21,7 @@ const createArea = (app: AreaApplication) => async (req: Request, res: Response)
     return res.status(400).json({ error: 'Add missing fields' });
   }
 
-  const payload = {
+  const payload: CreateArea = {
     userId: new ObjectId(userId),
     area,
   };

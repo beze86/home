@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { ObjectId } from 'mongodb';
 
 import { ContactApplication } from '../../../application/contact/contactApplication';
+import { GetContacts } from '../../../domain/contact/contact';
 
 const getContacts = (app: ContactApplication) => async (req: Request, res: Response) => {
   const userId = req.userId;
@@ -10,7 +11,7 @@ const getContacts = (app: ContactApplication) => async (req: Request, res: Respo
     return res.status(400).json({ error: 'Invalid request' });
   }
 
-  const payload = {
+  const payload: GetContacts = {
     userId: new ObjectId(userId),
   };
 

@@ -1,6 +1,6 @@
 import { ContactRepository, CreateContact, DeleteContact, GetContacts } from '../../domain/contact/contact';
 
-class ContactApplication implements ContactRepository {
+class ContactApplication {
   private readonly repository: ContactRepository;
 
   constructor(repository: ContactRepository) {

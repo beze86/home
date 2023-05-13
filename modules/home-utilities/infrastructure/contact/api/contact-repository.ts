@@ -16,13 +16,13 @@ class MongoContactRepository implements ContactRepository {
   }
 
   async createContact({ userId, name }: CreateContact) {
-    const { insertedId } = await this.collection.insertOne({ userId: new ObjectId(userId), name });
+    const { insertedId } = await this.collection.insertOne({ userId, name });
     await new User().addContactToUser({ userId, contactId: insertedId });
   }
 
   async deleteContact({ userId, id }: DeleteContact) {
-    await this.collection.deleteOne({ _id: new ObjectId(id) });
-    await new User().removeContactFromUser({ userId, contactId: new ObjectId(id) });
+    await this.collection.deleteOne({ _id: id });
+    await new User().removeContactFromUser({ userId, contactId: id });
   }
 }
 

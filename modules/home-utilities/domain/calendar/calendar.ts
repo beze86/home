@@ -1,6 +1,6 @@
 import { ObjectId } from 'mongodb';
 
-import { UserId } from '../../../../models/User';
+import { UserId } from '../../../users/domain/user';
 
 type EventId = ObjectId;
 
@@ -41,4 +41,4 @@ interface CalendarRepository {
   deleteEvent: (data: DeleteEvent) => Promise<void>;
 }
 
-export { GetEvents, EventResult, CreateEvent, DeleteEvent, CalendarRepository };
+export { EventId, GetEvents, EventResult, CreateEvent, DeleteEvent, CalendarRepository };

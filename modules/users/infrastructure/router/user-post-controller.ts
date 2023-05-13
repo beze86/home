@@ -1,14 +1,11 @@
-import bcrypt from 'bcryptjs';
-import { config } from 'dotenv';
+import { genSalt, hash, compare } from 'bcryptjs';
 import { Request, Response } from 'express';
-import jwt from 'jsonwebtoken';
-import { ObjectId } from 'mongodb';
 
-import User from '../models/User';
+import { RegisterUser } from '../../../../models/User';
+import { generateWebToken } from '../../../web-token/application/web-token';
+import UserApplication from '../../application/user';
 
-config();
-
-const registerUser = async (req: Request, res: Response) => {
+const registerUser = (app: UserApplication) => async (req: Request, res: Response) => {
   if (!req.body) {
     return res.status(400).json({ error: 'Invalid request' });
   }
@@ -19,15 +16,17 @@ const registerUser = async (req: Request, res: Response) => {
   }
 
   try {
-    const user = await new User().findUserByEmail(email);
+    const user = await app.getUserByEmail({ email });
+
     if (user) {
       return res.status(400).json({ error: 'User already exists' });
     }
 
-    const salt = await bcrypt.genSalt(10);
-    const passwordHash = await bcrypt.hash(password, salt);
+    const salt = await genSalt(10);
 
-    const payload = {
+    const passwordHash = await hash(password, salt);
+
+    const payload: RegisterUser = {
       email,
       fullName,
       password: passwordHash,
@@ -37,7 +36,8 @@ const registerUser = async (req: Request, res: Response) => {
       events: [],
     };
 
-    const { insertedId } = await new User().registerUser(payload);
+    const { insertedId } = await app.registerUser(payload);
+
     return res.status(201).json({
       ...payload,
       id: insertedId,
@@ -50,7 +50,7 @@ const registerUser = async (req: Request, res: Response) => {
   }
 };
 
-const loginUser = async (req: Request, res: Response) => {
+const loginUser = (app: UserApplication) => async (req: Request, res: Response) => {
   if (!req.body) {
     return res.status(400).json({ error: 'Invalid request' });
   }
@@ -61,12 +61,14 @@ const loginUser = async (req: Request, res: Response) => {
   }
 
   try {
-    const user = await new User().findUserByEmail(email);
+    const user = await app.getUserByEmail({ email });
+
     if (!user) {
       return res.status(400).json({ error: 'Invalid credentials' });
     }
 
-    const passwordMatch = await bcrypt.compare(password, user.password);
+    const passwordMatch = await compare(password, user.password);
+
     if (!passwordMatch) {
       return res.status(400).json({ error: 'Invalid credentials' });
     }
@@ -90,21 +92,4 @@ const loginUser = async (req: Request, res: Response) => {
   }
 };
 
-const deleteUser = async (req: Request, res: Response) => {
-  if (!req.params) {
-    return res.status(400).json({ error: 'Invalid request' });
-  }
-
-  try {
-    const { id } = req.params;
-    const payload = new ObjectId(id);
-
-    await new User().deleteUser(payload);
-    res.status(200).json({ msg: `User deleted id: ${id}` });
-  } catch (error) {
-    console.log(`User not deleted: ${error}`);
-    res.status(500).json({ error: 'Failed to delete user' });
-  }
-};
-
-export { deleteUser, registerUser, loginUser };
+export { registerUser, loginUser };

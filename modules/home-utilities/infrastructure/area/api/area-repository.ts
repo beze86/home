@@ -13,17 +13,17 @@ class MongoAreaRepository implements AreaRepository {
   }
 
   getAreas({ userId }: GetAreas) {
-    return this.collection.find<AreaResult>({ userId: new ObjectId(userId) }).toArray();
+    return this.collection.find<AreaResult>({ userId }).toArray();
   }
 
   async createArea({ userId, area }: CreateArea) {
-    const { insertedId } = await this.collection.insertOne({ userId: new ObjectId(userId), area });
+    const { insertedId } = await this.collection.insertOne({ userId, area });
     await new User().addAreaToUser({ userId, areaId: insertedId });
   }
 
   async deleteArea({ userId, id }: DeleteArea) {
-    await this.collection.deleteOne({ _id: new ObjectId(id) });
-    await new User().removeAreaFromUser({ userId, areaId: new ObjectId(id) });
+    await this.collection.deleteOne({ _id: id });
+    await new User().removeAreaFromUser({ userId, areaId: id });
   }
 }
 
