@@ -16,7 +16,7 @@ const STALE_TIME_5_MIN = 300000;
 const TasksList = () => {
   const taskListQuery = useQueryClient();
 
-  const { data: tasks } = useQuery(TASK_LIST_QUERY, () => Api.getTasks(), {
+  const { data: tasks } = useQuery(TASK_LIST_QUERY, Api.getTasks, {
     suspense: false,
     staleTime: STALE_TIME_5_MIN,
   });
